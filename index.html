@@ -1,0 +1,1527 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#17458F">
+<title>Ndjindji IA — Assistant du Président</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,500;0,600;1,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --rotary-blue:#17458F;
+    --rotary-blue-deep:#0E2E63;
+    --rotary-gold:#F7A81B;
+    --rotaract-cranberry:#D41367;
+    --royal-azure:#0067C8;
+    --sky-blue:#00ADBB;
+    --vibrant-orange:#F17600;
+    --paper:#EDF0F6;
+    --paper-raised:#FFFFFF;
+    --ink:#151B2C;
+    --ink-soft:#5B6478;
+    --ink-faint:#8890A0;
+    --line:#D6DBE7;
+    --ok:#2E7D5B;
+    --ok-soft:#E1F1EA;
+    --warn:#B4590E;
+    --warn-soft:#FBEADA;
+    --radius:10px;
+    --font-display:'Fraunces', Georgia, serif;
+    --font-body:'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --paper:#0F1420;
+      --paper-raised:#171E2E;
+      --ink:#E9ECF4;
+      --ink-soft:#A7AFC2;
+      --ink-faint:#727C91;
+      --rotary-blue:#6C9BE0;
+      --rotary-blue-deep:#0B1120;
+      --rotary-gold:#E8B463;
+      --rotaract-cranberry:#F0619A;
+      --line:#2A3244;
+      --ok:#6FCB9F;
+      --ok-soft:#123024;
+      --warn:#E5A05C;
+      --warn-soft:#3A2712;
+    }
+  }
+  *{box-sizing:border-box;}
+  html,body{height:100%;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--font-body);
+    font-size:15px;
+    line-height:1.5;
+    padding-top:env(safe-area-inset-top,0px);
+    padding-bottom:env(safe-area-inset-bottom,0px);
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3{font-family:var(--font-display); font-weight:600; margin:0; color:var(--ink); letter-spacing:-0.01em;}
+  p{margin:0 0 .7em;}
+  button{font-family:var(--font-body); cursor:pointer;}
+  input,select,textarea{font-family:var(--font-body); font-size:14.5px; color:var(--ink); background:var(--paper-raised); border:1px solid var(--line); border-radius:var(--radius); padding:10px 12px; width:100%;}
+  input:focus,select:focus,textarea:focus,button:focus-visible{outline:2px solid var(--rotaract-cranberry); outline-offset:1px;}
+  textarea{resize:vertical; min-height:90px; font-size:14.5px; line-height:1.5;}
+  label{display:block; font-size:13px; color:var(--ink-soft); margin:0 0 6px; font-weight:500;}.field{margin-bottom:14px;}
+  .shell{display:flex; flex-direction:column; min-height:100vh;}
+  nav.rail{
+    display:flex; flex-direction:column; gap:2px;
+    background:var(--rotary-blue-deep); color:#EAF0FB;
+    padding:16px 10px 12px;
+    flex-shrink:0;
+  }
+  .brand{padding:6px 10px 18px;}
+  .brand-logo{background:#fff; border-radius:10px; padding:10px 12px; display:inline-block; max-width:220px; margin-bottom:16px;}
+  .brand-logo img{display:block; width:100%; height:auto;}
+  .brand .word{font-family:var(--font-display); font-style:italic; font-weight:500; font-size:26px; color:#fff; line-height:1;}
+  .brand .sub{font-size:12px; color:#AEBEDD; margin-top:6px; line-height:1.4;}
+  .brand .motto{font-size:11.5px; color:var(--rotary-gold); margin-top:10px; font-style:italic;}
+  .lang-switch{display:flex; gap:6px; margin-bottom:14px; padding:0 10px;}
+  .lang-btn{
+    flex:1; padding:6px 10px; font-size:12px; font-weight:600;
+    background:transparent; border:1px solid #2A4878; color:#C4CEE3;
+    border-radius:6px;
+  }
+  .lang-btn.active{background:var(--rotaract-cranberry); color:#fff; border-color:var(--rotaract-cranberry);}
+  .navrow{display:flex; overflow-x:auto; gap:4px; padding-bottom:2px; -ms-overflow-style:none; scrollbar-width:none;}
+  .navrow::-webkit-scrollbar{display:none;}
+  .navbtn{
+    display:flex; align-items:center; gap:9px; white-space:nowrap;
+    background:transparent; border:none; color:#C4CEE3;
+    padding:10px 13px; border-radius:var(--radius); font-size:13.5px; font-weight:500;
+    flex-shrink:0;
+  }
+  .navbtn svg{width:17px; height:17px; flex-shrink:0;}
+  .navbtn.active{background:rgba(255,255,255,.12); color:#fff;}
+  .navbtn:hover{color:#fff;}
+  main{flex:1; min-width:0; padding:22px 16px 56px;}
+  .panel{display:none; max-width:840px; margin:0 auto;}
+  .panel.active{display:block; animation:fadeIn .3s ease;}
+  @keyframes fadeIn{from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:translateY(0);}}
+  .panel-head{margin-bottom:22px;}
+  .panel-head h1{font-size:26px;}
+  .panel-head p{color:var(--ink-soft); font-size:14px; margin-top:6px; max-width:60ch;}
+  .divider{border:none; border-top:1px solid var(--line); margin:22px 0;}
+  .card{background:var(--paper-raised); border:1px solid var(--line); border-radius:var(--radius); padding:18px;}
+  .section-title{font-size:15px; font-weight:600; color:var(--ink); margin-bottom:3px;}
+  .section-sub{font-size:12.5px; color:var(--ink-faint); margin-bottom:14px;}
+  .row{display:flex; gap:10px; align-items:flex-end; flex-wrap:wrap;}
+  .row > *{flex:1; min-width:140px;}
+  .btn{
+    display:inline-flex; align-items:center; gap:7px; justify-content:center;
+    background:var(--rotary-blue); color:#fff; border:none; border-radius:var(--radius);
+    padding:10px 16px; font-size:14px; font-weight:600;
+    transition:opacity .15s, transform .1s;
+  }
+  .btn:active{transform:scale(.97);}
+  .btn svg{width:15px; height:15px;}
+  .btn:disabled{opacity:.45; cursor:not-allowed;}
+  .btn.primary{background:var(--rotaract-cranberry);}
+  .btn.gold{background:var(--rotary-gold); color:#151B2C;}
+  .btn.ghost{background:transparent; color:var(--rotary-blue); border:1px solid var(--line);}
+  .btn.small{padding:7px 12px; font-size:12.5px;}
+  .btn.icon-only{padding:7px; background:transparent; color:var(--ink-faint);}
+  .btn.icon-only:hover{color:var(--rotaract-cranberry);}
+  .list{display:flex; flex-direction:column;}
+  .list-row{
+    display:flex; gap:12px; align-items:center; padding:12px 4px;
+    border-bottom:1px solid var(--line);
+    border-left:3px solid var(--line);
+    padding-left:12px;
+  }
+  .list-row.status-a_faire, .list-row.status-a_initier, .list-row.status-planifie{border-left-color:var(--ink-faint);}
+  .list-row.status-en_cours{border-left-color:var(--rotary-gold);}
+  .list-row.status-termine, .list-row.status-atteint, .list-row.status-confirme{border-left-color:var(--ok);}
+  .list-row.status-attente{border-left-color:var(--warn);}
+  .list-row .main-col{flex:1; min-width:0;}
+  .list-row .title{font-size:14.5px; font-weight:600; color:var(--ink);}
+  .list-row .meta{font-size:12.5px; color:var(--ink-faint); margin-top:2px;}
+  .badge{font-size:11.5px; font-weight:600; padding:3px 9px; border-radius:100px; white-space:nowrap;}
+  .badge.a_faire, .badge.a_initier, .badge.planifie{background:var(--paper); color:var(--ink-soft);}
+  .badge.en_cours{background:var(--paper); color:var(--warn); border:1px solid var(--rotary-gold);}
+  .badge.termine, .badge.atteint, .badge.confirme{background:var(--ok-soft); color:var(--ok);}
+  .badge.attente{background:var(--warn-soft); color:var(--warn);}
+  select.statut-select{width:auto; padding:6px 9px; font-size:12.5px; font-weight:600; border-radius:100px;}
+  .empty{padding:26px 4px; color:var(--ink-faint); font-size:13.5px; text-align:center;}
+  .add-form{display:flex; gap:8px; flex-wrap:wrap; margin-top:14px; padding-top:14px; border-top:1px dashed var(--line);}
+  .add-form input, .add-form select{flex:1; min-width:120px;}.stat-row{display:flex; gap:0; flex-wrap:wrap; margin:20px 0 4px;}
+  .stat{flex:1; min-width:140px; padding:14px 18px 14px 0; border-right:1px solid var(--line);}
+  .stat:last-child{border-right:none;}
+  .stat .num{font-family:var(--font-display); font-size:30px; font-weight:600; color:var(--rotary-blue);}
+  .stat .lbl{font-size:12px; color:var(--ink-faint); margin-top:2px;}
+  .callout{background:#FBE0EC; border-radius:var(--radius); padding:18px 20px; margin-top:18px;}
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]) .callout{background:#3A1C2C;}
+  }
+  .callout h3{font-size:16px; margin-bottom:6px;}
+  .callout p{font-size:13.5px; color:var(--ink-soft); margin-bottom:12px;}
+  .quick-actions{display:flex; gap:8px; flex-wrap:wrap; margin-top:22px;}
+  .output-box{
+    background:var(--paper-raised); border:1px solid var(--line); border-radius:var(--radius);
+    padding:16px; min-height:120px; font-size:14px; white-space:pre-wrap; line-height:1.6;
+    color:var(--ink);
+  }
+  .output-box.placeholder{color:var(--ink-faint); font-style:italic;}
+  .output-actions{display:flex; gap:8px; margin-top:10px; flex-wrap:wrap;}
+  .note{font-size:12.5px; color:var(--warn); margin-top:8px;}
+  .note.muted{color:var(--ink-faint); font-style:italic;}
+  .check{margin:2px 0 16px; display:flex; align-items:center; gap:8px; font-size:13.5px; color:var(--ink-soft);}
+  .check input{width:auto;}
+  .progress-track{height:7px; background:var(--line); border-radius:100px; overflow:hidden; margin-top:6px;}
+  .progress-fill{height:100%; background:var(--rotaract-cranberry); border-radius:100px; transition:width .4s ease;}
+  .footer-sig{margin-top:34px; padding-top:16px; border-top:1px solid var(--line); font-size:12px; color:var(--ink-faint); text-align:center;}
+  .search-bar{
+    display:flex; gap:8px; align-items:center;
+    background:var(--paper-raised); border:1px solid var(--line);
+    border-radius:var(--radius); padding:8px 12px; margin-bottom:18px;
+  }
+  .search-bar input{border:none; padding:4px 0; background:transparent;}
+  .search-bar svg{width:18px; height:18px; color:var(--ink-faint); flex-shrink:0;}
+  .chat-wrap{
+    display:flex; flex-direction:column; gap:10px;
+    max-height:400px; overflow-y:auto; padding:14px;
+    background:var(--paper); border-radius:var(--radius); border:1px solid var(--line);
+    margin-bottom:14px;
+  }
+  .chat-msg{padding:10px 14px; font-size:14px; line-height:1.5; max-width:85%;}
+  .chat-msg.user{align-self:flex-end; background:var(--rotaract-cranberry); color:#fff; border-radius:14px 14px 4px 14px;}
+  .chat-msg.bot{align-self:flex-start; background:var(--paper-raised); border:1px solid var(--line); border-radius:14px 14px 14px 4px;}
+  .chat-input{display:flex; gap:8px;}
+  .chat-input input{flex:1;}
+  .toast{
+    position:fixed; bottom:24px; left:50%; transform:translateX(-50%) translateY(100px);
+    background:var(--rotary-blue); color:#fff; padding:10px 20px; border-radius:100px;
+    font-size:13.5px; font-weight:500; opacity:0; transition:all .3s ease;
+    z-index:9999; box-shadow:0 4px 16px rgba(0,0,0,.2);
+  }
+  .toast.show{opacity:1; transform:translateX(-50%) translateY(0);}
+  @media (min-width:860px){
+    .shell{flex-direction:row;}
+    nav.rail{width:250px; flex-direction:column; padding:22px 12px;}
+    .navrow{flex-direction:column; overflow-x:visible;}
+    .navbtn{width:100%;}
+    main{padding:36px 42px 60px;}
+  }
+</style>
+</head><body>
+<div class="shell">
+  <nav class="rail">
+    <div class="brand">
+      <div class="brand-logo" id="brandLogo">
+        <div style="text-align:center;font-weight:700;color:#17458F;font-size:15px;">ROTARACT</div>
+        <div style="text-align:center;font-size:11px;color:#D41367;font-weight:600;margin-top:2px;">Club Ndjindji</div>
+      </div>
+      <div class="word">Ndjindji IA</div>
+      <div class="sub" id="brandSub">Assistant du Président<br>Rotaract Club Ndjindji</div>
+      <div class="motto" id="brandMotto">« Service, Action et Camaraderie »</div>
+    </div>
+    <div class="lang-switch">
+      <button class="lang-btn active" data-lang="fr">Français</button>
+      <button class="lang-btn" data-lang="en">English</button>
+    </div>
+    <div class="navrow" id="navrow"></div>
+  </nav>
+  <main id="main"></main>
+</div>
+
+<div class="toast" id="toast"></div><script>
+/* ---------------------------------------------------------------
+   DONNÉES DE RÉFÉRENCE DU CLUB
+--------------------------------------------------------------- */
+const CLUB_NAME = "Rotaract Club Ndjindji";
+const DISTRICT = "District 9150";
+const PRESIDENT_NAME = "Yann Junior NGOUBOU";
+const PRESIDENT_TERM = "Président 2026-2027";
+const MOTTO = "Service, Action et Camaraderie";
+
+/* ---------------------------------------------------------------
+   TRADUCTIONS FR / EN
+--------------------------------------------------------------- */
+const I18N = {
+  fr: {
+    brandSub:"Assistant du Président<br>Rotaract Club Ndjindji",
+    brandMotto:"« Service, Action et Camaraderie »",
+    navDashboard:"Tableau de bord",
+    navChat:"Assistant",
+    navTaches:"Tâches",
+    navProjets:"Projets",
+    navLoudima:"Bibliothèque Loudima",
+    navPlanif:"Planification",
+    navMembres:"Membres",
+    navObjectifs:"Objectifs My Rotary",
+    dashHello:"Bonjour, Président.",
+    dashSub:"Voici un aperçu de l'activité du club et du projet prioritaire du moment.",
+    dashCalloutTitle:"Bibliothèque Communautaire de Loudima",
+    dashCalloutText:"Projet prioritaire du club : mettre en place une bibliothèque au Lycée de Loudima au service de l'éducation, de l'alphabétisation et du développement communautaire.",
+    dashBtnFollow:"Suivre le projet",
+    dashBtnChat:"Ouvrir l'assistant",
+    dashBtnTask:"Ajouter une tâche",
+    statTachesActives:"tâches actives",
+    statProjets:"projets en cours",
+    statProchainEvt:"prochain événement",
+    statAucunEvt:"aucun événement",
+    statAxesEngages:"axes engagés",
+    chatTitle:"Assistant Ndjindji",
+    chatSub:"Posez une question ou tapez une commande rapide. L'assistant vous répond instantanément.",
+    chatPlaceholder:"Tapez un message ou une commande...",
+    chatSuggestions:"Suggestions :",
+    chatCmd1:"Ajouter une tâche",
+    chatCmd2:"Voir mes tâches",
+    chatCmd3:"Prochain événement",
+    chatCmd4:"Mes projets",
+    chatCmd5:"Statistiques",
+    chatCmd6:"Aide",
+    tachesTitle:"Tâches",
+    tachesSub:"Suivi de toutes les tâches du club.",
+    projetsTitle:"Projets",
+    projetsSub:"Suivi des projets du club.",
+    loudimaTitle:"Bibliothèque Communautaire de Loudima",
+    loudimaSub:"Projet prioritaire du club : suivi des tâches et des partenaires.",
+    loudimaTaches:"Tâches du projet",
+    loudimaPartenaires:"Partenaires et parties prenantes",
+    planifTitle:"Planification",
+    planifSub:"Événements et échéances à venir.",
+    membresTitle:"Membres du club",
+    membresSub:"Gestion des membres et de leurs rôles.",
+    objectifsTitle:"Objectifs My Rotary",
+    objectifsSub:"Suivi des axes d'action du Rotary, entièrement personnalisables.",
+    objProgression:"Progression globale",
+    objAxesEngages:"% des axes engagés ou atteints",
+    objModifier:"Modifier les axes",
+    objAjouter:"Ajouter un axe",
+    addPlaceholderTitre:"Nouvelle tâche",
+    addPlaceholderResp:"Responsable",
+    addBtn:"Ajouter",
+    addProjet:"Nom du projet",
+    addEvt:"Titre de l'événement",
+    addEvtLieu:"Lieu",
+    addMembreNom:"Nom du membre",
+    addMembreRole:"Rôle",
+    addPartenaireNom:"Nom du partenaire",
+    addPartenaireContact:"Rôle ou contact",
+    emptyTaches:"Aucune tâche pour l'instant — ajoutez la première ci-dessous.",
+    emptyProjets:"Aucun projet enregistré — ajoutez le premier ci-dessous.",
+    emptyEvts:"Aucun événement planifié pour l'instant.",
+    emptyPartenaires:"Aucun partenaire enregistré pour l'instant.",
+    emptyMembres:"Aucun membre enregistré pour l'instant.",
+    emptyAxes:"Aucun axe d'action enregistré.",
+    statusAFaire:"À faire",
+    statusEnCours:"En cours",
+    statusTermine:"Terminé",
+    statusAttente:"En attente",
+    statusContacte:"Contacté",
+    statusConfirme:"Confirmé",
+    statusPlanifie:"Planifié",
+    statusEnPause:"En pause",
+    statusAtteint:"Atteint",
+    statusAInitier:"À initier",
+    rolePresident:"Président(e)",
+    roleVicePresident:"Vice-Président(e)",
+    roleSecretaire:"Secrétaire",
+    roleTresorier:"Trésorier(ère)",
+    roleMembre:"Membre",
+    roleComite:"Comité",
+    toastAjoute:"Ajouté avec succès",
+    toastSupprime:"Supprimé",
+    toastModifie:"Modifié",
+    toastImporte:"Données importées",
+    toastExporte:"Données exportées",
+    toastCopie:"Copié dans le presse-papiers",
+    exportBtn:"Exporter mes données",
+    importBtn:"Importer des données",
+    searchPlaceholder:"Rechercher dans toute l'application...",
+    searchResult:"résultat(s)",
+    searchAucun:"Aucun résultat",
+    confirmSuppr:"Confirmer la suppression ?"
+  },
+  en: {
+    brandSub:"President's Assistant<br>Rotaract Club Ndjindji",
+    brandMotto:"\"Service, Action and Fellowship\"",
+    navDashboard:"Dashboard",
+    navChat:"Assistant",
+    navTaches:"Tasks",
+    navProjets:"Projects",
+    navLoudima:"Loudima Library",
+    navPlanif:"Planning",
+    navMembres:"Members",
+    navObjectifs:"My Rotary Goals",
+    dashHello:"Hello, President.",
+    dashSub:"Here is an overview of club activity and the current priority project.",
+    dashCalloutTitle:"Loudima Community Library",
+    dashCalloutText:"The club's priority project: establish a library at the Loudima High School to serve education, literacy and community development.",
+    dashBtnFollow:"Follow the project",
+    dashBtnChat:"Open the assistant",
+    dashBtnTask:"Add a task",
+    statTachesActives:"active tasks",
+    statProjets:"projects in progress",
+    statProchainEvt:"next event",
+    statAucunEvt:"no event",
+    statAxesEngages:"areas engaged",
+    chatTitle:"Ndjindji Assistant",
+    chatSub:"Ask a question or type a quick command. The assistant responds instantly.",
+    chatPlaceholder:"Type a message or command...",
+    chatSuggestions:"Suggestions:",
+    chatCmd1:"Add a task",
+    chatCmd2:"See my tasks",
+    chatCmd3:"Next event",
+    chatCmd4:"My projects",
+    chatCmd5:"Statistics",
+    chatCmd6:"Help",
+    tachesTitle:"Tasks",
+    tachesSub:"Track all club tasks.",
+    projetsTitle:"Projects",
+    projetsSub:"Track club projects.",
+    loudimaTitle:"Loudima Community Library",
+    loudimaSub:"Club priority project: task and partner tracking.",
+    loudimaTaches:"Project tasks",
+    loudimaPartenaires:"Partners and stakeholders",
+    planifTitle:"Planning",
+    planifSub:"Upcoming events and deadlines.",
+    membresTitle:"Club members",
+    membresSub:"Manage members and their roles.",
+    objectifsTitle:"My Rotary Goals",
+    objectifsSub:"Track Rotary areas of focus, fully customizable.",
+    objProgression:"Overall progress",
+    objAxesEngages:"% of areas engaged or achieved",
+    objModifier:"Edit areas",
+    objAjouter:"Add an area",
+    addPlaceholderTitre:"New task",
+    addPlaceholderResp:"Responsible",
+    addBtn:"Add",
+    addProjet:"Project name",
+    addEvt:"Event title",
+    addEvtLieu:"Location",
+    addMembreNom:"Member name",
+    addMembreRole:"Role",
+    addPartenaireNom:"Partner name",
+    addPartenaireContact:"Role or contact",
+    emptyTaches:"No task yet — add the first one below.",
+    emptyProjets:"No project registered — add the first one below.",
+    emptyEvts:"No event planned yet.",
+    emptyPartenaires:"No partner registered yet.",
+    emptyMembres:"No member registered yet.",
+    emptyAxes:"No area of focus registered.",
+    statusAFaire:"To do",
+    statusEnCours:"In progress",
+    statusTermine:"Done",
+    statusAttente:"Pending",
+    statusContacte:"Contacted",
+    statusConfirme:"Confirmed",
+    statusPlanifie:"Planned",
+    statusEnPause:"On hold",
+    statusAtteint:"Achieved",
+    statusAInitier:"To start",
+    rolePresident:"President",
+    roleVicePresident:"Vice-President",
+    roleSecretaire:"Secretary",
+    roleTresorier:"Treasurer",
+    roleMembre:"Member",
+    roleComite:"Committee",
+    toastAjoute:"Added successfully",
+    toastSupprime:"Deleted",
+    toastModifie:"Modified",
+    toastImporte:"Data imported",
+    toastExporte:"Data exported",
+    toastCopie:"Copied to clipboard",
+    exportBtn:"Export my data",
+    importBtn:"Import data",
+    searchPlaceholder:"Search the whole app...",
+    searchResult:"result(s)",
+    searchAucun:"No result",
+    confirmSuppr:"Confirm deletion?"
+  }
+};
+
+let currentLang = localStorage.getItem("ndjindji_lang") || "fr";
+function t(key){ return (I18N[currentLang] && I18N[currentLang][key]) || I18N.fr[key] || key; }/* ---------------------------------------------------------------
+   ICÔNES SVG
+--------------------------------------------------------------- */
+const ICONS = {
+  dashboard:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="5" rx="1.5"/><rect x="13" y="10" width="8" height="11" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/></svg>',
+  chat:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 01-8 8H7l-4 3v-6.5A8 8 0 0113 4h0a8 8 0 018 8z"/></svg>',
+  taches:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>',
+  projets:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8a2 2 0 012-2h4l1.8 2H19a2 2 0 012 2v7a2 2 0 01-2 2H5a2 2 0 01-2-2V8z"/></svg>',
+  loudima:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5.5C5.5 4 8.5 4 11 5.5v13C8.5 17 5.5 17 3 18.5v-13z"/><path d="M21 5.5C18.5 4 15.5 4 13 5.5v13c2.5-1.5 5.5-1.5 8 0v-13z"/></svg>',
+  planif:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="15.5" rx="2"/><path d="M8 3v4M16 3v4M3.5 10h17"/></svg>',
+  membres:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><circle cx="17.5" cy="9" r="2.5"/><path d="M21 19c0-2.5-1.9-4.5-4-4.8"/></svg>',
+  objectifs:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="4.2"/><circle cx="12" cy="12" r="0.8" fill="currentColor"/></svg>',
+  trash:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M9 6V4.5A1.5 1.5 0 0110.5 3h3A1.5 1.5 0 0115 4.5V6M6 6l1 14a2 2 0 002 2h6a2 2 0 002-2l1-14"/></svg>',
+  plus:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>',
+  copy:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M4 16V6a2 2 0 012-2h10"/></svg>',
+  download:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11m0 0l-4-4m4 4l4-4M4 19h16"/></svg>',
+  upload:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20V9m0 0l-4 4m4-4l4 4M4 5h16"/></svg>',
+  search:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>',
+  send:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l16-7-6 16-2.5-6.5L4 12z"/></svg>',
+  edit:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20l1-4L16 5l3 3L8 19l-4 1z"/><path d="M14 7l3 3"/></svg>'
+};
+
+/* ---------------------------------------------------------------
+   ONGLETS DE NAVIGATION
+--------------------------------------------------------------- */
+const TABS = [
+  {id:"dashboard", labelKey:"navDashboard", icon:"dashboard"},
+  {id:"chat", labelKey:"navChat", icon:"chat"},
+  {id:"taches", labelKey:"navTaches", icon:"taches"},
+  {id:"projets", labelKey:"navProjets", icon:"projets"},
+  {id:"loudima", labelKey:"navLoudima", icon:"loudima"},
+  {id:"planif", labelKey:"navPlanif", icon:"planif"},
+  {id:"membres", labelKey:"navMembres", icon:"membres"},
+  {id:"objectifs", labelKey:"navObjectifs", icon:"objectifs"}
+];
+
+/* ---------------------------------------------------------------
+   UTILITAIRES
+--------------------------------------------------------------- */
+function $(sel, root){ return (root||document).querySelector(sel); }
+function $$(sel, root){ return Array.from((root||document).querySelectorAll(sel)); }
+function esc(s){ return (s==null?"":String(s)).replace(/[&<>"']/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
+function uid(){ return "id-" + Date.now().toString(36) + "-" + Math.random().toString(36).slice(2,8); }
+function fmtDate(iso){
+  if(!iso) return "";
+  const d = new Date(iso + "T00:00:00");
+  if(isNaN(d)) return iso;
+  return d.toLocaleDateString(currentLang==="fr"?"fr-FR":"en-US", {day:'numeric', month:'long', year:'numeric'});
+}
+function toast(msg){
+  const el = $("#toast");
+  if(!el) return;
+  el.textContent = msg;
+  el.classList.add("show");
+  clearTimeout(el._t);
+  el._t = setTimeout(()=>el.classList.remove("show"), 2200);
+}/* ---------------------------------------------------------------
+   STOCKAGE LOCAL ROBUSTE (répare le bug de sauvegarde)
+--------------------------------------------------------------- */
+const STORAGE_PREFIX = "ndjindji_v2_";
+
+function lsGet(key, fallback){
+  try{
+    const raw = localStorage.getItem(STORAGE_PREFIX + key);
+    if(raw === null) return fallback;
+    return JSON.parse(raw);
+  }catch(e){
+    console.error("lsGet", key, e);
+    return fallback;
+  }
+}
+
+function lsSet(key, value){
+  try{
+    localStorage.setItem(STORAGE_PREFIX + key, JSON.stringify(value));
+    return true;
+  }catch(e){
+    console.error("lsSet", key, e);
+    toast("Erreur de sauvegarde — vérifie l'espace disponible");
+    return false;
+  }
+}
+
+/* ---------------------------------------------------------------
+   DONNÉES DE DÉMARRAGE (première ouverture)
+--------------------------------------------------------------- */
+const SEED_TACHES = [
+  {titre:"Envoyer la lettre officielle au Sous-préfet", responsable:"Président", echeance:"", statut:"a_faire"},
+  {titre:"Envoyer la lettre officielle à l'Administrateur-Maire", responsable:"Président", echeance:"", statut:"a_faire"},
+  {titre:"Envoyer la lettre officielle au Proviseur du Lycée de Loudima", responsable:"Président", echeance:"", statut:"a_faire"},
+  {titre:"Finaliser l'affiche avec le bandeau de logos partenaires", responsable:"Comité communication", echeance:"", statut:"en_cours"},
+  {titre:"Préparer la cérémonie au Lycée de Loudima", responsable:"Comité organisation", echeance:"2026-09-26", statut:"a_faire"}
+];
+const SEED_PARTENAIRES = [];
+const SEED_PROJETS = [];
+const SEED_EVENEMENTS = [
+  {titre:"Inauguration de la bibliothèque communautaire", date:"2026-09-26", lieu:"Lycée de Loudima", notes:"Cérémonie officielle avec les autorités locales et les partenaires"}
+];
+const SEED_MEMBRES = [
+  {nom:"Yann Junior NGOUBOU", role:"Président(e)", contact:""},
+  {nom:"", role:"Vice-Président(e)", contact:""},
+  {nom:"", role:"Secrétaire", contact:""},
+  {nom:"", role:"Trésorier(ère)", contact:""}
+];
+const SEED_OBJECTIFS = [
+  {domaine:"Paix et prévention/résolution des conflits", statut:"a_initier", notes:"", couleur:"--royal-azure"},
+  {domaine:"Prévention et traitement des maladies", statut:"a_initier", notes:"", couleur:"--rotaract-cranberry"},
+  {domaine:"Eau, assainissement et hygiène", statut:"a_initier", notes:"", couleur:"--sky-blue"},
+  {domaine:"Santé de la mère et de l'enfant", statut:"a_initier", notes:"", couleur:"--vibrant-orange"},
+  {domaine:"Alphabétisation et éducation de base", statut:"en_cours", notes:"Projet prioritaire : Bibliothèque communautaire de Loudima", couleur:"--rotary-gold"},
+  {domaine:"Développement économique et communautaire", statut:"a_initier", notes:"", couleur:"--royal-azure"},
+  {domaine:"Protection de l'environnement", statut:"a_initier", notes:"", couleur:"--sky-blue"}
+];
+
+/* ---------------------------------------------------------------
+   STORES (magasins de données)
+--------------------------------------------------------------- */
+const stores = {};
+
+function createStore(name, seed){
+  const saved = lsGet(name, null);
+  const items = (saved && Array.isArray(saved)) ? saved : seed.map(x => Object.assign({id:uid()}, x));
+  if(!saved) lsSet(name, items);
+  stores[name] = {
+    items: items,
+    add(data){
+      const item = Object.assign({id:uid()}, data);
+      this.items.push(item);
+      this._save();
+      renderActivePanel();
+      renderDashboardStats();
+      updateGlobalSearch();
+    },
+    updateItem(id, patch){
+      const it = this.items.find(i => i.id === id);
+      if(it){
+        Object.assign(it, patch);
+        this._save();
+        renderActivePanel();
+        renderDashboardStats();
+      }
+    },
+    removeItem(id){
+      this.items = this.items.filter(i => i.id !== id);
+      this._save();
+      renderActivePanel();
+      renderDashboardStats();
+      updateGlobalSearch();
+    },
+    _save(){ lsSet(name, this.items); }
+  };
+}
+
+function initStores(){
+  createStore("taches", SEED_TACHES);
+  createStore("partenaires", SEED_PARTENAIRES);
+  createStore("projets", SEED_PROJETS);
+  createStore("evenements", SEED_EVENEMENTS);
+  createStore("membres", SEED_MEMBRES);
+  createStore("objectifs", SEED_OBJECTIFS);
+  createStore("historique", []);
+}
+
+/* ---------------------------------------------------------------
+   HISTORIQUE DES ACTIONS
+--------------------------------------------------------------- */
+function logAction(type, description){
+  stores.historique.add({type:type, description:description, date:new Date().toISOString()});
+  if(stores.historique.items.length > 100) stores.historique.items = stores.historique.items.slice(-100);
+  stores.historique._save();
+}/* ---------------------------------------------------------------
+   NAVIGATION
+--------------------------------------------------------------- */
+let activeTab = "dashboard";
+
+function renderNav(){
+  const nav = $("#navrow");
+  if(!nav) return;
+  nav.innerHTML = TABS.map(function(tb){
+    return '<button class="navbtn' + (tb.id===activeTab?' active':'') + '" data-tab="' + tb.id + '">' + ICONS[tb.icon] + '<span>' + esc(t(tb.labelKey)) + '</span></button>';
+  }).join("");
+  $$(".navbtn").forEach(function(btn){
+    btn.addEventListener("click", function(){ setActiveTab(btn.dataset.tab); });
+  });
+}
+
+function setActiveTab(id){
+  activeTab = id;
+  $$(".navbtn").forEach(function(b){ b.classList.toggle("active", b.dataset.tab===id); });
+  $$(".panel").forEach(function(p){ p.classList.toggle("active", p.dataset.panel===id); });
+  window.scrollTo({top:0, behavior:"smooth"});
+  renderActivePanel();
+}
+
+function renderActivePanel(){
+  if(activeTab==="dashboard") renderDashboardStats();
+  else if(activeTab==="taches") renderTaches();
+  else if(activeTab==="projets") renderProjets();
+  else if(activeTab==="loudima") renderLoudima();
+  else if(activeTab==="planif") renderPlanification();
+  else if(activeTab==="membres") renderMembres();
+  else if(activeTab==="objectifs") renderObjectifs();
+  else if(activeTab==="chat") renderChatPanel();
+}
+
+/* ---------------------------------------------------------------
+   CONSTRUCTION DE L'INTERFACE
+--------------------------------------------------------------- */
+function renderShell(){
+  renderNav();
+  const main = $("#main");
+  if(!main) return;
+  main.innerHTML =
+    panelDashboard() +
+    panelChat() +
+    panelTaches() +
+    panelProjets() +
+    panelLoudima() +
+    panelPlanif() +
+    panelMembres() +
+    panelObjectifs();
+
+  $$(".panel").forEach(function(p){ p.classList.toggle("active", p.dataset.panel===activeTab); });
+
+  wireDashboard();
+  wireChat();
+  wireTaches();
+  wireProjets();
+  wireLoudima();
+  wirePlanif();
+  wireMembres();
+  wireObjectifs();
+}
+
+/* ---------------------------------------------------------------
+   LANGUE — bascule FR / EN
+--------------------------------------------------------------- */
+function setLang(lang){
+  currentLang = lang;
+  localStorage.setItem("ndjindji_lang", lang);
+  $$(".lang-btn").forEach(function(b){ b.classList.toggle("active", b.dataset.lang === lang); });
+  renderShell();
+  updateGlobalSearch();
+  renderDashboardStats();
+}
+
+function wireLangSwitch(){
+  $$(".lang-btn").forEach(function(b){
+    b.addEventListener("click", function(){ setLang(b.dataset.lang); });
+  });
+}/* ---------------------------------------------------------------
+   PANNEAU : TABLEAU DE BORD
+--------------------------------------------------------------- */
+function panelDashboard(){
+  return '' +
+  '<section class="panel active" data-panel="dashboard">' +
+    '<div class="panel-head">' +
+      '<h1>' + esc(t("dashHello")) + '</h1>' +
+      '<p>' + esc(t("dashSub")) + '</p>' +
+    '</div>' +
+    '<div class="search-bar">' + ICONS.search + '<input type="search" id="globalSearch" placeholder="' + esc(t("searchPlaceholder")) + '"></div>' +
+    '<div id="searchResults"></div>' +
+    '<div id="dashStats" class="stat-row"></div>' +
+    '<div class="callout">' +
+      '<h3>' + esc(t("dashCalloutTitle")) + '</h3>' +
+      '<p>' + esc(t("dashCalloutText")) + '</p>' +
+      '<button class="btn primary small" data-goto="loudima">' + esc(t("dashBtnFollow")) + '</button>' +
+    '</div>' +
+    '<div class="quick-actions">' +
+      '<button class="btn primary" data-goto="chat">' + ICONS.chat + ' ' + esc(t("dashBtnChat")) + '</button>' +
+      '<button class="btn ghost" data-goto="taches">' + ICONS.taches + ' ' + esc(t("dashBtnTask")) + '</button>' +
+      '<button class="btn ghost" id="exportBtn">' + ICONS.download + ' ' + esc(t("exportBtn")) + '</button>' +
+      '<button class="btn ghost" id="importBtn">' + ICONS.upload + ' ' + esc(t("importBtn")) + '</button>' +
+      '<input type="file" id="importFile" accept=".json" style="display:none">' +
+    '</div>' +
+    '<div class="footer-sig">' + esc(CLUB_NAME) + ' — ' + esc(DISTRICT) + ' — « ' + esc(MOTTO) + ' »</div>' +
+  '</section>';
+}
+
+function wireDashboard(){
+  $$("[data-goto]").forEach(function(b){
+    b.addEventListener("click", function(){ setActiveTab(b.dataset.goto); });
+  });
+
+  const searchInput = $("#globalSearch");
+  if(searchInput){
+    searchInput.addEventListener("input", function(){ updateGlobalSearch(); });
+  }
+
+  const exportBtn = $("#exportBtn");
+  if(exportBtn){
+    exportBtn.addEventListener("click", exportData);
+  }
+
+  const importBtn = $("#importBtn");
+  const importFile = $("#importFile");
+  if(importBtn && importFile){
+    importBtn.addEventListener("click", function(){ importFile.click(); });
+    importFile.addEventListener("change", importData);
+  }
+}
+
+function renderDashboardStats(){
+  const el = $("#dashStats");
+  if(!el) return;
+
+  const taches = stores.taches.items;
+  const enCours = taches.filter(function(x){ return x.statut !== "termine"; }).length;
+  const projets = stores.projets.items;
+  const projetsActifs = projets.filter(function(p){ return p.statut !== "termine"; }).length;
+  const evts = stores.evenements.items.slice().sort(function(a,b){ return (a.date||"").localeCompare(b.date||""); });
+  const upcoming = evts.find(function(e){ return e.date && new Date(e.date) >= new Date(new Date().toDateString()); }) || evts[0];
+  const objectifs = stores.objectifs.items;
+  const pct = objectifs.length ? Math.round(objectifs.reduce(function(s,o){
+    return s + (o.statut === "atteint" ? 1 : o.statut === "en_cours" ? 0.5 : 0);
+  }, 0) / objectifs.length * 100) : 0;
+
+  el.innerHTML =
+    '<div class="stat"><div class="num">' + enCours + '</div><div class="lbl">' + esc(t("statTachesActives")) + '</div></div>' +
+    '<div class="stat"><div class="num">' + projetsActifs + '</div><div class="lbl">' + esc(t("statProjets")) + '</div></div>' +
+    '<div class="stat"><div class="num">' + (upcoming ? esc(fmtDate(upcoming.date)) : "—") + '</div><div class="lbl">' + (upcoming ? esc(upcoming.titre) : esc(t("statAucunEvt"))) + '</div></div>' +
+    '<div class="stat"><div class="num">' + pct + '%</div><div class="lbl">' + esc(t("statAxesEngages")) + '</div></div>';
+}
+
+/* ---------------------------------------------------------------
+   RECHERCHE GLOBALE
+--------------------------------------------------------------- */
+function updateGlobalSearch(){
+  const input = $("#globalSearch");
+  const results = $("#searchResults");
+  if(!input || !results) return;
+  const q = input.value.trim().toLowerCase();
+  if(!q){ results.innerHTML = ""; return; }
+
+  const hits = [];
+  ["taches","projets","evenements","membres","partenaires","objectifs"].forEach(function(storeName){
+    stores[storeName].items.forEach(function(item){
+      const text = JSON.stringify(item).toLowerCase();
+      if(text.indexOf(q) >= 0){
+        hits.push({store:storeName, item:item});
+      }
+    });
+  });
+
+  if(!hits.length){
+    results.innerHTML = '<div class="empty">' + esc(t("searchAucun")) + '</div>';
+    return;
+  }
+
+  results.innerHTML = '<div class="card" style="margin-bottom:14px"><div class="section-title">' + hits.length + ' ' + esc(t("searchResult")) + '</div>' +
+    hits.slice(0, 15).map(function(h){
+      const title = h.item.titre || h.item.nom || h.item.domaine || h.item.description || "—";
+      return '<div class="list-row"><div class="main-col"><div class="title">' + esc(title) + '</div><div class="meta">' + esc(h.store) + '</div></div></div>';
+    }).join("") +
+  '</div>';
+}
+
+/* ---------------------------------------------------------------
+   EXPORT / IMPORT
+--------------------------------------------------------------- */
+function exportData(){
+  const data = {};
+  Object.keys(stores).forEach(function(k){ data[k] = stores[k].items; });
+  const blob = new Blob([JSON.stringify(data, null, 2)], {type:"application/json"});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "ndjindji-donnees-" + new Date().toISOString().slice(0,10) + ".json";
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  toast(t("toastExporte"));
+}
+
+function importData(event){
+  const file = event.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e){
+    try{
+      const data = JSON.parse(e.target.result);
+      Object.keys(data).forEach(function(k){
+        if(stores[k] && Array.isArray(data[k])){
+          stores[k].items = data[k];
+          stores[k]._save();
+        }
+      });
+      renderShell();
+      renderDashboardStats();
+      toast(t("toastImporte"));
+    }catch(err){
+      toast("Erreur : fichier invalide");
+    }
+  };
+  reader.readAsText(file);
+  event.target.value = "";
+}/* ---------------------------------------------------------------
+   PANNEAU : ASSISTANT / CHAT
+--------------------------------------------------------------- */
+let chatHistory = [];
+
+function panelChat(){
+  return '' +
+  '<section class="panel" data-panel="chat">' +
+    '<div class="panel-head">' +
+      '<h1>' + esc(t("chatTitle")) + '</h1>' +
+      '<p>' + esc(t("chatSub")) + '</p>' +
+    '</div>' +
+    '<div class="card">' +
+      '<div class="chat-wrap" id="chatWrap"></div>' +
+      '<div class="chat-input">' +
+        '<input type="text" id="chatInput" placeholder="' + esc(t("chatPlaceholder")) + '">' +
+        '<button class="btn primary" id="chatSend">' + ICONS.send + '</button>' +
+      '</div>' +
+      '<hr class="divider">' +
+      '<div class="section-title" style="margin-bottom:8px">' + esc(t("chatSuggestions")) + '</div>' +
+      '<div class="quick-actions" style="margin-top:0">' +
+        '<button class="btn ghost small" data-cmd="' + esc(t("chatCmd1")) + '">' + esc(t("chatCmd1")) + '</button>' +
+        '<button class="btn ghost small" data-cmd="' + esc(t("chatCmd2")) + '">' + esc(t("chatCmd2")) + '</button>' +
+        '<button class="btn ghost small" data-cmd="' + esc(t("chatCmd3")) + '">' + esc(t("chatCmd3")) + '</button>' +
+        '<button class="btn ghost small" data-cmd="' + esc(t("chatCmd4")) + '">' + esc(t("chatCmd4")) + '</button>' +
+        '<button class="btn ghost small" data-cmd="' + esc(t("chatCmd5")) + '">' + esc(t("chatCmd5")) + '</button>' +
+        '<button class="btn ghost small" data-cmd="' + esc(t("chatCmd6")) + '">' + esc(t("chatCmd6")) + '</button>' +
+      '</div>' +
+    '</div>' +
+  '</section>';
+}
+
+function wireChat(){
+  const input = $("#chatInput");
+  const sendBtn = $("#chatSend");
+  if(sendBtn) sendBtn.addEventListener("click", function(){ sendChat(); });
+  if(input) input.addEventListener("keydown", function(e){ if(e.key === "Enter") sendChat(); });
+
+  $$("[data-cmd]").forEach(function(b){
+    b.addEventListener("click", function(){
+      const inp = $("#chatInput");
+      if(inp){ inp.value = b.dataset.cmd; sendChat(); }
+    });
+  });
+}
+
+function renderChatPanel(){
+  const wrap = $("#chatWrap");
+  if(!wrap) return;
+  if(!chatHistory.length){
+    chatHistory.push({from:"bot", text: currentLang === "fr"
+      ? "Bonjour Président. Je suis votre assistant. Tapez une commande ou posez une question. Tapez « Aide » pour voir ce que je peux faire."
+      : "Hello President. I am your assistant. Type a command or ask a question. Type \"Help\" to see what I can do."});
+  }
+  wrap.innerHTML = chatHistory.map(function(m){
+    return '<div class="chat-msg ' + (m.from === "user" ? "user" : "bot") + '">' + esc(m.text).replace(/\n/g,"<br>") + '</div>';
+  }).join("");
+  wrap.scrollTop = wrap.scrollHeight;
+}
+
+function sendChat(){
+  const input = $("#chatInput");
+  if(!input) return;
+  const text = input.value.trim();
+  if(!text) return;
+  input.value = "";
+  chatHistory.push({from:"user", text:text});
+  const reply = processCommand(text);
+  setTimeout(function(){
+    chatHistory.push({from:"bot", text:reply});
+    renderChatPanel();
+  }, 250);
+  renderChatPanel();
+}
+
+/* ---------------------------------------------------------------
+   MOTEUR DE COMMANDES DE L'ASSISTANT
+--------------------------------------------------------------- */
+function processCommand(text){
+  const q = text.toLowerCase().trim();
+  const fr = currentLang === "fr";
+
+  // Aide
+  if(q.indexOf("aide") >= 0 || q.indexOf("help") >= 0){
+    return fr
+      ? "Voici ce que je peux faire :\n\n• Ajouter une tâche : « Ajouter une tâche »\n• Voir mes tâches : « Voir mes tâches »\n• Prochain événement : « Prochain événement »\n• Voir mes projets : « Mes projets »\n• Statistiques : « Statistiques »\n• Nombre de membres : « Membres »\n\nToutes ces commandes sont aussi disponibles en anglais."
+      : "Here is what I can do:\n\n• Add a task: \"Add a task\"\n• See my tasks: \"See my tasks\"\n• Next event: \"Next event\"\n• See my projects: \"My projects\"\n• Statistics: \"Statistics\"\n• Number of members: \"Members\"\n\nAll commands are also available in French.";
+  }
+
+  // Tâches
+  if(q.indexOf("tâche") >= 0 || q.indexOf("task") >= 0){
+    if(q.indexOf("ajout") >= 0 || q.indexOf("add") >= 0 || q.indexOf("nouveau") >= 0 || q.indexOf("new") >= 0){
+      setActiveTab("taches");
+      return fr ? "Direction l'onglet Tâches — vous pouvez y ajouter votre tâche en bas du formulaire." : "Going to the Tasks tab — you can add your task at the bottom of the form.";
+    }
+    const actives = stores.taches.items.filter(function(x){ return x.statut !== "termine"; });
+    if(!actives.length) return fr ? "Toutes vos tâches sont terminées. Bravo !" : "All your tasks are done. Well done!";
+    let r = fr ? "Vous avez " + actives.length + " tâche(s) en cours :\n\n" : "You have " + actives.length + " active task(s):\n\n";
+    actives.slice(0,8).forEach(function(x, i){
+      r += (i+1) + ". " + x.titre + (x.responsable ? " — " + x.responsable : "") + (x.echeance ? " (" + fmtDate(x.echeance) + ")" : "") + "\n";
+    });
+    return r;
+  }
+
+  // Événement
+  if(q.indexOf("événement") >= 0 || q.indexOf("event") >= 0){
+    const evts = stores.evenements.items.slice().sort(function(a,b){ return (a.date||"").localeCompare(b.date||""); });
+    if(!evts.length) return fr ? "Aucun événement planifié pour l'instant." : "No event planned yet.";
+    const next = evts[0];
+    return fr
+      ? "Prochain événement : " + next.titre + "\nDate : " + fmtDate(next.date) + (next.lieu ? "\nLieu : " + next.lieu : "") + (next.notes ? "\nNotes : " + next.notes : "")
+      : "Next event: " + next.titre + "\nDate: " + fmtDate(next.date) + (next.lieu ? "\nLocation: " + next.lieu : "") + (next.notes ? "\nNotes: " + next.notes : "");
+  }
+
+  // Projets
+  if(q.indexOf("projet") >= 0 || q.indexOf("project") >= 0){
+    const p = stores.projets.items;
+    if(!p.length) return fr ? "Aucun projet enregistré pour l'instant." : "No project registered yet.";
+    let r = fr ? "Vos projets :\n\n" : "Your projects:\n\n";
+    p.slice(0,8).forEach(function(x, i){ r += (i+1) + ". " + x.titre + (x.responsable ? " — " + x.responsable : "") + "\n"; });
+    return r;
+  }
+
+  // Statistiques
+  if(q.indexOf("statis") >= 0 || q.indexOf("stat") >= 0 || q.indexOf("chiffre") >= 0){
+    const t = stores.taches.items.filter(function(x){ return x.statut !== "termine"; }).length;
+    const p = stores.projets.items.length;
+    const e = stores.evenements.items.length;
+    const m = stores.membres.items.length;
+    const objAtteints = stores.objectifs.items.filter(function(o){ return o.statut === "atteint"; }).length;
+    return fr
+      ? "Aperçu du club :\n\n• Tâches actives : " + t + "\n• Projets : " + p + "\n• Événements : " + e + "\n• Membres : " + m + "\n• Axes My Rotary atteints : " + objAtteints + " / " + stores.objectifs.items.length
+      : "Club overview:\n\n• Active tasks: " + t + "\n• Projects: " + p + "\n• Events: " + e + "\n• Members: " + m + "\n• My Rotary areas achieved: " + objAtteints + " / " + stores.objectifs.items.length;
+  }
+
+  // Membres
+  if(q.indexOf("membre") >= 0 || q.indexOf("member") >= 0){
+    const m = stores.membres.items.filter(function(x){ return x.nom; });
+    return fr
+      ? "Le club compte " + m.length + " membre(s) enregistré(s). Consultez l'onglet Membres pour les détails."
+      : "The club has " + m.length + " registered member(s). Check the Members tab for details.";
+  }
+
+  // Réponse par défaut
+  return fr
+    ? "Je n'ai pas compris cette commande. Tapez « Aide » pour voir la liste des commandes disponibles."
+    : "I didn't understand that command. Type \"Help\" to see the list of available commands.";
+}/* ---------------------------------------------------------------
+   PANNEAU : TÂCHES
+--------------------------------------------------------------- */
+const TACHE_STATUTS = {a_faire:"statusAFaire", en_cours:"statusEnCours", termine:"statusTermine"};
+
+function panelTaches(){
+  return '' +
+  '<section class="panel" data-panel="taches">' +
+    '<div class="panel-head"><h1>' + esc(t("tachesTitle")) + '</h1><p>' + esc(t("tachesSub")) + '</p></div>' +
+    '<div class="card">' +
+      '<div class="list" id="tachesList"></div>' +
+      '<div class="add-form">' +
+        '<input type="text" id="tacheTitre" placeholder="' + esc(t("addPlaceholderTitre")) + '">' +
+        '<input type="text" id="tacheResp" placeholder="' + esc(t("addPlaceholderResp")) + '">' +
+        '<input type="date" id="tacheEcheance">' +
+        '<button class="btn small" id="tacheAddBtn">' + ICONS.plus + ' ' + esc(t("addBtn")) + '</button>' +
+      '</div>' +
+    '</div>' +
+  '</section>';
+}
+
+function renderTaches(){
+  const el = $("#tachesList");
+  if(!el) return;
+  const items = stores.taches.items;
+  el.innerHTML = items.length ? items.map(function(x){
+    return '<div class="list-row status-' + x.statut + '">' +
+      '<div class="main-col">' +
+        '<div class="title">' + esc(x.titre) + '</div>' +
+        '<div class="meta">' + esc(x.responsable || "") + (x.echeance ? " · " + esc(fmtDate(x.echeance)) : "") + '</div>' +
+      '</div>' +
+      '<select class="statut-select" data-id="' + x.id + '">' +
+        Object.keys(TACHE_STATUTS).map(function(k){
+          return '<option value="' + k + '"' + (k === x.statut ? ' selected' : '') + '>' + esc(t(TACHE_STATUTS[k])) + '</option>';
+        }).join("") +
+      '</select>' +
+      '<button class="btn icon-only" data-remove="' + x.id + '">' + ICONS.trash + '</button>' +
+    '</div>';
+  }).join("") : '<div class="empty">' + esc(t("emptyTaches")) + '</div>';
+
+  el.querySelectorAll("select").forEach(function(s){
+    s.addEventListener("change", function(){
+      stores.taches.updateItem(s.dataset.id, {statut:s.value});
+      toast(t("toastModifie"));
+    });
+  });
+  el.querySelectorAll("[data-remove]").forEach(function(b){
+    b.addEventListener("click", function(){
+      if(confirm(t("confirmSuppr"))){
+        stores.taches.removeItem(b.dataset.remove);
+        toast(t("toastSupprime"));
+      }
+    });
+  });
+}
+
+function wireTaches(){
+  const btn = $("#tacheAddBtn");
+  if(!btn) return;
+  btn.addEventListener("click", function(){
+    const titre = $("#tacheTitre").value.trim();
+    if(!titre){ toast("Titre requis"); return; }
+    stores.taches.add({
+      titre: titre,
+      responsable: $("#tacheResp").value.trim(),
+      echeance: $("#tacheEcheance").value,
+      statut: "a_faire"
+    });
+    $("#tacheTitre").value = "";
+    $("#tacheResp").value = "";
+    $("#tacheEcheance").value = "";
+    toast(t("toastAjoute"));
+  });
+}
+
+/* ---------------------------------------------------------------
+   PANNEAU : PROJETS
+--------------------------------------------------------------- */
+const PROJET_STATUTS = {planifie:"statusPlanifie", en_cours:"statusEnCours", en_pause:"statusEnPause", termine:"statusTermine"};
+
+function panelProjets(){
+  return '' +
+  '<section class="panel" data-panel="projets">' +
+    '<div class="panel-head"><h1>' + esc(t("projetsTitle")) + '</h1><p>' + esc(t("projetsSub")) + '</p></div>' +
+    '<div class="card">' +
+      '<div class="list" id="projetsList"></div>' +
+      '<div class="add-form">' +
+        '<input type="text" id="projTitre" placeholder="' + esc(t("addProjet")) + '">' +
+        '<input type="text" id="projResp" placeholder="' + esc(t("addPlaceholderResp")) + '">' +
+        '<input type="date" id="projEcheance">' +
+        '<button class="btn small" id="projAddBtn">' + ICONS.plus + ' ' + esc(t("addBtn")) + '</button>' +
+      '</div>' +
+    '</div>' +
+  '</section>';
+}
+
+function renderProjets(){
+  const el = $("#projetsList");
+  if(!el) return;
+  const items = stores.projets.items;
+  el.innerHTML = items.length ? items.map(function(p){
+    return '<div class="list-row status-' + p.statut + '">' +
+      '<div class="main-col">' +
+        '<div class="title">' + esc(p.titre) + '</div>' +
+        '<div class="meta">' + esc(p.responsable || "") + (p.echeance ? " · " + esc(fmtDate(p.echeance)) : "") + '</div>' +
+      '</div>' +
+      '<select class="statut-select" data-id="' + p.id + '">' +
+        Object.keys(PROJET_STATUTS).map(function(k){
+          return '<option value="' + k + '"' + (k === p.statut ? ' selected' : '') + '>' + esc(t(PROJET_STATUTS[k])) + '</option>';
+        }).join("") +
+      '</select>' +
+      '<button class="btn icon-only" data-remove="' + p.id + '">' + ICONS.trash + '</button>' +
+    '</div>';
+  }).join("") : '<div class="empty">' + esc(t("emptyProjets")) + '</div>';
+
+  el.querySelectorAll("select").forEach(function(s){
+    s.addEventListener("change", function(){
+      stores.projets.updateItem(s.dataset.id, {statut:s.value});
+      toast(t("toastModifie"));
+    });
+  });
+  el.querySelectorAll("[data-remove]").forEach(function(b){
+    b.addEventListener("click", function(){
+      if(confirm(t("confirmSuppr"))){
+        stores.projets.removeItem(b.dataset.remove);
+        toast(t("toastSupprime"));
+      }
+    });
+  });
+}
+
+function wireProjets(){
+  const btn = $("#projAddBtn");
+  if(!btn) return;
+  btn.addEventListener("click", function(){
+    const titre = $("#projTitre").value.trim();
+    if(!titre){ toast("Titre requis"); return; }
+    stores.projets.add({
+      titre: titre,
+      responsable: $("#projResp").value.trim(),
+      echeance: $("#projEcheance").value,
+      statut: "planifie"
+    });
+    $("#projTitre").value = "";
+    $("#projResp").value = "";
+    $("#projEcheance").value = "";
+    toast(t("toastAjoute"));
+  });
+}/* ---------------------------------------------------------------
+   PANNEAU : BIBLIOTHÈQUE LOUDIMA
+--------------------------------------------------------------- */
+const PART_STATUTS = {attente:"statusAttente", contacte:"statusContacte", confirme:"statusConfirme"};
+
+function panelLoudima(){
+  return '' +
+  '<section class="panel" data-panel="loudima">' +
+    '<div class="panel-head"><h1>' + esc(t("loudimaTitle")) + '</h1><p>' + esc(t("loudimaSub")) + '</p></div>' +
+    '<div class="card">' +
+      '<div class="section-title">' + esc(t("loudimaTaches")) + '</div>' +
+      '<div class="section-sub">Suivi des actions du projet.</div>' +
+      '<div class="list" id="loudimaTaches"></div>' +
+      '<div class="add-form">' +
+        '<input type="text" id="loudTitre" placeholder="' + esc(t("addPlaceholderTitre")) + '">' +
+        '<input type="text" id="loudResp" placeholder="' + esc(t("addPlaceholderResp")) + '">' +
+        '<input type="date" id="loudEcheance">' +
+        '<button class="btn small" id="loudAddBtn">' + ICONS.plus + ' ' + esc(t("addBtn")) + '</button>' +
+      '</div>' +
+    '</div>' +
+    '<div class="card" style="margin-top:18px">' +
+      '<div class="section-title">' + esc(t("loudimaPartenaires")) + '</div>' +
+      '<div class="section-sub">Autorités, établissement scolaire et partenaires.</div>' +
+      '<div class="list" id="partenairesList"></div>' +
+      '<div class="add-form">' +
+        '<input type="text" id="partNom" placeholder="' + esc(t("addPartenaireNom")) + '">' +
+        '<input type="text" id="partContact" placeholder="' + esc(t("addPartenaireContact")) + '">' +
+        '<button class="btn small" id="partAddBtn">' + ICONS.plus + ' ' + esc(t("addBtn")) + '</button>' +
+      '</div>' +
+    '</div>' +
+  '</section>';
+}
+
+function renderLoudima(){
+  const tachesEl = $("#loudimaTaches");
+  if(tachesEl){
+    const items = stores.taches.items;
+    tachesEl.innerHTML = items.length ? items.map(function(x){
+      return '<div class="list-row status-' + x.statut + '">' +
+        '<div class="main-col"><div class="title">' + esc(x.titre) + '</div><div class="meta">' + esc(x.responsable || "") + (x.echeance ? " · " + esc(fmtDate(x.echeance)) : "") + '</div></div>' +
+        '<select class="statut-select" data-id="' + x.id + '" data-kind="tache">' +
+          Object.keys(TACHE_STATUTS).map(function(k){
+            return '<option value="' + k + '"' + (k === x.statut ? ' selected' : '') + '>' + esc(t(TACHE_STATUTS[k])) + '</option>';
+          }).join("") +
+        '</select>' +
+        '<button class="btn icon-only" data-remove-tache="' + x.id + '">' + ICONS.trash + '</button>' +
+      '</div>';
+    }).join("") : '<div class="empty">' + esc(t("emptyTaches")) + '</div>';
+
+    tachesEl.querySelectorAll('[data-kind="tache"]').forEach(function(s){
+      s.addEventListener("change", function(){
+        stores.taches.updateItem(s.dataset.id, {statut:s.value});
+        toast(t("toastModifie"));
+      });
+    });
+    tachesEl.querySelectorAll("[data-remove-tache]").forEach(function(b){
+      b.addEventListener("click", function(){
+        if(confirm(t("confirmSuppr"))){
+          stores.taches.removeItem(b.dataset.removeTache);
+          toast(t("toastSupprime"));
+        }
+      });
+    });
+  }
+
+  const partEl = $("#partenairesList");
+  if(partEl){
+    const items = stores.partenaires.items;
+    partEl.innerHTML = items.length ? items.map(function(p){
+      return '<div class="list-row status-' + p.statut + '">' +
+        '<div class="main-col"><div class="title">' + esc(p.nom) + '</div><div class="meta">' + esc(p.contact || "") + '</div></div>' +
+        '<select class="statut-select" data-id="' + p.id + '" data-kind="part">' +
+          Object.keys(PART_STATUTS).map(function(k){
+            return '<option value="' + k + '"' + (k === p.statut ? ' selected' : '') + '>' + esc(t(PART_STATUTS[k])) + '</option>';
+          }).join("") +
+        '</select>' +
+        '<button class="btn icon-only" data-remove-part="' + p.id + '">' + ICONS.trash + '</button>' +
+      '</div>';
+    }).join("") : '<div class="empty">' + esc(t("emptyPartenaires")) + '</div>';
+
+    partEl.querySelectorAll('[data-kind="part"]').forEach(function(s){
+      s.addEventListener("change", function(){
+        stores.partenaires.updateItem(s.dataset.id, {statut:s.value});
+        toast(t("toastModifie"));
+      });
+    });
+    partEl.querySelectorAll("[data-remove-part]").forEach(function(b){
+      b.addEventListener("click", function(){
+        if(confirm(t("confirmSuppr"))){
+          stores.partenaires.removeItem(b.dataset.removePart);
+          toast(t("toastSupprime"));
+        }
+      });
+    });
+  }
+}
+
+function wireLoudima(){
+  const btnT = $("#loudAddBtn");
+  if(btnT) btnT.addEventListener("click", function(){
+    const titre = $("#loudTitre").value.trim();
+    if(!titre){ toast("Titre requis"); return; }
+    stores.taches.add({
+      titre: titre,
+      responsable: $("#loudResp").value.trim(),
+      echeance: $("#loudEcheance").value,
+      statut: "a_faire"
+    });
+    $("#loudTitre").value = ""; $("#loudResp").value = ""; $("#loudEcheance").value = "";
+    toast(t("toastAjoute"));
+  });
+
+  const btnP = $("#partAddBtn");
+  if(btnP) btnP.addEventListener("click", function(){
+    const nom = $("#partNom").value.trim();
+    if(!nom){ toast("Nom requis"); return; }
+    stores.partenaires.add({
+      nom: nom,
+      contact: $("#partContact").value.trim(),
+      statut: "attente"
+    });
+    $("#partNom").value = ""; $("#partContact").value = "";
+    toast(t("toastAjoute"));
+  });
+}
+
+/* ---------------------------------------------------------------
+   PANNEAU : PLANIFICATION
+--------------------------------------------------------------- */
+function panelPlanif(){
+  return '' +
+  '<section class="panel" data-panel="planif">' +
+    '<div class="panel-head"><h1>' + esc(t("planifTitle")) + '</h1><p>' + esc(t("planifSub")) + '</p></div>' +
+    '<div class="card">' +
+      '<div class="list" id="evtsList"></div>' +
+      '<div class="add-form">' +
+        '<input type="text" id="evTitre" placeholder="' + esc(t("addEvt")) + '">' +
+        '<input type="date" id="evDate">' +
+        '<input type="text" id="evLieu" placeholder="' + esc(t("addEvtLieu")) + '">' +
+        '<button class="btn small" id="evAddBtn">' + ICONS.plus + ' ' + esc(t("addBtn")) + '</button>' +
+      '</div>' +
+    '</div>' +
+  '</section>';
+}
+
+function renderPlanification(){
+  const el = $("#evtsList");
+  if(!el) return;
+  const items = stores.evenements.items.slice().sort(function(a,b){ return (a.date||"").localeCompare(b.date||""); });
+  el.innerHTML = items.length ? items.map(function(e){
+    return '<div class="list-row status-planifie">' +
+      '<div class="main-col">' +
+        '<div class="title">' + esc(e.titre) + '</div>' +
+        '<div class="meta">' + (e.date ? esc(fmtDate(e.date)) : "—") + (e.lieu ? " · " + esc(e.lieu) : "") + '</div>' +
+      '</div>' +
+      '<button class="btn icon-only" data-remove-ev="' + e.id + '">' + ICONS.trash + '</button>' +
+    '</div>';
+  }).join("") : '<div class="empty">' + esc(t("emptyEvts")) + '</div>';
+
+  el.querySelectorAll("[data-remove-ev]").forEach(function(b){
+    b.addEventListener("click", function(){
+      if(confirm(t("confirmSuppr"))){
+        stores.evenements.removeItem(b.dataset.removeEv);
+        toast(t("toastSupprime"));
+      }
+    });
+  });
+}
+
+function wirePlanif(){
+  const btn = $("#evAddBtn");
+  if(!btn) return;
+  btn.addEventListener("click", function(){
+    const titre = $("#evTitre").value.trim();
+    if(!titre){ toast("Titre requis"); return; }
+    stores.evenements.add({
+      titre: titre,
+      date: $("#evDate").value,
+      lieu: $("#evLieu").value.trim(),
+      notes: ""
+    });
+    $("#evTitre").value = ""; $("#evDate").value = ""; $("#evLieu").value = "";
+    toast(t("toastAjoute"));
+  });
+}/* ---------------------------------------------------------------
+   PANNEAU : MEMBRES
+--------------------------------------------------------------- */
+function panelMembres(){
+  return '' +
+  '<section class="panel" data-panel="membres">' +
+    '<div class="panel-head"><h1>' + esc(t("membresTitle")) + '</h1><p>' + esc(t("membresSub")) + '</p></div>' +
+    '<div class="card">' +
+      '<div class="list" id="membresList"></div>' +
+      '<div class="add-form">' +
+        '<input type="text" id="membreNom" placeholder="' + esc(t("addMembreNom")) + '">' +
+        '<input type="text" id="membreRole" placeholder="' + esc(t("addMembreRole")) + '">' +
+        '<input type="text" id="membreContact" placeholder="Email / Téléphone">' +
+        '<button class="btn small" id="membreAddBtn">' + ICONS.plus + ' ' + esc(t("addBtn")) + '</button>' +
+      '</div>' +
+    '</div>' +
+  '</section>';
+}
+
+function renderMembres(){
+  const el = $("#membresList");
+  if(!el) return;
+  const items = stores.membres.items.filter(function(x){ return x.nom; });
+  el.innerHTML = items.length ? items.map(function(m){
+    return '<div class="list-row status-en_cours">' +
+      '<div class="main-col">' +
+        '<div class="title">' + esc(m.nom) + '</div>' +
+        '<div class="meta">' + esc(m.role || "") + (m.contact ? " · " + esc(m.contact) : "") + '</div>' +
+      '</div>' +
+      '<button class="btn icon-only" data-remove-mb="' + m.id + '">' + ICONS.trash + '</button>' +
+    '</div>';
+  }).join("") : '<div class="empty">' + esc(t("emptyMembres")) + '</div>';
+
+  el.querySelectorAll("[data-remove-mb]").forEach(function(b){
+    b.addEventListener("click", function(){
+      if(confirm(t("confirmSuppr"))){
+        stores.membres.removeItem(b.dataset.removeMb);
+        toast(t("toastSupprime"));
+      }
+    });
+  });
+}
+
+function wireMembres(){
+  const btn = $("#membreAddBtn");
+  if(!btn) return;
+  btn.addEventListener("click", function(){
+    const nom = $("#membreNom").value.trim();
+    if(!nom){ toast("Nom requis"); return; }
+    stores.membres.add({
+      nom: nom,
+      role: $("#membreRole").value.trim(),
+      contact: $("#membreContact").value.trim()
+    });
+    $("#membreNom").value = ""; $("#membreRole").value = ""; $("#membreContact").value = "";
+    toast(t("toastAjoute"));
+  });
+}
+
+/* ---------------------------------------------------------------
+   PANNEAU : OBJECTIFS MY ROTARY (modifiables)
+--------------------------------------------------------------- */
+const OBJ_STATUTS = {a_initier:"statusAInitier", en_cours:"statusEnCours", atteint:"statusAtteint"};
+const OBJ_COULEURS = ["--rotary-blue","--rotary-gold","--rotaract-cranberry","--royal-azure","--sky-blue","--vibrant-orange"];
+
+function panelObjectifs(){
+  return '' +
+  '<section class="panel" data-panel="objectifs">' +
+    '<div class="panel-head"><h1>' + esc(t("objectifsTitle")) + '</h1><p>' + esc(t("objectifsSub")) + '</p></div>' +
+    '<div class="card">' +
+      '<div class="section-title">' + esc(t("objProgression")) + '</div>' +
+      '<div class="progress-track"><div class="progress-fill" id="objProgress" style="width:0%"></div></div>' +
+      '<div class="section-sub" id="objProgressLabel" style="margin-top:8px"></div>' +
+      '<hr class="divider">' +
+      '<div class="list" id="objectifsList"></div>' +
+      '<div class="add-form">' +
+        '<input type="text" id="objDomaine" placeholder="' + esc(t("objAjouter")) + '">' +
+        '<button class="btn small" id="objAddBtn">' + ICONS.plus + ' ' + esc(t("addBtn")) + '</button>' +
+      '</div>' +
+    '</div>' +
+  '</section>';
+}
+
+function renderObjectifs(){
+  const el = $("#objectifsList");
+  if(!el) return;
+  const items = stores.objectifs.items;
+  el.innerHTML = items.length ? items.map(function(o){
+    const color = o.couleur || "--rotary-blue";
+    return '<div class="list-row" style="border-left-color:var(' + color + ')">' +
+      '<div class="main-col">' +
+        '<div class="title">' + esc(o.domaine) + '</div>' +
+        (o.notes ? '<div class="meta">' + esc(o.notes) + '</div>' : '') +
+      '</div>' +
+      '<select class="statut-select" data-id="' + o.id + '">' +
+        Object.keys(OBJ_STATUTS).map(function(k){
+          return '<option value="' + k + '"' + (k === o.statut ? ' selected' : '') + '>' + esc(t(OBJ_STATUTS[k])) + '</option>';
+        }).join("") +
+      '</select>' +
+      '<button class="btn icon-only" data-edit-obj="' + o.id + '">' + ICONS.edit + '</button>' +
+      '<button class="btn icon-only" data-remove-obj="' + o.id + '">' + ICONS.trash + '</button>' +
+    '</div>';
+  }).join("") : '<div class="empty">' + esc(t("emptyAxes")) + '</div>';
+
+  el.querySelectorAll("select").forEach(function(s){
+    s.addEventListener("change", function(){
+      stores.objectifs.updateItem(s.dataset.id, {statut:s.value});
+      renderObjectifs();
+      toast(t("toastModifie"));
+    });
+  });
+  el.querySelectorAll("[data-remove-obj]").forEach(function(b){
+    b.addEventListener("click", function(){
+      if(confirm(t("confirmSuppr"))){
+        stores.objectifs.removeItem(b.dataset.removeObj);
+        toast(t("toastSupprime"));
+      }
+    });
+  });
+  el.querySelectorAll("[data-edit-obj]").forEach(function(b){
+    b.addEventListener("click", function(){ editObjectif(b.dataset.editObj); });
+  });
+
+  const pct = items.length ? Math.round(items.reduce(function(s,o){
+    return s + (o.statut === "atteint" ? 1 : o.statut === "en_cours" ? 0.5 : 0);
+  }, 0) / items.length * 100) : 0;
+  const bar = $("#objProgress"), lbl = $("#objProgressLabel");
+  if(bar) bar.style.width = pct + "%";
+  if(lbl) lbl.textContent = pct + "% " + t("objAxesEngages");
+}
+
+function editObjectif(id){
+  const obj = stores.objectifs.items.find(function(o){ return o.id === id; });
+  if(!obj) return;
+  const nouveauNom = prompt("Nom de l'axe :", obj.domaine);
+  if(nouveauNom === null) return;
+  const nouvellesNotes = prompt("Notes (optionnel) :", obj.notes || "");
+  if(nouvellesNotes === null) return;
+  const nouvelleCouleur = prompt("Couleur (1-6) :\n1. Bleu Rotary\n2. Or Rotary\n3. Framboise Rotaract\n4. Bleu azur\n5. Turquoise\n6. Orange", String(OBJ_COULEURS.indexOf(obj.couleur || "--rotary-blue") + 1));
+  if(nouvelleCouleur === null) return;
+  const idx = Math.max(0, Math.min(5, parseInt(nouvelleCouleur, 10) - 1));
+  stores.objectifs.updateItem(id, {
+    domaine: nouveauNom.trim() || obj.domaine,
+    notes: nouvellesNotes.trim(),
+    couleur: OBJ_COULEURS[idx]
+  });
+  toast(t("toastModifie"));
+}
+
+function wireObjectifs(){
+  const btn = $("#objAddBtn");
+  if(!btn) return;
+  btn.addEventListener("click", function(){
+    const domaine = $("#objDomaine").value.trim();
+    if(!domaine){ toast("Nom requis"); return; }
+    stores.objectifs.add({
+      domaine: domaine,
+      statut: "a_initier",
+      notes: "",
+      couleur: OBJ_COULEURS[Math.floor(Math.random() * OBJ_COULEURS.length)]
+    });
+    $("#objDomaine").value = "";
+    toast(t("toastAjoute"));
+  });
+}/* ---------------------------------------------------------------
+   DÉMARRAGE DE L'APPLICATION
+--------------------------------------------------------------- */
+function boot(){
+  // 1. Initialiser les stores (charge ou crée les données)
+  initStores();
+
+  // 2. Construire l'interface
+  renderShell();
+
+  // 3. Activer le sélecteur de langue
+  wireLangSwitch();
+
+  // 4. Mettre à jour le sous-titre + devise selon la langue
+  const sub = $("#brandSub");
+  const motto = $("#brandMotto");
+  if(sub) sub.innerHTML = t("brandSub");
+  if(motto) motto.textContent = t("brandMotto");
+
+  // 5. Afficher les stats du tableau de bord
+  renderDashboardStats();
+
+  // 6. Rendre le panneau actif
+  renderActivePanel();
+
+  console.log("Ndjindji IA — Application démarrée avec succès.");
+  console.log("Mode : " + currentLang.toUpperCase());
+  console.log("Données chargées : ", Object.keys(stores).map(function(k){
+    return k + "=" + stores[k].items.length;
+  }).join(", "));
+}
+
+// Enregistrement du Service Worker (PWA, si disponible)
+if('serviceWorker' in navigator){
+  navigator.serviceWorker.register('./sw.js').catch(function(){ /* pas de SW, ce n'est pas grave */ });
+}
+
+// Lancer l'app quand le DOM est prêt
+if(document.readyState === "loading"){
+  document.addEventListener("DOMContentLoaded", boot);
+} else {
+  boot();
+}
+</script>
+</body>
+</html>
