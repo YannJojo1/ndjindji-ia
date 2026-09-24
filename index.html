@@ -123,8 +123,7 @@
   .list-row.urgent{background:linear-gradient(90deg, #FFF8E7 0%, var(--paper-raised) 40%);}
   .list-row.overdue{background:linear-gradient(90deg, #FEE2E2 0%, var(--paper-raised) 40%);}
   .list-row.priority{box-shadow:0 0 0 1.5px rgba(245,166,35,.35), var(--shadow-sm);}
-  .list-row.priority::before{background:#F5A623 !important;}
-  .badge.urgent{background:#FFF3E0; color:#B4590E;}
+  .list-row.priority::before{background:#F5A623 !important;}.badge.urgent{background:#FFF3E0; color:#B4590E;}
   .badge.overdue{background:#FEE2E2; color:#991B1B;}
   .badge.priority{background:#FFF3E0; color:#B4590E; font-weight:700;}
   .alert-banner{display:flex; align-items:center; gap:12px; background:linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%); border:1px solid #F5A623; border-radius:var(--radius); padding:14px 16px; margin-bottom:16px; color:#78350F; font-size:14px; font-weight:600; animation:fadeIn .3s ease;}
@@ -207,7 +206,13 @@
   .toast{position:fixed; bottom:24px; left:50%; transform:translateX(-50%) translateY(100px); background:var(--framboise); color:#fff; padding:12px 22px; border-radius:100px; font-size:13.5px; font-weight:600; opacity:0; transition:all .3s ease; z-index:9999; box-shadow:0 8px 24px rgba(212,19,103,.4); pointer-events:none;}
   .toast.show{opacity:1; transform:translateX(-50%) translateY(0);}
   .footer-sig{margin-top:34px; padding-top:16px; border-top:1px solid var(--line); font-size:12px; color:var(--ink-faint); text-align:center;}
-  .footer-sig strong{color:var(--framboise);}
+  .footer-sig strong{color:var(--framboise);}.doc-grid{display:grid; grid-template-columns:repeat(2, 1fr); gap:10px; margin-bottom:16px;}
+  .doc-card{background:var(--paper-raised); border:1.5px solid var(--line); border-radius:12px; padding:14px; text-align:left; transition:all .15s; cursor:pointer;}
+  .doc-card:hover{border-color:var(--framboise); transform:translateY(-2px);}
+  .doc-card.active{border-color:var(--framboise); background:var(--framboise-tint); box-shadow:0 4px 12px rgba(212,19,103,.15);}
+  .doc-card-icon{width:38px; height:38px; border-radius:10px; background:var(--framboise); color:#fff; display:flex; align-items:center; justify-content:center; margin-bottom:10px;}
+  .doc-card-icon svg{width:20px; height:20px;}
+  .doc-card-title{font-size:13px; font-weight:700; color:var(--ink); line-height:1.3;}
   @media (prefers-color-scheme: dark){
     :root:not([data-theme="light"]) .list-row.urgent{background:linear-gradient(90deg, #3A2A0F 0%, var(--paper-raised) 40%);}
     :root:not([data-theme="light"]) .list-row.overdue{background:linear-gradient(90deg, #3A1414 0%, var(--paper-raised) 40%);}
@@ -265,8 +270,8 @@ const PRESIDENT_NAME = "Yann Junior NGOUBOU";
 const PRESIDENT_TERM = "Président 2026-2027";
 const MOTTO = "Service, Action et Camaraderie";
 const I18N = {
-  fr: {brandSub:"Assistant du Président<br>Rotaract Club Ndjindji",brandMotto:"« Service, Action et Camaraderie »",navDashboard:"Tableau de bord",navChat:"Assistant",navTaches:"Tâches",navProjets:"Projets",navLoudima:"Bibliothèque Loudima",navPlanif:"Planification",navMembres:"Membres",navObjectifs:"Objectifs My Rotary",dashHello:"Bonjour, Président.",dashSub:"Voici un aperçu de l'activité du club et du projet prioritaire du moment.",dashCalloutTitle:"Bibliothèque Communautaire de Loudima",dashCalloutText:"Projet prioritaire du club : mettre en place une bibliothèque au Lycée de Loudima au service de l'éducation, de l'alphabétisation et du développement communautaire.",dashBtnFollow:"Suivre le projet",dashBtnChat:"Ouvrir l'assistant",dashBtnTask:"Ajouter une tâche",statTachesActives:"tâches actives",statProjets:"projets en cours",statAucunEvt:"aucun événement",statAxesEngages:"axes engagés",chatTitle:"Assistant Ndjindji",chatSub:"Posez une question ou tapez une commande rapide.",chatPlaceholder:"Tapez un message ou une commande...",chatSuggestions:"Suggestions :",chatCmd1:"Ajouter une tâche",chatCmd2:"Voir mes tâches",chatCmd3:"Prochain événement",chatCmd4:"Mes projets",chatCmd5:"Statistiques",chatCmd6:"Aide",tachesTitle:"Tâches",tachesSub:"Suivi de toutes les tâches du club.",projetsTitle:"Projets",projetsSub:"Suivi des projets du club.",loudimaTitle:"Bibliothèque Communautaire de Loudima",loudimaSub:"Projet prioritaire du club.",loudimaTaches:"Tâches du projet",loudimaPartenaires:"Partenaires et parties prenantes",planifTitle:"Planification",planifSub:"Événements et échéances à venir.",membresTitle:"Membres du club",membresSub:"Gestion des membres et de leurs rôles.",objectifsTitle:"Objectifs My Rotary",objectifsSub:"Suivi des axes d'action du Rotary.",objProgression:"Progression globale",objAxesEngages:"% des axes engagés ou atteints",addPlaceholderTitre:"Nouvelle tâche",addPlaceholderResp:"Responsable",addBtn:"Ajouter",addProjet:"Nom du projet",addEvt:"Titre de l'événement",addEvtLieu:"Lieu",addMembreNom:"Nom du membre",addMembreRole:"Rôle",addPartenaireNom:"Nom du partenaire",addPartenaireContact:"Rôle ou contact",emptyTaches:"Aucune tâche pour l'instant.",emptyProjets:"Aucun projet enregistré.",emptyEvts:"Aucun événement planifié.",emptyPartenaires:"Aucun partenaire enregistré.",emptyMembres:"Aucun membre enregistré.",emptyAxes:"Aucun axe d'action enregistré.",statusAFaire:"À faire",statusEnCours:"En cours",statusTermine:"Terminé",statusAttente:"En attente",statusContacte:"Contacté",statusConfirme:"Confirmé",statusPlanifie:"Planifié",statusEnPause:"En pause",statusAtteint:"Atteint",statusAInitier:"À initier",toastAjoute:"Ajouté avec succès",toastSupprime:"Supprimé",toastModifie:"Modifié",toastImporte:"Données importées",toastExporte:"Données exportées",exportBtn:"Exporter mes données",importBtn:"Importer des données",searchPlaceholder:"Rechercher dans toute l'application...",searchResult:"résultat(s)",searchAucun:"Aucun résultat",confirmSuppr:"Confirmer la suppression ?"},
-  en: {brandSub:"President's Assistant<br>Rotaract Club Ndjindji",brandMotto:"\"Service, Action and Fellowship\"",navDashboard:"Dashboard",navChat:"Assistant",navTaches:"Tasks",navProjets:"Projects",navLoudima:"Loudima Library",navPlanif:"Planning",navMembres:"Members",navObjectifs:"My Rotary Goals",dashHello:"Hello, President.",dashSub:"Here is an overview of club activity.",dashCalloutTitle:"Loudima Community Library",dashCalloutText:"The club's priority project.",dashBtnFollow:"Follow the project",dashBtnChat:"Open the assistant",dashBtnTask:"Add a task",statTachesActives:"active tasks",statProjets:"projects in progress",statAucunEvt:"no event",statAxesEngages:"areas engaged",chatTitle:"Ndjindji Assistant",chatSub:"Ask a question or type a quick command.",chatPlaceholder:"Type a message or command...",chatSuggestions:"Suggestions:",chatCmd1:"Add a task",chatCmd2:"See my tasks",chatCmd3:"Next event",chatCmd4:"My projects",chatCmd5:"Statistics",chatCmd6:"Help",tachesTitle:"Tasks",tachesSub:"Track all club tasks.",projetsTitle:"Projects",projetsSub:"Track club projects.",loudimaTitle:"Loudima Community Library",loudimaSub:"Club priority project.",loudimaTaches:"Project tasks",loudimaPartenaires:"Partners and stakeholders",planifTitle:"Planning",planifSub:"Upcoming events and deadlines.",membresTitle:"Club members",membresSub:"Manage members and their roles.",objectifsTitle:"My Rotary Goals",objectifsSub:"Track Rotary areas of focus.",objProgression:"Overall progress",objAxesEngages:"% of areas engaged or achieved",addPlaceholderTitre:"New task",addPlaceholderResp:"Responsible",addBtn:"Add",addProjet:"Project name",addEvt:"Event title",addEvtLieu:"Location",addMembreNom:"Member name",addMembreRole:"Role",addPartenaireNom:"Partner name",addPartenaireContact:"Role or contact",emptyTaches:"No task yet.",emptyProjets:"No project registered.",emptyEvts:"No event planned yet.",emptyPartenaires:"No partner registered yet.",emptyMembres:"No member registered yet.",emptyAxes:"No area of focus registered.",statusAFaire:"To do",statusEnCours:"In progress",statusTermine:"Done",statusAttente:"Pending",statusContacte:"Contacted",statusConfirme:"Confirmed",statusPlanifie:"Planned",statusEnPause:"On hold",statusAtteint:"Achieved",statusAInitier:"To start",toastAjoute:"Added successfully",toastSupprime:"Deleted",toastModifie:"Modified",toastImporte:"Data imported",toastExporte:"Data exported",exportBtn:"Export my data",importBtn:"Import data",searchPlaceholder:"Search the whole app...",searchResult:"result(s)",searchAucun:"No result",confirmSuppr:"Confirm deletion?"}
+  fr: {brandSub:"Assistant du Président<br>Rotaract Club Ndjindji",brandMotto:"« Service, Action et Camaraderie »",navDashboard:"Tableau de bord",navChat:"Assistant",navTaches:"Tâches",navProjets:"Projets",navLoudima:"Bibliothèque Loudima",navPlanif:"Planification",navMembres:"Membres",navObjectifs:"Objectifs My Rotary",navDocuments:"Documents",dashHello:"Bonjour, Président.",dashSub:"Voici un aperçu de l'activité du club et du projet prioritaire du moment.",dashCalloutTitle:"Bibliothèque Communautaire de Loudima",dashCalloutText:"Projet prioritaire du club : mettre en place une bibliothèque au Lycée de Loudima au service de l'éducation, de l'alphabétisation et du développement communautaire.",dashBtnFollow:"Suivre le projet",dashBtnChat:"Ouvrir l'assistant",dashBtnTask:"Ajouter une tâche",statTachesActives:"tâches actives",statProjets:"projets en cours",statAucunEvt:"aucun événement",statAxesEngages:"axes engagés",chatTitle:"Assistant Ndjindji",chatSub:"Posez une question ou tapez une commande rapide.",chatPlaceholder:"Tapez un message ou une commande...",chatSuggestions:"Suggestions :",chatCmd1:"Ajouter une tâche",chatCmd2:"Voir mes tâches",chatCmd3:"Prochain événement",chatCmd4:"Mes projets",chatCmd5:"Statistiques",chatCmd6:"Aide",tachesTitle:"Tâches",tachesSub:"Suivi de toutes les tâches du club.",projetsTitle:"Projets",projetsSub:"Suivi des projets du club.",loudimaTitle:"Bibliothèque Communautaire de Loudima",loudimaSub:"Projet prioritaire du club.",loudimaTaches:"Tâches du projet",loudimaPartenaires:"Partenaires et parties prenantes",planifTitle:"Planification",planifSub:"Événements et échéances à venir.",membresTitle:"Membres du club",membresSub:"Gestion des membres et de leurs rôles.",objectifsTitle:"Objectifs My Rotary",objectifsSub:"Suivi des axes d'action du Rotary.",objProgression:"Progression globale",objAxesEngages:"% des axes engagés ou atteints",addPlaceholderTitre:"Nouvelle tâche",addPlaceholderResp:"Responsable",addBtn:"Ajouter",addProjet:"Nom du projet",addEvt:"Titre de l'événement",addEvtLieu:"Lieu",addMembreNom:"Nom du membre",addMembreRole:"Rôle",addPartenaireNom:"Nom du partenaire",addPartenaireContact:"Rôle ou contact",emptyTaches:"Aucune tâche pour l'instant.",emptyProjets:"Aucun projet enregistré.",emptyEvts:"Aucun événement planifié.",emptyPartenaires:"Aucun partenaire enregistré.",emptyMembres:"Aucun membre enregistré.",emptyAxes:"Aucun axe d'action enregistré.",statusAFaire:"À faire",statusEnCours:"En cours",statusTermine:"Terminé",statusAttente:"En attente",statusContacte:"Contacté",statusConfirme:"Confirmé",statusPlanifie:"Planifié",statusEnPause:"En pause",statusAtteint:"Atteint",statusAInitier:"À initier",toastAjoute:"Ajouté avec succès",toastSupprime:"Supprimé",toastModifie:"Modifié",toastImporte:"Données importées",toastExporte:"Données exportées",exportBtn:"Exporter mes données",importBtn:"Importer des données",searchPlaceholder:"Rechercher dans toute l'application...",searchResult:"résultat(s)",searchAucun:"Aucun résultat",confirmSuppr:"Confirmer la suppression ?",documentsTitle:"Documents officiels",documentsSub:"Modèles prêts à remplir pour vos courriers, communiqués et discours.",docType:"Type de document",docDest:"Destinataire",docObjet:"Objet",docDate:"Date",docCorps:"Points principaux à aborder",docGenBtn:"Générer le document",docCopyBtn:"Copier le texte",docClearBtn:"Effacer",docPlaceholderDest:"Ex. Sous-préfet de Loudima",docPlaceholderObjet:"Ex. Demande d'autorisation",docPlaceholderCorps:"Séparez chaque point par une ligne",docLettre:"Lettre officielle",docCommunique:"Communiqué de presse",docCompteRendu:"Compte rendu de réunion",docDiscours:"Discours du Président",docCopie:"Document copié",docVide:"Remplissez les champs puis cliquez sur Générer."},
+  en: {brandSub:"President's Assistant<br>Rotaract Club Ndjindji",brandMotto:"\"Service, Action and Fellowship\"",navDashboard:"Dashboard",navChat:"Assistant",navTaches:"Tasks",navProjets:"Projects",navLoudima:"Loudima Library",navPlanif:"Planning",navMembres:"Members",navObjectifs:"My Rotary Goals",navDocuments:"Documents",dashHello:"Hello, President.",dashSub:"Here is an overview of club activity.",dashCalloutTitle:"Loudima Community Library",dashCalloutText:"The club's priority project.",dashBtnFollow:"Follow the project",dashBtnChat:"Open the assistant",dashBtnTask:"Add a task",statTachesActives:"active tasks",statProjets:"projects in progress",statAucunEvt:"no event",statAxesEngages:"areas engaged",chatTitle:"Ndjindji Assistant",chatSub:"Ask a question or type a quick command.",chatPlaceholder:"Type a message or command...",chatSuggestions:"Suggestions:",chatCmd1:"Add a task",chatCmd2:"See my tasks",chatCmd3:"Next event",chatCmd4:"My projects",chatCmd5:"Statistics",chatCmd6:"Help",tachesTitle:"Tasks",tachesSub:"Track all club tasks.",projetsTitle:"Projects",projetsSub:"Track club projects.",loudimaTitle:"Loudima Community Library",loudimaSub:"Club priority project.",loudimaTaches:"Project tasks",loudimaPartenaires:"Partners and stakeholders",planifTitle:"Planning",planifSub:"Upcoming events and deadlines.",membresTitle:"Club members",membresSub:"Manage members and their roles.",objectifsTitle:"My Rotary Goals",objectifsSub:"Track Rotary areas of focus.",objProgression:"Overall progress",objAxesEngages:"% of areas engaged or achieved",addPlaceholderTitre:"New task",addPlaceholderResp:"Responsible",addBtn:"Add",addProjet:"Project name",addEvt:"Event title",addEvtLieu:"Location",addMembreNom:"Member name",addMembreRole:"Role",addPartenaireNom:"Partner name",addPartenaireContact:"Role or contact",emptyTaches:"No task yet.",emptyProjets:"No project registered.",emptyEvts:"No event planned yet.",emptyPartenaires:"No partner registered yet.",emptyMembres:"No member registered yet.",emptyAxes:"No area of focus registered.",statusAFaire:"To do",statusEnCours:"In progress",statusTermine:"Done",statusAttente:"Pending",statusContacte:"Contacted",statusConfirme:"Confirmed",statusPlanifie:"Planned",statusEnPause:"On hold",statusAtteint:"Achieved",statusAInitier:"To start",toastAjoute:"Added successfully",toastSupprime:"Deleted",toastModifie:"Modified",toastImporte:"Data imported",toastExporte:"Data exported",exportBtn:"Export my data",importBtn:"Import data",searchPlaceholder:"Search the whole app...",searchResult:"result(s)",searchAucun:"No result",confirmSuppr:"Confirm deletion?",documentsTitle:"Official documents",documentsSub:"Ready-to-fill templates for letters, press releases and speeches.",docType:"Document type",docDest:"Recipient",docObjet:"Subject",docDate:"Date",docCorps:"Key points to address",docGenBtn:"Generate document",docCopyBtn:"Copy text",docClearBtn:"Clear",docPlaceholderDest:"Ex. Sous-prefect of Loudima",docPlaceholderObjet:"Ex. Authorization request",docPlaceholderCorps:"Separate each point with a line break",docLettre:"Official letter",docCommunique:"Press release",docCompteRendu:"Meeting report",docDiscours:"President's speech",docCopie:"Document copied",docVide:"Fill the fields and click Generate."}
 };
 let currentLang = localStorage.getItem("ndjindji_lang") || "fr";
 function t(key){ return (I18N[currentLang] && I18N[currentLang][key]) || I18N.fr[key] || key; }
@@ -279,13 +284,17 @@ const ICONS = {
   planif:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="15.5" rx="2"/><path d="M8 3v4M16 3v4M3.5 10h17"/></svg>',
   membres:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><circle cx="17.5" cy="9" r="2.5"/><path d="M21 19c0-2.5-1.9-4.5-4-4.8"/></svg>',
   objectifs:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="4.2"/><circle cx="12" cy="12" r="0.8" fill="currentColor"/></svg>',
+  edit:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20l1-4L16 5l3 3L8 19l-4 1z"/><path d="M14 7l3 3"/></svg>',
   trash:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M9 6V4.5A1.5 1.5 0 0110.5 3h3A1.5 1.5 0 0115 4.5V6M6 6l1 14a2 2 0 002 2h6a2 2 0 002-2l1-14"/></svg>',
   plus:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>',
   download:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11m0 0l-4-4m4 4l4-4M4 19h16"/></svg>',
   upload:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20V9m0 0l-4 4m4-4l4 4M4 5h16"/></svg>',
   search:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>',
   send:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l16-7-6 16-2.5-6.5L4 12z"/></svg>',
-  edit:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20l1-4L16 5l3 3L8 19l-4 1z"/><path d="M14 7l3 3"/></svg>'
+  docLetter:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4z"/><path d="M8 9h8M8 13h8M8 17h5"/></svg>',
+  docNews:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M7 9h5M7 13h8M7 17h6"/></svg>',
+  docReport:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>',
+  docSpeech:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18M7 7h10M7 11h10M7 15h6"/></svg>'
 };
 const TABS = [
   {id:"dashboard", labelKey:"navDashboard", icon:"dashboard"},
@@ -295,9 +304,9 @@ const TABS = [
   {id:"loudima", labelKey:"navLoudima", icon:"loudima"},
   {id:"planif", labelKey:"navPlanif", icon:"planif"},
   {id:"membres", labelKey:"navMembres", icon:"membres"},
-  {id:"objectifs", labelKey:"navObjectifs", icon:"objectifs"}
-];
-function $(sel, root){ return (root||document).querySelector(sel); }
+  {id:"objectifs", labelKey:"navObjectifs", icon:"objectifs"},
+  {id:"documents", labelKey:"navDocuments", icon:"edit"}
+];function $(sel, root){ return (root||document).querySelector(sel); }
 function $$(sel, root){ return Array.from((root||document).querySelectorAll(sel)); }
 function esc(s){ return (s==null?"":String(s)).replace(/[&<>"']/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
 function uid(){ return "id-" + Date.now().toString(36) + "-" + Math.random().toString(36).slice(2,8); }
@@ -376,6 +385,7 @@ function initStores(){
 let activeTab = "dashboard";
 let currentFilter = "all";
 let currentSort = "date_asc";
+let currentDocType = "lettre";
 function renderNav(){
   const nav = $("#navrow"); if(!nav) return;
   nav.innerHTML = TABS.map(function(tb){ return '<button class="navbtn' + (tb.id===activeTab?' active':'') + '" data-tab="' + tb.id + '">' + ICONS[tb.icon] + '<span>' + esc(t(tb.labelKey)) + '</span></button>'; }).join("");
@@ -397,13 +407,14 @@ function renderActivePanel(){
   else if(activeTab==="membres") renderMembres();
   else if(activeTab==="objectifs") renderObjectifs();
   else if(activeTab==="chat") renderChatPanel();
+  else if(activeTab==="documents") renderDocuments();
 }
 function renderShell(){
   renderNav();
   const main = $("#main"); if(!main) return;
-  main.innerHTML = panelDashboard() + panelChat() + panelTaches() + panelProjets() + panelLoudima() + panelPlanif() + panelMembres() + panelObjectifs();
+  main.innerHTML = panelDashboard() + panelChat() + panelTaches() + panelProjets() + panelLoudima() + panelPlanif() + panelMembres() + panelObjectifs() + panelDocuments();
   $$(".panel").forEach(function(p){ p.classList.toggle("active", p.dataset.panel===activeTab); });
-  wireDashboard(); wireChat(); wireTaches(); wireProjets(); wireLoudima(); wirePlanif(); wireMembres(); wireObjectifs();
+  wireDashboard(); wireChat(); wireTaches(); wireProjets(); wireLoudima(); wirePlanif(); wireMembres(); wireObjectifs(); wireDocuments();
 }
 function setLang(lang){
   currentLang = lang;
@@ -626,6 +637,7 @@ function processCommand(text){
     const m = stores.membres.items.filter(function(x){ return x.nom; });
     return fr ? "Le club compte " + m.length + " membre(s)." : "Club has " + m.length + " member(s).";
   }
+  if(q.indexOf("document") >= 0 || q.indexOf("doc") >= 0 || q.indexOf("lettre") >= 0 || q.indexOf("letter") >= 0){ setActiveTab("documents"); return fr ? "Direction l'onglet Documents." : "Going to Documents tab."; }
   return fr ? "Je n'ai pas compris. Tapez « Aide »." : "I didn't understand. Type \"Help\".";
 }
 const TACHE_STATUTS = {a_faire:"statusAFaire", en_cours:"statusEnCours", termine:"statusTermine"};
@@ -931,6 +943,114 @@ function wireObjectifs(){
     $("#objDomaine").value = "";
     toast(t("toastAjoute"));
   });
+}
+function panelDocuments(){
+  const types = [
+    {id:"lettre", icon:"docLetter", label:t("docLettre")},
+    {id:"communique", icon:"docNews", label:t("docCommunique")},
+    {id:"compteRendu", icon:"docReport", label:t("docCompteRendu")},
+    {id:"discours", icon:"docSpeech", label:t("docDiscours")}
+  ];
+  return '' +
+  '<section class="panel" data-panel="documents">' +
+    '<div class="panel-head"><h1>' + esc(t("documentsTitle")) + '</h1><p>' + esc(t("documentsSub")) + '</p></div>' +
+    '<div class="card">' +
+      '<div class="section-title">' + esc(t("docType")) + '</div>' +
+      '<div class="doc-grid">' +
+        types.map(function(dt){ return '<button class="doc-card' + (dt.id===currentDocType?' active':'') + '" data-doctype="' + dt.id + '"><div class="doc-card-icon">' + ICONS[dt.icon] + '</div><div class="doc-card-title">' + esc(dt.label) + '</div></button>'; }).join("") +
+      '</div>' +
+      '<div class="field"><label>' + esc(t("docDest")) + '</label><input type="text" id="docDest" placeholder="' + esc(t("docPlaceholderDest")) + '"></div>' +
+      '<div class="field"><label>' + esc(t("docObjet")) + '</label><input type="text" id="docObjet" placeholder="' + esc(t("docPlaceholderObjet")) + '"></div>' +
+      '<div class="field"><label>' + esc(t("docDate")) + '</label><input type="date" id="docDate"></div>' +
+      '<div class="field"><label>' + esc(t("docCorps")) + '</label><textarea id="docCorps" placeholder="' + esc(t("docPlaceholderCorps")) + '" style="min-height:120px"></textarea></div>' +
+      '<div class="quick-actions" style="margin-top:16px">' +
+        '<button class="btn primary" id="docGenBtn">' + ICONS.edit + ' ' + esc(t("docGenBtn")) + '</button>' +
+        '<button class="btn ghost small" id="docClearBtn">' + esc(t("docClearBtn")) + '</button>' +
+      '</div>' +
+    '</div>' +
+    '<div class="card">' +
+      '<div class="section-title">' + esc(t("documentsTitle")) + '</div>' +
+      '<div class="output-box placeholder" id="docOutput">' + esc(t("docVide")) + '</div>' +
+      '<div class="output-actions">' +
+        '<button class="btn small" id="docCopyBtn">' + ICONS.upload + ' ' + esc(t("docCopyBtn")) + '</button>' +
+      '</div>' +
+    '</div>' +
+  '</section>';
+}
+function wireDocuments(){
+  $$("[data-doctype]").forEach(function(b){
+    b.addEventListener("click", function(){
+      currentDocType = b.dataset.doctype;
+      $$("[data-doctype]").forEach(function(x){ x.classList.remove("active"); });
+      b.classList.add("active");
+    });
+  });
+  const genBtn = $("#docGenBtn"); if(genBtn) genBtn.addEventListener("click", generateDocument);
+  const clearBtn = $("#docClearBtn"); if(clearBtn) clearBtn.addEventListener("click", function(){
+    $("#docDest").value = ""; $("#docObjet").value = ""; $("#docDate").value = ""; $("#docCorps").value = "";
+    const out = $("#docOutput"); out.classList.add("placeholder"); out.textContent = t("docVide");
+  });
+  const copyBtn = $("#docCopyBtn"); if(copyBtn) copyBtn.addEventListener("click", function(){
+    const out = $("#docOutput");
+    if(out.classList.contains("placeholder")) return;
+    if(navigator.clipboard){ navigator.clipboard.writeText(out.textContent).then(function(){ toast(t("docCopie")); }); }
+  });
+}
+function renderDocuments(){
+  const dest = $("#docDest"); if(!dest) return;
+}
+function generateDocument(){
+  const dest = $("#docDest").value.trim();
+  const objet = $("#docObjet").value.trim();
+  const date = $("#docDate").value;
+  const corps = $("#docCorps").value.trim();
+  const dateStr = date ? fmtDate(date) : (currentLang === "fr" ? "____ / ____ / ________" : "____ / ____ / ________");
+  const fr = currentLang === "fr";
+  let result = "";
+  if(currentDocType === "lettre"){
+    result = (fr ? "REPUBLIQUE DU CONGO\n" : "REPUBLIC OF CONGO\n") +
+      (fr ? "Unité - Travail - Progrès\n\n" : "Unity - Work - Progress\n\n") +
+      "Rotaract Club Ndjindji\n" + DISTRICT + "\n\n" +
+      "Loudima, le " + dateStr + "\n\n" +
+      (fr ? "À l'attention de : " : "To: ") + (dest || "_________________________") + "\n\n" +
+      (fr ? "Objet : " : "Subject: ") + (objet || "_________________________") + "\n\n" +
+      (fr ? "Monsieur / Madame,\n\n" : "Dear Sir / Madam,\n\n") +
+      (corps || (fr ? "_________________________________________\n_________________________________________" : "_________________________________________\n_________________________________________")) + "\n\n" +
+      (fr ? "Nous vous prions d'agréer, Monsieur / Madame, l'expression de notre haute considération.\n\n" : "We remain at your disposal and thank you for your attention.\n\n") +
+      (fr ? "Pour le Rotaract Club Ndjindji,\n" : "For Rotaract Club Ndjindji,\n") +
+      (fr ? "Le Président\n" : "The President\n") + PRESIDENT_NAME + "\n" + PRESIDENT_TERM;
+  } else if(currentDocType === "communique"){
+    result = (fr ? "COMMUNIQUÉ DE PRESSE\n\n" : "PRESS RELEASE\n\n") +
+      "Rotaract Club Ndjindji\n" + DISTRICT + "\n" +
+      (fr ? "Loudima, le " : "Loudima, ") + dateStr + "\n\n" +
+      (fr ? "TITRE : " : "TITLE: ") + (objet || "_________________________") + "\n\n" +
+      (corps || (fr ? "_________________________________________" : "_________________________________________")) + "\n\n" +
+      (fr ? "À propos du Rotaract Club Ndjindji :\n" : "About Rotaract Club Ndjindji:\n") +
+      (fr ? "Le Rotaract Club Ndjindji, " + DISTRICT + ", œuvre pour l'éducation, l'alphabétisation et le développement communautaire à Loudima.\n\n" : "Rotaract Club Ndjindji, " + DISTRICT + ", works for education, literacy and community development in Loudima.\n\n") +
+      (fr ? "Contact presse : " : "Press contact: ") + (dest || "_________________________") + "\n" + PRESIDENT_NAME;
+  } else if(currentDocType === "compteRendu"){
+    result = (fr ? "COMPTE RENDU DE RÉUNION\n\n" : "MEETING REPORT\n\n") +
+      "Rotaract Club Ndjindji\n" + DISTRICT + "\n" +
+      (fr ? "Date : " : "Date: ") + dateStr + "\n" +
+      (fr ? "Présidence : " : "Chair: ") + PRESIDENT_NAME + "\n" +
+      (fr ? "Participants : " : "Attendees: ") + (dest || "_________________________") + "\n\n" +
+      (fr ? "ORDRE DU JOUR / POINTS ABORDÉS :\n\n" : "AGENDA / KEY POINTS:\n\n") +
+      (corps || (fr ? "1. ___________________________________\n2. ___________________________________\n3. ___________________________________" : "1. ___________________________________\n2. ___________________________________\n3. ___________________________________")) + "\n\n" +
+      (fr ? "Rédigé par : " : "Written by: ") + PRESIDENT_NAME + "\n" + PRESIDENT_TERM;
+  } else if(currentDocType === "discours"){
+    result = (fr ? "DISCOURS DU PRÉSIDENT\n\n" : "PRESIDENT'S SPEECH\n\n") +
+      (fr ? "Sujet : " : "Topic: ") + (objet || "_________________________") + "\n" +
+      (fr ? "Audience : " : "Audience: ") + (dest || "_________________________") + "\n" +
+      (fr ? "Date : " : "Date: ") + dateStr + "\n\n" +
+      (fr ? "Mesdames, Messieurs,\n\n" : "Ladies and Gentlemen,\n\n") +
+      (corps || (fr ? "_________________________________________\n_________________________________________\n_________________________________________" : "_________________________________________\n_________________________________________\n_________________________________________")) + "\n\n" +
+      (fr ? "Vive le Rotaract, vive le service, vive la camaraderie.\n\n" : "Long live Rotaract, long live service, long live fellowship.\n\n") +
+      PRESIDENT_NAME + "\n" + PRESIDENT_TERM + "\n" + CLUB_NAME;
+  }
+  const out = $("#docOutput");
+  out.classList.remove("placeholder");
+  out.textContent = result;
+  toast(fr ? "Document généré" : "Document generated");
 }
 function boot(){
   initStores();
