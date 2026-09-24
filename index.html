@@ -312,7 +312,33 @@
     font-size:12.5px; color:var(--ink-faint);
     font-weight:600; margin-left:auto;
     white-space:nowrap;
+  }/* ---------- ÉTOILE PRIORITAIRE ---------- */
+  .star-btn{
+    width:32px; height:32px;
+    border-radius:8px;
+    display:flex; align-items:center; justify-content:center;
+    background:transparent;
+    color:var(--ink-faint);
+    flex-shrink:0;
+    transition:transform .12s, background .15s, color .15s;
   }
+  .star-btn svg{width:18px; height:18px; fill:none; stroke:currentColor; stroke-width:1.8;}
+  .star-btn:hover{background:var(--framboise-tint); color:var(--framboise);}
+  .star-btn:active{transform:scale(.85);}
+  .star-btn.active{color:#F5A623;}
+  .star-btn.active svg{fill:#F5A623; stroke:#F5A623;}
+  .list-row.priority{
+    box-shadow:0 0 0 1.5px rgba(245,166,35,.35), var(--shadow-sm);
+  }
+  .list-row.priority::before{background:#F5A623 !important;}
+  .badge.priority{
+    background:#FFF3E0; color:#B4590E;
+    font-weight:700;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]) .badge.priority{background:#3A2A0F; color:#F5A623;}
+  }
+  :root[data-theme="dark"] .badge.priority{background:#3A2A0F; color:#F5A623;}
   }
   :root[data-theme="dark"] .alert-banner{
     background:linear-gradient(135deg, #3A2A0F 0%, #4A3614 100%);
@@ -1598,6 +1624,18 @@ function panelTaches(){
 /* ---------------------------------------------------------------
    FILTRES ET TRI DES TÂCHES
 --------------------------------------------------------------- */
+/* ---------------------------------------------------------------
+   TÂCHES PRIORITAIRES
+--------------------------------------------------------------- */
+function togglePriority(id){
+  const t = stores.taches.items.find(function(x){ return x.id === id; });
+  if(!t) return;
+  const newVal = !t.priority;
+  stores.taches.updateItem(id, {priority: newVal});
+  toast(newVal 
+    ? (currentLang === "fr" ? "⭐ Marqué comme prioritaire" : "⭐ Marked as priority")
+    : (currentLang === "fr" ? "Priorité retirée" : "Priority removed"));
+}
 function getFilteredSortedTaches(){
   let items = stores.taches.items.slice();
   
@@ -1611,7 +1649,13 @@ function getFilteredSortedTaches(){
     items = items.filter(function(t){ return t.statut === currentFilter; });
   }
   
-  // TRI
+  // Toujours mettre les tâches prioritaires en premier (sauf si terminées)
+  items.sort(function(a, b){
+    const aPri = a.priority && a.statut !== "termine" ? 1 : 0;
+    const bPri = b.priority && b.statut !== "termine" ? 1 : 0;
+    return bPri - aPri;
+  });
+// TRI
   if(currentSort === "date_asc"){
     items.sort(function(a,b){
       if(!a.echeance && !b.echeance) return 0;
@@ -1674,9 +1718,15 @@ updateTaskCount();
   el.innerHTML = items.length ? items.map(function(x){
     const urgClass = getUrgencyClass(x.echeance, x.statut);
 const urgBadge = getUrgencyBadge(x.echeance, x.statut);
-return '<div class="list-row status-' + x.statut + (urgClass ? " " + urgClass : "") + '">' +
-      '<div class="main-col">' +
-        '<div class="title">' + esc(x.titre) + '</div>' +
+const priClass = x.priority ? " priority" : "";
+const priBadge = x.priority ? '<span class="badge priority">⭐ ' + (currentLang === "fr" ? "Prioritaire" : "Priority") + '</span>' : "";
+const starFilled = x.priority ? " active" : "";
+return '<div class="list-row status-' + x.statut + (urgClass ? " " + urgClass : "") + priClass + '">' +
+  '<button class="star-btn' + starFilled + '" data-star="' + x.id + '" title="Priorité">' +
+    '<svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>' +
+  '</button>' +
+     '<div class="main-col">' +
+  '<div class="title">' + esc(x.titre) + ' ' + priBadge + '</div>' +
         '<div class="meta">' + esc(x.responsable || "") + (x.echeance ? " · " + esc(fmtDate(x.echeance)) : "") + '</div>' +
       '</div>' +
       '<select class="statut-select" data-id="' + x.id + '">' +
@@ -1694,7 +1744,12 @@ return '<div class="list-row status-' + x.statut + (urgClass ? " " + urgClass : 
       toast(t("toastModifie"));
     });
   });
-  el.querySelectorAll("[data-remove]").forEach(function(b){
+  el.querySelectorAll("[data-star]").forEach(function(b){
+    b.addEventListener("click", function(e){
+      e.stopPropagation();
+      togglePriority(b.dataset.star);
+    });
+  });el.querySelectorAll("[data-remove]").forEach(function(b){
     b.addEventListener("click", function(){
       if(confirm(t("confirmSuppr"))){
         stores.taches.removeItem(b.dataset.remove);
