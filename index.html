@@ -7,24 +7,34 @@
 <title>Ndjindji IA — Assistant du Président</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,500;0,600;1,500&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,500;0,600;0,700;1,500&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
   :root{
     --framboise:#D41367;
+    --framboise-light:#E8357F;
     --framboise-dark:#A80E52;
     --framboise-soft:#FCE8F1;
     --framboise-tint:#FEF4F9;
+    --gold:#DB9A34;
+    --gold-light:#F0B95A;
+    --gold-soft:#FBF3E5;
     --paper:#FAF7F9;
     --paper-raised:#FFFFFF;
-    --ink:#1A1520;
+    --paper-warm:#FDF8FA;
+    --ink:#14101A;
     --ink-soft:#5B4A56;
     --ink-faint:#958A94;
     --line:#F0E4EB;
-    --radius:16px;
-    --radius-sm:10px;
+    --line-strong:#E5D5DE;
+    --radius:18px;
+    --radius-sm:12px;
+    --radius-lg:24px;
+    --shadow-xs:0 1px 2px rgba(212,19,103,.04);
     --shadow-sm:0 1px 2px rgba(212,19,103,.06), 0 2px 8px rgba(212,19,103,.05);
     --shadow-md:0 2px 6px rgba(212,19,103,.08), 0 8px 24px rgba(212,19,103,.08);
     --shadow-lg:0 4px 12px rgba(212,19,103,.1), 0 16px 40px rgba(212,19,103,.1);
+    --shadow-xl:0 8px 24px rgba(212,19,103,.12), 0 24px 64px rgba(212,19,103,.14);
+    --shadow-focus:0 0 0 3px rgba(212,19,103,.15);
     --font-display:'Fraunces', Georgia, serif;
     --font-body:'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     --ok:#2E7D5B;
@@ -34,208 +44,272 @@
   }
   @media (prefers-color-scheme: dark){
     :root:not([data-theme="light"]){
-      --paper:#1A1520;
-      --paper-raised:#221A26;
+      --paper:#0F0A14;
+      --paper-raised:#1A121F;
+      --paper-warm:#17101C;
       --ink:#F5EEF2;
       --ink-soft:#C8B8C2;
       --ink-faint:#8A7B86;
       --framboise-soft:#3A1828;
       --framboise-tint:#2A121E;
-      --line:#332430;
+      --gold-soft:#2E2515;
+      --line:#2E2132;
+      --line-strong:#3E2E42;
+      --shadow-xs:0 1px 2px rgba(0,0,0,.4);
       --shadow-sm:0 1px 2px rgba(0,0,0,.3), 0 2px 8px rgba(0,0,0,.2);
       --shadow-md:0 2px 6px rgba(0,0,0,.35), 0 8px 24px rgba(0,0,0,.25);
       --shadow-lg:0 4px 12px rgba(0,0,0,.4), 0 16px 40px rgba(0,0,0,.3);
+      --shadow-xl:0 8px 24px rgba(0,0,0,.5), 0 24px 64px rgba(0,0,0,.4);
     }
   }
+  :root[data-theme="dark"]{
+    --paper:#0F0A14;
+    --paper-raised:#1A121F;
+    --paper-warm:#17101C;
+    --ink:#F5EEF2;
+    --ink-soft:#C8B8C2;
+    --ink-faint:#8A7B86;
+    --framboise-soft:#3A1828;
+    --framboise-tint:#2A121E;
+    --gold-soft:#2E2515;
+    --line:#2E2132;
+    --line-strong:#3E2E42;
+    --shadow-xs:0 1px 2px rgba(0,0,0,.4);
+    --shadow-sm:0 1px 2px rgba(0,0,0,.3), 0 2px 8px rgba(0,0,0,.2);
+    --shadow-md:0 2px 6px rgba(0,0,0,.35), 0 8px 24px rgba(0,0,0,.25);
+    --shadow-lg:0 4px 12px rgba(0,0,0,.4), 0 16px 40px rgba(0,0,0,.3);
+    --shadow-xl:0 8px 24px rgba(0,0,0,.5), 0 24px 64px rgba(0,0,0,.4);
+  }
   *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
-  html,body{margin:0; padding:0; height:100%;}
+  html,body{margin:0; padding:0; height:100%; scroll-behavior:smooth;}
   body{
     background:var(--paper);
+    background-image:
+      radial-gradient(circle at 0% 0%, rgba(212,19,103,.06) 0%, transparent 40%),
+      radial-gradient(circle at 100% 100%, rgba(219,154,52,.04) 0%, transparent 40%);
+    background-attachment:fixed;
     color:var(--ink);
     font-family:var(--font-body);
     font-size:15px;
-    line-height:1.5;
+    line-height:1.55;
     padding-top:env(safe-area-inset-top,0px);
     padding-bottom:env(safe-area-inset-bottom,0px);
     -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
   }
-  h1,h2,h3{margin:0; letter-spacing:-0.02em;}
-  h1{font-family:var(--font-display); font-weight:700; font-size:28px; color:var(--ink);}
-  h2{font-family:var(--font-display); font-weight:700; font-size:22px;}
-  h3{font-family:var(--font-body); font-weight:700; font-size:16px;}
+  h1,h2,h3{margin:0; letter-spacing:-0.025em;}
+  h1{font-family:var(--font-display); font-weight:700; font-size:30px; color:var(--ink); line-height:1.15;}
+  h2{font-family:var(--font-display); font-weight:700; font-size:23px; line-height:1.2;}
+  h3{font-family:var(--font-body); font-weight:800; font-size:16px; letter-spacing:-0.01em;}
   p{margin:0 0 .7em;}
-  button{font-family:var(--font-body); cursor:pointer; border:none; background:none; padding:0;}
-  input,select,textarea{font-family:var(--font-body); font-size:15px; color:var(--ink); background:var(--paper-raised); border:1.5px solid var(--line); border-radius:var(--radius-sm); padding:12px 14px; width:100%; transition:border-color .15s;}
-  input:focus,select:focus,textarea:focus{outline:none; border-color:var(--framboise);}
-  label{display:block; font-size:13px; color:var(--ink-soft); margin:0 0 6px; font-weight:600;}
+  button{font-family:var(--font-body); cursor:pointer; border:none; background:none; padding:0; transition:all .15s ease;}
+  input,select,textarea{font-family:var(--font-body); font-size:15px; color:var(--ink); background:var(--paper-raised); border:1.5px solid var(--line); border-radius:var(--radius-sm); padding:13px 15px; width:100%; transition:all .18s ease;}
+  input:focus,select:focus,textarea:focus{outline:none; border-color:var(--framboise); box-shadow:var(--shadow-focus); transform:translateY(-1px);}
+  label{display:block; font-size:13px; color:var(--ink-soft); margin:0 0 7px; font-weight:700; letter-spacing:0.01em;}
   .shell{display:flex; flex-direction:column; min-height:100vh;}
-  .field{margin-bottom:14px;}
-  nav.rail{display:flex; flex-direction:column; background:var(--paper-raised); border-bottom:1px solid var(--line); padding:14px 16px 0; flex-shrink:0; box-shadow:var(--shadow-sm); position:relative;}
-  .brand{padding:0 0 14px;}
-  .brand-logo{background:linear-gradient(135deg, var(--framboise) 0%, var(--framboise-dark) 100%); border-radius:12px; padding:10px 14px; display:inline-block; max-width:220px; margin-bottom:12px; box-shadow:0 4px 12px rgba(212,19,103,.25);}
-  .brand .word{font-family:var(--font-body); font-style:normal; font-weight:800; font-size:22px; color:var(--framboise); line-height:1; letter-spacing:-0.5px;}
-  .brand .sub{font-size:12px; color:var(--ink-faint); margin-top:5px; line-height:1.4; font-weight:500;}
-  .brand .motto{font-size:11.5px; color:var(--framboise); margin-top:8px; font-style:italic; font-weight:600;}
-  .lang-switch{display:flex; gap:6px; margin-bottom:12px; padding:0; max-width:240px;}
-  .lang-btn{flex:1; padding:7px 10px; font-size:12px; font-weight:600; background:var(--framboise-tint); border:1px solid var(--line); color:var(--ink-soft); border-radius:8px; transition:all .15s;}
-  .lang-btn.active{background:var(--framboise); color:#fff; border-color:var(--framboise);}
-  .theme-btn{display:flex; align-items:center; justify-content:center; gap:6px; background:var(--framboise-tint); border:1px solid var(--line); color:var(--framboise); padding:7px 12px; border-radius:8px; font-size:12px; font-weight:600; margin:0 0 12px; max-width:240px;}
+  .field{margin-bottom:15px;}
+  nav.rail{display:flex; flex-direction:column; background:var(--paper-raised); border-bottom:1px solid var(--line); padding:16px 18px 0; flex-shrink:0; box-shadow:var(--shadow-sm); position:relative; overflow:hidden;}
+  nav.rail::before{content:""; position:absolute; top:0; left:0; right:0; height:3px; background:linear-gradient(90deg, var(--framboise), var(--gold), var(--framboise)); background-size:200% 100%; animation:shimmer 8s ease infinite;}
+  @keyframes shimmer{0%,100%{background-position:0% 50%;}50%{background-position:100% 50%;}}
+  .brand{padding:0 0 16px;}
+  .brand-logo{background:linear-gradient(135deg, var(--framboise-light) 0%, var(--framboise) 50%, var(--framboise-dark) 100%); border-radius:14px; padding:12px 16px; display:inline-block; max-width:230px; margin-bottom:14px; box-shadow:0 6px 20px rgba(212,19,103,.3), inset 0 1px 0 rgba(255,255,255,.25); position:relative; overflow:hidden;}
+  .brand-logo::after{content:""; position:absolute; top:-50%; right:-50%; width:100%; height:200%; background:linear-gradient(115deg, transparent 40%, rgba(255,255,255,.35) 50%, transparent 60%); animation:shine 6s ease-in-out infinite; pointer-events:none;}
+  @keyframes shine{0%,80%,100%{transform:translateX(-120%);}40%,60%{transform:translateX(120%);}}
+  .brand .word{font-family:var(--font-body); font-style:normal; font-weight:900; font-size:24px; color:var(--framboise); line-height:1; letter-spacing:-0.7px; margin-bottom:2px;}
+  .brand .sub{font-size:12px; color:var(--ink-faint); margin-top:6px; line-height:1.45; font-weight:600; letter-spacing:0.01em;}
+  .brand .motto{font-size:11.5px; color:var(--framboise); margin-top:9px; font-style:italic; font-weight:600; letter-spacing:0.01em;}
+  .lang-switch{display:flex; gap:6px; margin-bottom:12px; padding:0; max-width:250px;}
+  .lang-btn{flex:1; padding:8px 12px; font-size:12px; font-weight:700; background:var(--framboise-tint); border:1.5px solid transparent; color:var(--ink-soft); border-radius:10px; transition:all .18s ease; letter-spacing:0.02em;}
+  .lang-btn.active{background:linear-gradient(135deg, var(--framboise-light), var(--framboise)); color:#fff; border-color:transparent; box-shadow:0 4px 12px rgba(212,19,103,.3); transform:translateY(-1px);}
+  .lang-btn:active{transform:scale(.96);}
+  .theme-btn{display:flex; align-items:center; justify-content:center; gap:7px; background:var(--framboise-tint); border:1.5px solid var(--line); color:var(--framboise); padding:9px 14px; border-radius:10px; font-size:12px; font-weight:700; margin:0 0 14px; max-width:250px; transition:all .18s ease; letter-spacing:0.01em;}
+  .theme-btn:hover{background:var(--framboise-soft); border-color:var(--framboise);}
+  .theme-btn:active{transform:scale(.96);}
   .theme-btn svg{width:14px; height:14px;}
-  .navrow{display:flex; overflow-x:auto; gap:4px; padding-bottom:0; -ms-overflow-style:none; scrollbar-width:none; margin:0 -16px; padding-left:16px; padding-right:16px;}
+  .navrow{display:flex; overflow-x:auto; gap:4px; padding-bottom:0; -ms-overflow-style:none; scrollbar-width:none; margin:0 -18px; padding-left:18px; padding-right:18px;}
   .navrow::-webkit-scrollbar{display:none;}
-  .navbtn{display:flex; align-items:center; gap:8px; white-space:nowrap; background:transparent; border:none; color:var(--ink-soft); padding:11px 14px; border-radius:10px 10px 0 0; font-size:13.5px; font-weight:600; flex-shrink:0; position:relative; transition:color .15s;}
-  .navbtn svg{width:16px; height:16px; opacity:.7; flex-shrink:0;}
+  .navbtn{display:flex; align-items:center; gap:9px; white-space:nowrap; background:transparent; border:none; color:var(--ink-soft); padding:12px 15px; border-radius:11px 11px 0 0; font-size:13.5px; font-weight:700; flex-shrink:0; position:relative; letter-spacing:-0.005em;}
+  .navbtn svg{width:17px; height:17px; opacity:.7; flex-shrink:0; transition:all .2s ease;}
   .navbtn.active{color:var(--framboise); background:var(--framboise-tint);}
-  .navbtn.active svg{opacity:1;}
-  .navbtn.active::after{content:""; position:absolute; left:14px; right:14px; bottom:0; height:3px; background:var(--framboise); border-radius:3px 3px 0 0;}
+  .navbtn.active svg{opacity:1; transform:scale(1.1);}
+  .navbtn.active::after{content:""; position:absolute; left:15px; right:15px; bottom:0; height:3px; background:linear-gradient(90deg, var(--framboise), var(--gold)); border-radius:3px 3px 0 0; box-shadow:0 -2px 8px rgba(212,19,103,.4);}
   .navbtn:hover{color:var(--framboise);}
-  main{flex:1; min-width:0; padding:20px 16px 60px; max-width:900px; margin:0 auto; width:100%;}
+  .navbtn:hover svg{opacity:1;}main{flex:1; min-width:0; padding:22px 18px 70px; max-width:900px; margin:0 auto; width:100%;}
   .panel{display:none;}
-  .panel.active{display:block; animation:fadeIn .3s ease;}
-  @keyframes fadeIn{from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:translateY(0);}}
-  .panel-head{margin-bottom:20px;}
-  .panel-head h1{font-size:26px; color:var(--ink);}
-  .panel-head p{color:var(--ink-soft); font-size:14px; margin-top:6px; max-width:60ch;}
-  .divider{border:none; border-top:1px solid var(--line); margin:22px 0;}
-  .card{background:var(--paper-raised); border-radius:var(--radius); padding:20px; margin-bottom:16px; box-shadow:var(--shadow-sm); border:1px solid var(--line); transition:box-shadow .2s;}
-  .section-title{font-size:15px; font-weight:700; color:var(--ink); margin-bottom:4px;}
-  .section-sub{font-size:12.5px; color:var(--ink-faint); margin-bottom:14px;}
-  .row{display:flex; gap:10px; align-items:flex-end; flex-wrap:wrap;}
+  .panel.active{display:block; animation:fadeUp .4s cubic-bezier(.16,1,.3,1);}
+  @keyframes fadeUp{from{opacity:0; transform:translateY(10px);} to{opacity:1; transform:translateY(0);}}
+  .panel-head{margin-bottom:22px;}
+  .panel-head h1{font-size:28px; color:var(--ink); margin-bottom:6px;}
+  .panel-head p{color:var(--ink-soft); font-size:14px; margin-top:0; max-width:60ch; line-height:1.55;}
+  .divider{border:none; border-top:1px solid var(--line); margin:24px 0;}
+  .card{background:var(--paper-raised); border-radius:var(--radius); padding:22px; margin-bottom:16px; box-shadow:var(--shadow-sm); border:1px solid var(--line); transition:all .25s cubic-bezier(.16,1,.3,1);}
+  .card:hover{box-shadow:var(--shadow-md); transform:translateY(-1px);}
+  .section-title{font-size:15px; font-weight:800; color:var(--ink); margin-bottom:5px; letter-spacing:-0.01em;}
+  .section-sub{font-size:12.5px; color:var(--ink-faint); margin-bottom:15px; line-height:1.5;}
+  .row{display:flex; gap:11px; align-items:flex-end; flex-wrap:wrap;}
   .row > *{flex:1; min-width:140px;}
-  .btn{display:inline-flex; align-items:center; gap:8px; justify-content:center; padding:12px 18px; border-radius:12px; font-size:14px; font-weight:700; background:var(--framboise); color:#fff; box-shadow:0 4px 12px rgba(212,19,103,.25); transition:transform .12s, box-shadow .2s;}
-  .btn:active{transform:scale(.97);}
-  .btn svg{width:16px; height:16px;}
-  .btn:disabled{opacity:.45; cursor:not-allowed; box-shadow:none;}
-  .btn.primary{background:var(--framboise);}
+  .btn{display:inline-flex; align-items:center; gap:9px; justify-content:center; padding:13px 20px; border-radius:13px; font-size:14px; font-weight:800; background:linear-gradient(135deg, var(--framboise-light) 0%, var(--framboise) 60%, var(--framboise-dark) 100%); color:#fff; box-shadow:0 4px 14px rgba(212,19,103,.3), inset 0 1px 0 rgba(255,255,255,.2); letter-spacing:0.005em; position:relative; overflow:hidden; transition:all .2s cubic-bezier(.16,1,.3,1);}
+  .btn::before{content:""; position:absolute; top:0; left:-100%; width:100%; height:100%; background:linear-gradient(90deg, transparent, rgba(255,255,255,.25), transparent); transition:left .6s ease;}
+  .btn:hover::before{left:100%;}
+  .btn:hover{transform:translateY(-2px); box-shadow:0 8px 20px rgba(212,19,103,.4), inset 0 1px 0 rgba(255,255,255,.25);}
+  .btn:active{transform:scale(.97); box-shadow:0 2px 8px rgba(212,19,103,.3);}
+  .btn svg{width:16px; height:16px; position:relative; z-index:1;}
+  .btn:disabled{opacity:.45; cursor:not-allowed; box-shadow:none; transform:none;}
+  .btn:disabled::before{display:none;}
+  .btn.primary{background:linear-gradient(135deg, var(--framboise-light) 0%, var(--framboise) 60%, var(--framboise-dark) 100%);}
   .btn.ghost{background:transparent; color:var(--framboise); border:1.5px solid var(--framboise-soft); box-shadow:none;}
-  .btn.small{padding:9px 14px; font-size:13px;}
-  .btn.icon-only{padding:8px; background:transparent; color:var(--ink-faint); box-shadow:none; border-radius:8px;}
-  .btn.icon-only:hover{color:var(--framboise); background:var(--framboise-tint);}
-  .btn.icon-only svg{width:16px; height:16px;}
-  .list{display:flex; flex-direction:column; gap:10px;}
-  .list-row{display:flex; gap:12px; align-items:center; background:var(--paper-raised); border-radius:12px; padding:14px 14px 14px 16px; border:1px solid var(--line); box-shadow:var(--shadow-sm); position:relative;}
-  .list-row::before{content:""; position:absolute; left:0; top:16px; bottom:16px; width:3px; border-radius:0 3px 3px 0; background:var(--framboise);}
+  .btn.ghost:hover{background:var(--framboise-tint); border-color:var(--framboise); box-shadow:0 4px 12px rgba(212,19,103,.15);}
+  .btn.small{padding:9px 15px; font-size:13px; border-radius:11px; gap:7px;}
+  .btn.icon-only{padding:9px; background:transparent; color:var(--ink-faint); box-shadow:none; border-radius:10px; position:relative;}
+  .btn.icon-only::before{display:none;}
+  .btn.icon-only:hover{color:var(--framboise); background:var(--framboise-tint); transform:scale(1.05);}
+  .btn.icon-only:active{transform:scale(.92);}
+  .btn.icon-only svg{width:16px; height:16px; position:static;}
+  .list{display:flex; flex-direction:column; gap:11px;}
+  .list-row{display:flex; gap:13px; align-items:center; background:var(--paper-raised); border-radius:13px; padding:15px 15px 15px 18px; border:1px solid var(--line); box-shadow:var(--shadow-sm); position:relative; transition:all .22s cubic-bezier(.16,1,.3,1); overflow:hidden;}
+  .list-row:hover{box-shadow:var(--shadow-md); transform:translateX(2px);}
+  .list-row::before{content:""; position:absolute; left:0; top:16px; bottom:16px; width:3px; border-radius:0 3px 3px 0; background:var(--framboise); transition:all .25s ease;}
   .list-row.status-termine::before, .list-row.status-atteint::before, .list-row.status-confirme::before{background:var(--ok);}
-  .list-row.status-attente::before, .list-row.status-en_cours::before{background:#F5A623;}
+  .list-row.status-attente::before, .list-row.status-en_cours::before{background:var(--gold);}
   .list-row.status-a_faire::before, .list-row.status-a_initier::before, .list-row.status-planifie::before{background:var(--ink-faint);}
-  .list-row.urgent::before{background:#F5A623 !important;}
+  .list-row.urgent::before{background:var(--gold) !important;}
   .list-row.overdue::before{background:#DC2626 !important;}
-  .list-row.urgent{background:linear-gradient(90deg, #FFF8E7 0%, var(--paper-raised) 40%);}
-  .list-row.overdue{background:linear-gradient(90deg, #FEE2E2 0%, var(--paper-raised) 40%);}
-  .list-row.priority{box-shadow:0 0 0 1.5px rgba(245,166,35,.35), var(--shadow-sm);}
-  .list-row.priority::before{background:#F5A623 !important;}.badge.urgent{background:#FFF3E0; color:#B4590E;}
-  .badge.overdue{background:#FEE2E2; color:#991B1B;}
-  .badge.priority{background:#FFF3E0; color:#B4590E; font-weight:700;}
-  .alert-banner{display:flex; align-items:center; gap:12px; background:linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%); border:1px solid #F5A623; border-radius:var(--radius); padding:14px 16px; margin-bottom:16px; color:#78350F; font-size:14px; font-weight:600; animation:fadeIn .3s ease;}
-  .alert-banner.overdue{background:linear-gradient(135deg, #FEE2E2 0%, #FECACA 100%); border-color:#DC2626; color:#7F1D1D;}
-  .alert-banner svg{width:22px; height:22px; flex-shrink:0;}
-  .alert-banner .alert-text{flex:1; line-height:1.4;}
-  .alert-banner .alert-text strong{display:block; font-size:14.5px; margin-bottom:2px;}
-  .alert-banner .alert-text small{font-size:12.5px; opacity:.85; font-weight:500;}
-  .alert-banner button{background:rgba(255,255,255,.6); color:inherit; padding:6px 12px; border-radius:8px; font-size:12px; font-weight:700; border:none;}
-  .filters-bar{display:flex; gap:8px; flex-wrap:wrap; align-items:center; margin-bottom:14px; padding:12px 14px; background:var(--paper-raised); border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow-sm);}
-  .filter-group{display:flex; gap:6px; flex-wrap:wrap; flex:1; min-width:0;}
-  .filter-chip{padding:6px 12px; font-size:12.5px; font-weight:600; background:var(--framboise-tint); color:var(--ink-soft); border:1px solid var(--line); border-radius:100px; transition:all .15s; white-space:nowrap;}
-  .filter-chip.active{background:var(--framboise); color:#fff; border-color:var(--framboise); box-shadow:0 2px 8px rgba(212,19,103,.25);}
-  .filter-chip:active{transform:scale(.95);}
-  .sort-select{padding:7px 10px; font-size:12.5px; font-weight:600; background:var(--framboise-tint); color:var(--framboise); border:1px solid var(--line); border-radius:8px; width:auto; max-width:160px; cursor:pointer;}
-  .sort-select:focus{border-color:var(--framboise); outline:none;}
-  .task-count{font-size:12.5px; color:var(--ink-faint); font-weight:600; margin-left:auto; white-space:nowrap;}
-  .star-btn{width:32px; height:32px; border-radius:8px; display:flex; align-items:center; justify-content:center; background:transparent; color:var(--ink-faint); flex-shrink:0; transition:transform .12s, background .15s, color .15s;}
-  .star-btn svg{width:18px; height:18px; fill:none; stroke:currentColor; stroke-width:1.8;}
-  .star-btn:hover{background:var(--framboise-tint); color:var(--framboise);}
-  .star-btn:active{transform:scale(.85);}
-  .star-btn.active{color:#F5A623;}
-  .star-btn.active svg{fill:#F5A623; stroke:#F5A623;}
+  .list-row.urgent{background:linear-gradient(90deg, #FFF8E7 0%, var(--paper-raised) 45%);}
+  .list-row.overdue{background:linear-gradient(90deg, #FEE2E2 0%, var(--paper-raised) 45%);}
+  .list-row.priority{box-shadow:0 0 0 1.5px rgba(245,166,35,.4), 0 4px 16px rgba(245,166,35,.15);}
+  .list-row.priority::before{background:var(--gold) !important;}
   .list-row .main-col{flex:1; min-width:0;}
-  .list-row .title{font-size:14.5px; font-weight:700; color:var(--ink);}
-  .list-row .meta{font-size:12.5px; color:var(--ink-faint); margin-top:3px;}
-  .badge{font-size:11.5px; font-weight:700; padding:4px 10px; border-radius:100px; white-space:nowrap;}
+  .list-row .title{font-size:14.5px; font-weight:800; color:var(--ink); letter-spacing:-0.005em; line-height:1.35;}
+  .list-row .meta{font-size:12.5px; color:var(--ink-faint); margin-top:4px; line-height:1.4;}
+  .badge{font-size:11.5px; font-weight:800; padding:4px 11px; border-radius:100px; white-space:nowrap; letter-spacing:0.01em;}
+  .badge.urgent{background:linear-gradient(135deg, #FFF3E0, #FDE68A); color:#B4590E; border:1px solid #F5C97D;}
+  .badge.overdue{background:linear-gradient(135deg, #FEE2E2, #FECACA); color:#991B1B; border:1px solid #FCA5A5;}
+  .badge.priority{background:linear-gradient(135deg, #FFF3E0, #FDE68A); color:#B4590E; font-weight:800; border:1px solid #F5C97D;}
   .badge.a_faire, .badge.a_initier, .badge.planifie{background:var(--line); color:var(--ink-soft);}
-  .badge.en_cours{background:#FFF3E0; color:var(--warn);}
-  .badge.termine, .badge.atteint, .badge.confirme{background:var(--ok-soft); color:var(--ok);}
+  .badge.en_cours{background:linear-gradient(135deg, #FFF3E0, #FDE68A); color:var(--warn);}
+  .badge.termine, .badge.atteint, .badge.confirme{background:linear-gradient(135deg, var(--ok-soft), #C8E9D9); color:var(--ok);}
   .badge.attente{background:var(--warn-soft); color:var(--warn);}
-  select.statut-select{width:auto; padding:6px 10px; font-size:12px; font-weight:600; border-radius:100px; border:1px solid var(--line); background:var(--paper); color:var(--ink);}
-  .empty{padding:26px 4px; color:var(--ink-faint); font-size:13.5px; text-align:center; font-style:italic;}
+  select.statut-select{width:auto; padding:7px 11px; font-size:12px; font-weight:700; border-radius:100px; border:1.5px solid var(--line); background:var(--paper); color:var(--ink); cursor:pointer; transition:all .15s ease;}
+  select.statut-select:hover{border-color:var(--framboise);}
+  .empty{padding:32px 8px; color:var(--ink-faint); font-size:13.5px; text-align:center; font-style:italic; line-height:1.6;}
   .note{font-size:12.5px; color:var(--warn); margin-top:8px;}
   .note.muted{color:var(--ink-faint); font-style:italic;}
-  .check{margin:2px 0 16px; display:flex; align-items:center; gap:8px; font-size:13.5px; color:var(--ink-soft);}
+  .check{margin:3px 0 17px; display:flex; align-items:center; gap:9px; font-size:13.5px; color:var(--ink-soft);}
   .check input{width:auto;}
-  .add-form{display:flex; gap:8px; flex-wrap:wrap; margin-top:16px; padding-top:16px; border-top:1px dashed var(--line);}
-  .add-form input, .add-form select{flex:1; min-width:120px;}
-  .stat-row{display:grid; grid-template-columns:repeat(2, 1fr); gap:10px; margin:20px 0;}
-  .stat{background:var(--paper-raised); border-radius:var(--radius); padding:14px; box-shadow:var(--shadow-sm); border:1px solid var(--line); position:relative; overflow:hidden;}
-  .stat::before{content:""; position:absolute; top:0; left:0; right:0; height:3px; background:linear-gradient(90deg, var(--framboise), var(--framboise-dark));}
-  .stat .num{font-family:var(--font-display); font-size:24px; font-weight:700; color:var(--framboise); line-height:1; margin-bottom:6px;}
-  .stat .lbl{font-size:11px; color:var(--ink-faint); font-weight:600; text-transform:uppercase; letter-spacing:0.3px;}
-  .callout{background:var(--framboise-tint); border-radius:var(--radius); padding:20px; margin-top:18px; border-left:4px solid var(--framboise);}
-  .callout h3{font-size:16px; margin-bottom:6px; color:var(--framboise);}
-  .callout p{font-size:13.5px; color:var(--ink-soft); margin-bottom:12px;}
-  .quick-actions{display:flex; gap:8px; flex-wrap:wrap; margin-top:22px;}
-  .output-box{background:var(--paper-raised); border:1px solid var(--line); border-radius:var(--radius); padding:16px; min-height:120px; font-size:14px; white-space:pre-wrap; line-height:1.6; color:var(--ink);}
+  .add-form{display:flex; gap:9px; flex-wrap:wrap; margin-top:18px; padding-top:18px; border-top:1.5px dashed var(--line);}
+  .add-form input, .add-form select{flex:1; min-width:120px;}.stat-row{display:grid; grid-template-columns:repeat(2, 1fr); gap:11px; margin:22px 0;}
+  .stat{background:var(--paper-raised); border-radius:var(--radius); padding:16px; box-shadow:var(--shadow-sm); border:1px solid var(--line); position:relative; overflow:hidden; transition:all .22s cubic-bezier(.16,1,.3,1);}
+  .stat:hover{transform:translateY(-2px); box-shadow:var(--shadow-md);}
+  .stat::before{content:""; position:absolute; top:0; left:0; right:0; height:3px; background:linear-gradient(90deg, var(--framboise), var(--gold));}
+  .stat .num{font-family:var(--font-display); font-size:26px; font-weight:700; color:var(--framboise); line-height:1; margin-bottom:7px; letter-spacing:-0.02em;}
+  .stat .lbl{font-size:11px; color:var(--ink-faint); font-weight:700; text-transform:uppercase; letter-spacing:0.06em; line-height:1.3;}
+  .callout{background:linear-gradient(135deg, var(--framboise-tint) 0%, var(--paper-warm) 100%); border-radius:var(--radius); padding:22px; margin-top:20px; border-left:4px solid var(--framboise); box-shadow:var(--shadow-sm);}
+  .callout h3{font-size:16.5px; margin-bottom:7px; color:var(--framboise); letter-spacing:-0.01em;}
+  .callout p{font-size:13.5px; color:var(--ink-soft); margin-bottom:14px; line-height:1.55;}
+  .quick-actions{display:flex; gap:9px; flex-wrap:wrap; margin-top:24px;}
+  .output-box{background:var(--paper-raised); border:1.5px solid var(--line); border-radius:var(--radius); padding:18px; min-height:130px; font-size:14px; white-space:pre-wrap; line-height:1.65; color:var(--ink); font-family:var(--font-body);}
   .output-box.placeholder{color:var(--ink-faint); font-style:italic;}
-  .output-actions{display:flex; gap:8px; margin-top:10px; flex-wrap:wrap;}
-  .progress-track{height:8px; background:var(--framboise-soft); border-radius:100px; overflow:hidden; margin-top:8px;}
-  .progress-fill{height:100%; border-radius:100px; background:linear-gradient(90deg, var(--framboise), var(--framboise-dark)); transition:width .4s ease;}
-  .avatar-holder{position:relative; width:130px; height:130px; margin:8px auto 12px;}
+  .output-actions{display:flex; gap:9px; margin-top:11px; flex-wrap:wrap;}
+  .progress-track{height:9px; background:var(--framboise-soft); border-radius:100px; overflow:hidden; margin-top:9px; box-shadow:inset 0 1px 2px rgba(212,19,103,.1);}
+  .progress-fill{height:100%; border-radius:100px; background:linear-gradient(90deg, var(--framboise), var(--gold)); transition:width .6s cubic-bezier(.16,1,.3,1); box-shadow:0 0 12px rgba(212,19,103,.4);}
+  .avatar-holder{position:relative; width:150px; height:150px; margin:10px auto 14px; filter:drop-shadow(0 12px 28px rgba(212,19,103,.28));}
   .avatar-holder svg{width:100%; height:100%; display:block;}
-  .avatar-ring{fill:none; stroke:var(--framboise); stroke-width:4; opacity:0; transform-origin:100px 100px;}
-  .avatar-holder.state-listening .avatar-ring{stroke:var(--framboise); opacity:.55; animation:ringPulse 1.4s ease-in-out infinite;}
-  .avatar-holder.state-speaking .avatar-ring{stroke:var(--framboise); opacity:.6; animation:ringPulse 0.9s ease-in-out infinite;}
+  .avatar-ring{fill:none; stroke:url(#avatarGrad); stroke-width:4; opacity:0; transform-origin:100px 100px;}
+  .avatar-holder.state-listening .avatar-ring{opacity:.6; animation:ringPulse 1.4s ease-in-out infinite;}
+  .avatar-holder.state-speaking .avatar-ring{opacity:.7; animation:ringPulse 0.9s ease-in-out infinite;}
   @keyframes ringPulse{0%{transform:scale(.94); opacity:.7;}50%{transform:scale(1.06); opacity:.2;}100%{transform:scale(.94); opacity:.7;}}
   .avatar-eye{fill:#fff; transition:transform .12s ease; transform-origin:center;}
   .avatar-holder.blink .avatar-eye{transform:scaleY(0.12);}
   .avatar-mouth{fill:#fff; transform-origin:100px 128px; transition:transform .08s ease;}
   .avatar-holder.mouth-open .avatar-mouth{transform:scaleY(3);}
-  .voice-status{font-size:13px; color:var(--ink-soft); min-height:18px; margin-bottom:14px; text-align:center;}
-  .voice-controls{display:flex; align-items:center; gap:12px; justify-content:center; margin-bottom:20px; flex-wrap:wrap;}
-  .mic-btn{width:64px; height:64px; border-radius:50%; background:linear-gradient(135deg, var(--framboise), var(--framboise-dark)); color:#fff; display:flex; align-items:center; justify-content:center; box-shadow:0 8px 24px rgba(212,19,103,.35); transition:transform .15s;}
+  .voice-status{font-size:13px; color:var(--ink-soft); min-height:20px; margin-bottom:16px; text-align:center; font-weight:600; line-height:1.5;}
+  .voice-controls{display:flex; align-items:center; gap:13px; justify-content:center; margin-bottom:22px; flex-wrap:wrap;}
+  .mic-btn{width:68px; height:68px; border-radius:50%; background:linear-gradient(135deg, var(--framboise-light), var(--framboise) 50%, var(--framboise-dark)); color:#fff; display:flex; align-items:center; justify-content:center; box-shadow:0 10px 28px rgba(212,19,103,.4), inset 0 2px 0 rgba(255,255,255,.25); transition:all .2s cubic-bezier(.16,1,.3,1); position:relative;}
+  .mic-btn::after{content:""; position:absolute; inset:-6px; border-radius:50%; border:2px solid var(--framboise); opacity:0; transition:all .3s ease;}
+  .mic-btn:hover{transform:scale(1.05); box-shadow:0 14px 32px rgba(212,19,103,.5), inset 0 2px 0 rgba(255,255,255,.3);}
+  .mic-btn:hover::after{opacity:.3; inset:-10px;}
   .mic-btn:active{transform:scale(.92);}
-  .mic-btn svg{width:26px; height:26px;}
+  .mic-btn svg{width:28px; height:28px;}
   .mic-btn.listening{animation:pulseMic 1.2s infinite;}
-  @keyframes pulseMic{0%,100%{box-shadow:0 8px 24px rgba(212,19,103,.35);}50%{box-shadow:0 8px 32px rgba(212,19,103,.65);}}
-  .chat-wrap{display:flex; flex-direction:column; gap:10px; padding:14px; background:var(--framboise-tint); border-radius:var(--radius); max-height:360px; overflow-y:auto; margin-bottom:14px;}
-  .chat-msg{padding:11px 15px; font-size:14px; line-height:1.5; max-width:85%; border-radius:16px;}
-  .chat-msg.user{align-self:flex-end; background:var(--framboise); color:#fff; border-radius:16px 16px 4px 16px; box-shadow:0 4px 12px rgba(212,19,103,.2);}
-  .chat-msg.bot{align-self:flex-start; background:var(--paper-raised); color:var(--ink); border-radius:16px 16px 16px 4px; box-shadow:var(--shadow-sm);}
-  .chat-input{display:flex; gap:8px;}
-  .search-bar{display:flex; gap:8px; align-items:center; background:var(--paper-raised); border:1px solid var(--line); border-radius:var(--radius); padding:10px 14px; margin-bottom:18px; box-shadow:var(--shadow-sm);}
+  @keyframes pulseMic{0%,100%{box-shadow:0 10px 28px rgba(212,19,103,.4);}50%{box-shadow:0 10px 40px rgba(212,19,103,.75);}}
+  .chat-wrap{display:flex; flex-direction:column; gap:11px; padding:16px; background:var(--framboise-tint); border-radius:var(--radius); max-height:380px; overflow-y:auto; margin-bottom:16px; border:1px solid var(--line);}
+  .chat-msg{padding:12px 16px; font-size:14px; line-height:1.55; max-width:85%; border-radius:17px;}
+  .chat-msg.user{align-self:flex-end; background:linear-gradient(135deg, var(--framboise-light), var(--framboise)); color:#fff; border-radius:17px 17px 4px 17px; box-shadow:0 4px 14px rgba(212,19,103,.25);}
+  .chat-msg.bot{align-self:flex-start; background:var(--paper-raised); color:var(--ink); border-radius:17px 17px 17px 4px; box-shadow:var(--shadow-sm); border:1px solid var(--line);}
+  .chat-input{display:flex; gap:9px;}
+  .search-bar{display:flex; gap:10px; align-items:center; background:var(--paper-raised); border:1.5px solid var(--line); border-radius:var(--radius); padding:12px 16px; margin-bottom:20px; box-shadow:var(--shadow-sm); transition:all .2s ease;}
+  .search-bar:focus-within{border-color:var(--framboise); box-shadow:var(--shadow-focus), var(--shadow-sm);}
   .search-bar input{border:none; padding:4px 0; background:transparent; font-size:14px;}
-  .search-bar input:focus{outline:none;}
-  .search-bar svg{width:18px; height:18px; color:var(--ink-faint); flex-shrink:0;}
-  .toast{position:fixed; bottom:24px; left:50%; transform:translateX(-50%) translateY(100px); background:var(--framboise); color:#fff; padding:12px 22px; border-radius:100px; font-size:13.5px; font-weight:600; opacity:0; transition:all .3s ease; z-index:9999; box-shadow:0 8px 24px rgba(212,19,103,.4); pointer-events:none;}
+  .search-bar input:focus{outline:none; box-shadow:none; transform:none;}
+  .search-bar svg{width:19px; height:19px; color:var(--ink-faint); flex-shrink:0;}
+  .toast{position:fixed; bottom:26px; left:50%; transform:translateX(-50%) translateY(120px); background:linear-gradient(135deg, var(--framboise-light), var(--framboise-dark)); color:#fff; padding:14px 24px; border-radius:100px; font-size:13.5px; font-weight:700; opacity:0; transition:all .35s cubic-bezier(.16,1,.3,1); z-index:9999; box-shadow:0 10px 32px rgba(212,19,103,.5); pointer-events:none; max-width:90vw; text-align:center;}
   .toast.show{opacity:1; transform:translateX(-50%) translateY(0);}
-  .footer-sig{margin-top:34px; padding-top:16px; border-top:1px solid var(--line); font-size:12px; color:var(--ink-faint); text-align:center;}
-  .footer-sig strong{color:var(--framboise);}.doc-grid{display:grid; grid-template-columns:repeat(2, 1fr); gap:10px; margin-bottom:16px;}
-  .doc-card{background:var(--paper-raised); border:1.5px solid var(--line); border-radius:12px; padding:14px; text-align:left; transition:all .15s; cursor:pointer;}
-  .doc-card:hover{border-color:var(--framboise); transform:translateY(-2px);}
-  .doc-card.active{border-color:var(--framboise); background:var(--framboise-tint); box-shadow:0 4px 12px rgba(212,19,103,.15);}
-  .doc-card-icon{width:38px; height:38px; border-radius:10px; background:var(--framboise); color:#fff; display:flex; align-items:center; justify-content:center; margin-bottom:10px;}
-  .doc-card-icon svg{width:20px; height:20px;}
-  .doc-card-title{font-size:13px; font-weight:700; color:var(--ink); line-height:1.3;}
+  .footer-sig{margin-top:38px; padding-top:20px; border-top:1px solid var(--line); font-size:12px; color:var(--ink-faint); text-align:center; line-height:1.6;}
+  .footer-sig strong{color:var(--framboise); font-weight:800;}
+  .alert-banner{display:flex; align-items:center; gap:13px; background:linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%); border:1.5px solid #F5A623; border-radius:var(--radius); padding:15px 18px; margin-bottom:18px; color:#78350F; font-size:14px; font-weight:700; animation:fadeUp .35s ease; box-shadow:0 4px 16px rgba(245,166,35,.18);}
+  .alert-banner.overdue{background:linear-gradient(135deg, #FEE2E2 0%, #FECACA 100%); border-color:#DC2626; color:#7F1D1D; box-shadow:0 4px 16px rgba(220,38,38,.18);}
+  .alert-banner svg{width:24px; height:24px; flex-shrink:0;}
+  .alert-banner .alert-text{flex:1; line-height:1.45;}
+  .alert-banner .alert-text strong{display:block; font-size:14.5px; margin-bottom:3px; letter-spacing:-0.005em;}
+  .alert-banner .alert-text small{font-size:12.5px; opacity:.85; font-weight:600;}
+  .alert-banner button{background:rgba(255,255,255,.7); color:inherit; padding:7px 14px; border-radius:9px; font-size:12px; font-weight:800; border:none; transition:all .15s ease;}
+  .alert-banner button:hover{background:#fff; transform:translateY(-1px);}
+  .alert-banner button:active{transform:scale(.95);}
+  .filters-bar{display:flex; gap:9px; flex-wrap:wrap; align-items:center; margin-bottom:16px; padding:13px 15px; background:var(--paper-raised); border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow-sm);}
+  .filter-group{display:flex; gap:7px; flex-wrap:wrap; flex:1; min-width:0;}
+  .filter-chip{padding:7px 13px; font-size:12.5px; font-weight:700; background:var(--framboise-tint); color:var(--ink-soft); border:1.5px solid transparent; border-radius:100px; transition:all .18s ease; white-space:nowrap; letter-spacing:0.01em;}
+  .filter-chip:hover{background:var(--framboise-soft); color:var(--framboise);}
+  .filter-chip.active{background:linear-gradient(135deg, var(--framboise-light), var(--framboise)); color:#fff; border-color:transparent; box-shadow:0 4px 12px rgba(212,19,103,.3); transform:translateY(-1px);}
+  .filter-chip:active{transform:scale(.95);}
+  .sort-select{padding:8px 11px; font-size:12.5px; font-weight:700; background:var(--framboise-tint); color:var(--framboise); border:1.5px solid var(--line); border-radius:10px; width:auto; max-width:170px; cursor:pointer; transition:all .15s ease;}
+  .sort-select:hover{border-color:var(--framboise);}
+  .sort-select:focus{border-color:var(--framboise); outline:none; box-shadow:var(--shadow-focus);}
+  .task-count{font-size:12.5px; color:var(--ink-faint); font-weight:700; margin-left:auto; white-space:nowrap;}
+  .star-btn{width:34px; height:34px; border-radius:9px; display:flex; align-items:center; justify-content:center; background:transparent; color:var(--ink-faint); flex-shrink:0; transition:all .18s cubic-bezier(.16,1,.3,1);}
+  .star-btn svg{width:19px; height:19px; fill:none; stroke:currentColor; stroke-width:1.8;}
+  .star-btn:hover{background:var(--framboise-tint); color:var(--framboise); transform:scale(1.1);}
+  .star-btn:active{transform:scale(.82);}
+  .star-btn.active{color:var(--gold);}
+  .star-btn.active svg{fill:var(--gold); stroke:var(--gold); filter:drop-shadow(0 2px 4px rgba(219,154,52,.4));}
+  .doc-grid{display:grid; grid-template-columns:repeat(2, 1fr); gap:11px; margin-bottom:18px;}
+  .doc-card{background:var(--paper-raised); border:1.5px solid var(--line); border-radius:13px; padding:15px; text-align:left; transition:all .2s cubic-bezier(.16,1,.3,1); cursor:pointer; position:relative; overflow:hidden;}
+  .doc-card:hover{border-color:var(--framboise); transform:translateY(-3px); box-shadow:0 8px 20px rgba(212,19,103,.15);}
+  .doc-card.active{border-color:var(--framboise); background:linear-gradient(135deg, var(--framboise-tint), var(--paper-raised)); box-shadow:0 6px 18px rgba(212,19,103,.2);}
+  .doc-card.active::before{content:""; position:absolute; top:0; left:0; right:0; height:3px; background:linear-gradient(90deg, var(--framboise), var(--gold));}
+  .doc-card-icon{width:40px; height:40px; border-radius:11px; background:linear-gradient(135deg, var(--framboise-light), var(--framboise-dark)); color:#fff; display:flex; align-items:center; justify-content:center; margin-bottom:11px; box-shadow:0 4px 10px rgba(212,19,103,.25);}
+  .doc-card-icon svg{width:21px; height:21px;}
+  .doc-card-title{font-size:13px; font-weight:800; color:var(--ink); line-height:1.3; letter-spacing:-0.005em;}
   @media (prefers-color-scheme: dark){
-    :root:not([data-theme="light"]) .list-row.urgent{background:linear-gradient(90deg, #3A2A0F 0%, var(--paper-raised) 40%);}
-    :root:not([data-theme="light"]) .list-row.overdue{background:linear-gradient(90deg, #3A1414 0%, var(--paper-raised) 40%);}
+    :root:not([data-theme="light"]) .list-row.urgent{background:linear-gradient(90deg, #3A2A0F 0%, var(--paper-raised) 45%);}
+    :root:not([data-theme="light"]) .list-row.overdue{background:linear-gradient(90deg, #3A1414 0%, var(--paper-raised) 45%);}
     :root:not([data-theme="light"]) .alert-banner{background:linear-gradient(135deg, #3A2A0F 0%, #4A3614 100%); color:#FDE68A; border-color:#B4590E;}
     :root:not([data-theme="light"]) .alert-banner.overdue{background:linear-gradient(135deg, #3A1414 0%, #4A1A1A 100%); color:#FCA5A5; border-color:#DC2626;}
-    :root:not([data-theme="light"]) .badge.priority{background:#3A2A0F; color:#F5A623;}
+    :root:not([data-theme="light"]) .badge.priority{background:linear-gradient(135deg, #3A2A0F, #4A3614); color:#F5A623;}
+    :root:not([data-theme="light"]) .badge.urgent{background:linear-gradient(135deg, #3A2A0F, #4A3614); color:#F5A623; border-color:#5A4020;}
+    :root:not([data-theme="light"]) .badge.overdue{background:linear-gradient(135deg, #3A1414, #4A1A1A); color:#FCA5A5; border-color:#5A2020;}
+    :root:not([data-theme="light"]) .badge.termine, :root:not([data-theme="light"]) .badge.atteint, :root:not([data-theme="light"]) .badge.confirme{background:linear-gradient(135deg, #1A3A28, #123024); color:var(--ok);}
+    :root:not([data-theme="light"]) .btn.ghost{color:var(--framboise); border-color:var(--framboise-soft);}
   }
-  :root[data-theme="dark"] .list-row.urgent{background:linear-gradient(90deg, #3A2A0F 0%, var(--paper-raised) 40%);}
-  :root[data-theme="dark"] .list-row.overdue{background:linear-gradient(90deg, #3A1414 0%, var(--paper-raised) 40%);}
+  :root[data-theme="dark"] .list-row.urgent{background:linear-gradient(90deg, #3A2A0F 0%, var(--paper-raised) 45%);}
+  :root[data-theme="dark"] .list-row.overdue{background:linear-gradient(90deg, #3A1414 0%, var(--paper-raised) 45%);}
   :root[data-theme="dark"] .alert-banner{background:linear-gradient(135deg, #3A2A0F 0%, #4A3614 100%); color:#FDE68A; border-color:#B4590E;}
   :root[data-theme="dark"] .alert-banner.overdue{background:linear-gradient(135deg, #3A1414 0%, #4A1A1A 100%); color:#FCA5A5; border-color:#DC2626;}
-  :root[data-theme="dark"] .badge.priority{background:#3A2A0F; color:#F5A623;}
+  :root[data-theme="dark"] .badge.priority{background:linear-gradient(135deg, #3A2A0F, #4A3614); color:#F5A623;}
+  :root[data-theme="dark"] .badge.urgent{background:linear-gradient(135deg, #3A2A0F, #4A3614); color:#F5A623; border-color:#5A4020;}
+  :root[data-theme="dark"] .badge.overdue{background:linear-gradient(135deg, #3A1414, #4A1A1A); color:#FCA5A5; border-color:#5A2020;}
+  :root[data-theme="dark"] .badge.termine, :root[data-theme="dark"] .badge.atteint, :root[data-theme="dark"] .badge.confirme{background:linear-gradient(135deg, #1A3A28, #123024); color:var(--ok);}
+  :root[data-theme="dark"] .btn.ghost{color:var(--framboise); border-color:var(--framboise-soft);}
   @media (min-width:600px){
     .stat-row{grid-template-columns:repeat(4, 1fr);}
   }
   @media (min-width:860px){
     .shell{flex-direction:row;}
-    nav.rail{width:260px; min-height:100vh; border-bottom:none; border-right:1px solid var(--line); padding:22px 16px;}
-    .navrow{flex-direction:column; overflow-x:visible; margin:0; padding:0; gap:4px;}
-    .navbtn{width:100%; border-radius:10px; padding:11px 14px;}
+    nav.rail{width:270px; min-height:100vh; border-bottom:none; border-right:1px solid var(--line); padding:26px 18px;}
+    .navrow{flex-direction:column; overflow-x:visible; margin:0; padding:0; gap:5px;}
+    .navbtn{width:100%; border-radius:11px; padding:12px 15px;}
     .navbtn.active::after{display:none;}
-    .navbtn.active{background:var(--framboise-soft);}
-    main{padding:32px 40px 80px;}
+    .navbtn.active{background:linear-gradient(135deg, var(--framboise-tint), var(--paper-raised));}
+    main{padding:36px 44px 90px;}
   }
 </style>
 </head><body>
@@ -243,8 +317,8 @@
   <nav class="rail">
     <div class="brand">
       <div class="brand-logo" id="brandLogo">
-        <div style="text-align:center;font-weight:700;color:#fff;font-size:15px;">ROTARACT</div>
-        <div style="text-align:center;font-size:11px;color:#fff;font-weight:600;margin-top:2px;">Club Ndjindji</div>
+        <div style="text-align:center;font-weight:800;color:#fff;font-size:15px;letter-spacing:0.5px;">ROTARACT</div>
+        <div style="text-align:center;font-size:11px;color:rgba(255,255,255,0.85);font-weight:700;margin-top:2px;letter-spacing:0.3px;">Club Ndjindji</div>
       </div>
       <div class="word">Ndjindji IA</div>
       <div class="sub" id="brandSub">Assistant du Président<br>Rotaract Club Ndjindji</div>
@@ -262,39 +336,40 @@
   </nav>
   <main id="main"></main>
 </div>
-<div class="toast" id="toast"></div>
-<script>
+<div class="toast" id="toast"></div><script>
 const CLUB_NAME = "Rotaract Club Ndjindji";
 const DISTRICT = "District 9150";
 const PRESIDENT_NAME = "Yann Junior NGOUBOU";
 const PRESIDENT_TERM = "Président 2026-2027";
 const MOTTO = "Service, Action et Camaraderie";
 const I18N = {
-  fr: {brandSub:"Assistant du Président<br>Rotaract Club Ndjindji",brandMotto:"« Service, Action et Camaraderie »",navDashboard:"Tableau de bord",navChat:"Assistant",navTaches:"Tâches",navProjets:"Projets",navLoudima:"Bibliothèque Loudima",navPlanif:"Planification",navMembres:"Membres",navObjectifs:"Objectifs My Rotary",navDocuments:"Documents",dashHello:"Bonjour, Président.",dashSub:"Voici un aperçu de l'activité du club et du projet prioritaire du moment.",dashCalloutTitle:"Bibliothèque Communautaire de Loudima",dashCalloutText:"Projet prioritaire du club : mettre en place une bibliothèque au Lycée de Loudima au service de l'éducation, de l'alphabétisation et du développement communautaire.",dashBtnFollow:"Suivre le projet",dashBtnChat:"Ouvrir l'assistant",dashBtnTask:"Ajouter une tâche",statTachesActives:"tâches actives",statProjets:"projets en cours",statAucunEvt:"aucun événement",statAxesEngages:"axes engagés",chatTitle:"Assistant Ndjindji",chatSub:"Posez une question ou tapez une commande rapide.",chatPlaceholder:"Tapez un message ou une commande...",chatSuggestions:"Suggestions :",chatCmd1:"Ajouter une tâche",chatCmd2:"Voir mes tâches",chatCmd3:"Prochain événement",chatCmd4:"Mes projets",chatCmd5:"Statistiques",chatCmd6:"Aide",tachesTitle:"Tâches",tachesSub:"Suivi de toutes les tâches du club.",projetsTitle:"Projets",projetsSub:"Suivi des projets du club.",loudimaTitle:"Bibliothèque Communautaire de Loudima",loudimaSub:"Projet prioritaire du club.",loudimaTaches:"Tâches du projet",loudimaPartenaires:"Partenaires et parties prenantes",planifTitle:"Planification",planifSub:"Événements et échéances à venir.",membresTitle:"Membres du club",membresSub:"Gestion des membres et de leurs rôles.",objectifsTitle:"Objectifs My Rotary",objectifsSub:"Suivi des axes d'action du Rotary.",objProgression:"Progression globale",objAxesEngages:"% des axes engagés ou atteints",addPlaceholderTitre:"Nouvelle tâche",addPlaceholderResp:"Responsable",addBtn:"Ajouter",addProjet:"Nom du projet",addEvt:"Titre de l'événement",addEvtLieu:"Lieu",addMembreNom:"Nom du membre",addMembreRole:"Rôle",addPartenaireNom:"Nom du partenaire",addPartenaireContact:"Rôle ou contact",emptyTaches:"Aucune tâche pour l'instant.",emptyProjets:"Aucun projet enregistré.",emptyEvts:"Aucun événement planifié.",emptyPartenaires:"Aucun partenaire enregistré.",emptyMembres:"Aucun membre enregistré.",emptyAxes:"Aucun axe d'action enregistré.",statusAFaire:"À faire",statusEnCours:"En cours",statusTermine:"Terminé",statusAttente:"En attente",statusContacte:"Contacté",statusConfirme:"Confirmé",statusPlanifie:"Planifié",statusEnPause:"En pause",statusAtteint:"Atteint",statusAInitier:"À initier",toastAjoute:"Ajouté avec succès",toastSupprime:"Supprimé",toastModifie:"Modifié",toastImporte:"Données importées",toastExporte:"Données exportées",exportBtn:"Exporter mes données",importBtn:"Importer des données",searchPlaceholder:"Rechercher dans toute l'application...",searchResult:"résultat(s)",searchAucun:"Aucun résultat",confirmSuppr:"Confirmer la suppression ?",documentsTitle:"Documents officiels",documentsSub:"Modèles prêts à remplir pour vos courriers, communiqués et discours.",docType:"Type de document",docDest:"Destinataire",docObjet:"Objet",docDate:"Date",docCorps:"Points principaux à aborder",docGenBtn:"Générer le document",docCopyBtn:"Copier le texte",docClearBtn:"Effacer",docPlaceholderDest:"Ex. Sous-préfet de Loudima",docPlaceholderObjet:"Ex. Demande d'autorisation",docPlaceholderCorps:"Séparez chaque point par une ligne",docLettre:"Lettre officielle",docCommunique:"Communiqué de presse",docCompteRendu:"Compte rendu de réunion",docDiscours:"Discours du Président",docCopie:"Document copié",docVide:"Remplissez les champs puis cliquez sur Générer."},
-  en: {brandSub:"President's Assistant<br>Rotaract Club Ndjindji",brandMotto:"\"Service, Action and Fellowship\"",navDashboard:"Dashboard",navChat:"Assistant",navTaches:"Tasks",navProjets:"Projects",navLoudima:"Loudima Library",navPlanif:"Planning",navMembres:"Members",navObjectifs:"My Rotary Goals",navDocuments:"Documents",dashHello:"Hello, President.",dashSub:"Here is an overview of club activity.",dashCalloutTitle:"Loudima Community Library",dashCalloutText:"The club's priority project.",dashBtnFollow:"Follow the project",dashBtnChat:"Open the assistant",dashBtnTask:"Add a task",statTachesActives:"active tasks",statProjets:"projects in progress",statAucunEvt:"no event",statAxesEngages:"areas engaged",chatTitle:"Ndjindji Assistant",chatSub:"Ask a question or type a quick command.",chatPlaceholder:"Type a message or command...",chatSuggestions:"Suggestions:",chatCmd1:"Add a task",chatCmd2:"See my tasks",chatCmd3:"Next event",chatCmd4:"My projects",chatCmd5:"Statistics",chatCmd6:"Help",tachesTitle:"Tasks",tachesSub:"Track all club tasks.",projetsTitle:"Projects",projetsSub:"Track club projects.",loudimaTitle:"Loudima Community Library",loudimaSub:"Club priority project.",loudimaTaches:"Project tasks",loudimaPartenaires:"Partners and stakeholders",planifTitle:"Planning",planifSub:"Upcoming events and deadlines.",membresTitle:"Club members",membresSub:"Manage members and their roles.",objectifsTitle:"My Rotary Goals",objectifsSub:"Track Rotary areas of focus.",objProgression:"Overall progress",objAxesEngages:"% of areas engaged or achieved",addPlaceholderTitre:"New task",addPlaceholderResp:"Responsible",addBtn:"Add",addProjet:"Project name",addEvt:"Event title",addEvtLieu:"Location",addMembreNom:"Member name",addMembreRole:"Role",addPartenaireNom:"Partner name",addPartenaireContact:"Role or contact",emptyTaches:"No task yet.",emptyProjets:"No project registered.",emptyEvts:"No event planned yet.",emptyPartenaires:"No partner registered yet.",emptyMembres:"No member registered yet.",emptyAxes:"No area of focus registered.",statusAFaire:"To do",statusEnCours:"In progress",statusTermine:"Done",statusAttente:"Pending",statusContacte:"Contacted",statusConfirme:"Confirmed",statusPlanifie:"Planned",statusEnPause:"On hold",statusAtteint:"Achieved",statusAInitier:"To start",toastAjoute:"Added successfully",toastSupprime:"Deleted",toastModifie:"Modified",toastImporte:"Data imported",toastExporte:"Data exported",exportBtn:"Export my data",importBtn:"Import data",searchPlaceholder:"Search the whole app...",searchResult:"result(s)",searchAucun:"No result",confirmSuppr:"Confirm deletion?",documentsTitle:"Official documents",documentsSub:"Ready-to-fill templates for letters, press releases and speeches.",docType:"Document type",docDest:"Recipient",docObjet:"Subject",docDate:"Date",docCorps:"Key points to address",docGenBtn:"Generate document",docCopyBtn:"Copy text",docClearBtn:"Clear",docPlaceholderDest:"Ex. Sous-prefect of Loudima",docPlaceholderObjet:"Ex. Authorization request",docPlaceholderCorps:"Separate each point with a line break",docLettre:"Official letter",docCommunique:"Press release",docCompteRendu:"Meeting report",docDiscours:"President's speech",docCopie:"Document copied",docVide:"Fill the fields and click Generate."}
+  fr: {brandSub:"Assistant du Président<br>Rotaract Club Ndjindji",brandMotto:"« Service, Action et Camaraderie »",navDashboard:"Tableau de bord",navChat:"Assistant",navTaches:"Tâches",navProjets:"Projets",navLoudima:"Bibliothèque Loudima",navPlanif:"Planification",navMembres:"Membres",navObjectifs:"Objectifs My Rotary",navDocuments:"Documents",dashHello:"Bonjour, Président.",dashSub:"Voici un aperçu de l'activité du club et du projet prioritaire du moment.",dashCalloutTitle:"Bibliothèque Communautaire de Loudima",dashCalloutText:"Projet prioritaire du club : mettre en place une bibliothèque au Lycée de Loudima au service de l'éducation, de l'alphabétisation et du développement communautaire.",dashBtnFollow:"Suivre le projet",dashBtnChat:"Ouvrir l'assistant",dashBtnTask:"Ajouter une tâche",statTachesActives:"tâches actives",statProjets:"projets en cours",statAucunEvt:"aucun événement",statAxesEngages:"axes engagés",chatTitle:"Assistant Ndjindji",chatSub:"Posez une question ou tapez une commande rapide.",chatPlaceholder:"Tapez un message ou une commande...",chatSuggestions:"Suggestions :",chatCmd1:"Ajouter une tâche",chatCmd2:"Voir mes tâches",chatCmd3:"Prochain événement",chatCmd4:"Mes projets",chatCmd5:"Statistiques",chatCmd6:"Aide",tachesTitle:"Tâches",tachesSub:"Suivi de toutes les tâches du club.",projetsTitle:"Projets",projetsSub:"Suivi des projets du club.",loudimaTitle:"Bibliothèque Communautaire de Loudima",loudimaSub:"Projet prioritaire du club.",loudimaTaches:"Tâches du projet",loudimaPartenaires:"Partenaires et parties prenantes",planifTitle:"Planification",planifSub:"Événements et échéances à venir.",membresTitle:"Membres du club",membresSub:"Gestion des membres et de leurs rôles.",objectifsTitle:"Objectifs My Rotary",objectifsSub:"Suivi des axes d'action du Rotary.",objProgression:"Progression globale",objAxesEngages:"% des axes engagés ou atteints",addPlaceholderTitre:"Nouvelle tâche",addPlaceholderResp:"Responsable",addBtn:"Ajouter",addProjet:"Nom du projet",addEvt:"Titre de l'événement",addEvtLieu:"Lieu",addMembreNom:"Nom du membre",addMembreRole:"Rôle",addPartenaireNom:"Nom du partenaire",addPartenaireContact:"Rôle ou contact",emptyTaches:"Aucune tâche pour l'instant.",emptyProjets:"Aucun projet enregistré.",emptyEvts:"Aucun événement planifié.",emptyPartenaires:"Aucun partenaire enregistré.",emptyMembres:"Aucun membre enregistré.",emptyAxes:"Aucun axe d'action enregistré.",statusAFaire:"À faire",statusEnCours:"En cours",statusTermine:"Terminé",statusAttente:"En attente",statusContacte:"Contacté",statusConfirme:"Confirmé",statusPlanifie:"Planifié",statusEnPause:"En pause",statusAtteint:"Atteint",statusAInitier:"À initier",toastAjoute:"Ajouté avec succès",toastSupprime:"Supprimé",toastModifie:"Modifié",toastImporte:"Données importées",toastExporte:"Données exportées",exportBtn:"Exporter mes données",importBtn:"Importer des données",searchPlaceholder:"Rechercher dans toute l'application...",searchResult:"résultat(s)",searchAucun:"Aucun résultat",confirmSuppr:"Confirmer la suppression ?",documentsTitle:"Documents officiels",documentsSub:"Modèles prêts à remplir pour vos courriers, communiqués et discours.",docType:"Type de document",docDest:"Destinataire",docObjet:"Objet",docDate:"Date",docCorps:"Points principaux à aborder",docCopyBtn:"Copier le texte",docClearBtn:"Effacer",docPlaceholderDest:"Ex. Sous-préfet de Loudima",docPlaceholderObjet:"Ex. Demande d'autorisation",docPlaceholderCorps:"Séparez chaque point par une ligne",docLettre:"Lettre officielle",docCommunique:"Communiqué de presse",docCompteRendu:"Compte rendu de réunion",docDiscours:"Discours du Président",docCopie:"Copié !",docVide:"Remplissez les champs puis cliquez sur Générer.",docPromptBtn:"Copier le prompt pour Claude",docPromptCopie:"Prompt copié ! Collez-le dans Claude ou ChatGPT.",docColler:"Coller le texte généré par l'IA",docSaveBtn:"Sauvegarder dans l'app",docSaved:"Document sauvegardé",docSavedTitle:"Documents sauvegardés",docEmpty:"Aucun document sauvegardé.",docPromptHelp:"Étape 1 : cliquez ci-dessus. Étape 2 : collez dans Claude/ChatGPT. Étape 3 : copiez la réponse et collez-la ci-dessous.",quoteTitle:"Citation du jour",quote1:"« Le service est le loyer que nous payons pour vivre sur cette terre. »",quote1Author:"Muhammad Ali",quote2:"« Seul, on va plus vite. Ensemble, on va plus loin. »",quote2Author:"Proverbe africain",quote3:"« Ce que nous faisons pour nous-mêmes meurt avec nous. Ce que nous faisons pour les autres demeure. »",quote3Author:"Proverbe africain",quote4:"« La meilleure façon de trouver le bonheur est de le faire naître chez les autres. »",quote4Author:"Robert Baden-Powell",quote5:"« Un petit geste vaut mieux qu'un grand discours. »",quote5Author:"Proverbe africain"},
+  en: {brandSub:"President's Assistant<br>Rotaract Club Ndjindji",brandMotto:"\"Service, Action and Fellowship\"",navDashboard:"Dashboard",navChat:"Assistant",navTaches:"Tasks",navProjets:"Projects",navLoudima:"Loudima Library",navPlanif:"Planning",navMembres:"Members",navObjectifs:"My Rotary Goals",navDocuments:"Documents",dashHello:"Hello, President.",dashSub:"Here is an overview of club activity.",dashCalloutTitle:"Loudima Community Library",dashCalloutText:"The club's priority project.",dashBtnFollow:"Follow the project",dashBtnChat:"Open the assistant",dashBtnTask:"Add a task",statTachesActives:"active tasks",statProjets:"projects in progress",statAucunEvt:"no event",statAxesEngages:"areas engaged",chatTitle:"Ndjindji Assistant",chatSub:"Ask a question or type a quick command.",chatPlaceholder:"Type a message or command...",chatSuggestions:"Suggestions:",chatCmd1:"Add a task",chatCmd2:"See my tasks",chatCmd3:"Next event",chatCmd4:"My projects",chatCmd5:"Statistics",chatCmd6:"Help",tachesTitle:"Tasks",tachesSub:"Track all club tasks.",projetsTitle:"Projects",projetsSub:"Track club projects.",loudimaTitle:"Loudima Community Library",loudimaSub:"Club priority project.",loudimaTaches:"Project tasks",loudimaPartenaires:"Partners and stakeholders",planifTitle:"Planning",planifSub:"Upcoming events and deadlines.",membresTitle:"Club members",membresSub:"Manage members and their roles.",objectifsTitle:"My Rotary Goals",objectifsSub:"Track Rotary areas of focus.",objProgression:"Overall progress",objAxesEngages:"% of areas engaged or achieved",addPlaceholderTitre:"New task",addPlaceholderResp:"Responsible",addBtn:"Add",addProjet:"Project name",addEvt:"Event title",addEvtLieu:"Location",addMembreNom:"Member name",addMembreRole:"Role",addPartenaireNom:"Partner name",addPartenaireContact:"Role or contact",emptyTaches:"No task yet.",emptyProjets:"No project registered.",emptyEvts:"No event planned yet.",emptyPartenaires:"No partner registered yet.",emptyMembres:"No member registered yet.",emptyAxes:"No area of focus registered.",statusAFaire:"To do",statusEnCours:"In progress",statusTermine:"Done",statusAttente:"Pending",statusContacte:"Contacted",statusConfirme:"Confirmed",statusPlanifie:"Planned",statusEnPause:"On hold",statusAtteint:"Achieved",statusAInitier:"To start",toastAjoute:"Added successfully",toastSupprime:"Deleted",toastModifie:"Modified",toastImporte:"Data imported",toastExporte:"Data exported",exportBtn:"Export my data",importBtn:"Import data",searchPlaceholder:"Search the whole app...",searchResult:"result(s)",searchAucun:"No result",confirmSuppr:"Confirm deletion?",documentsTitle:"Official documents",documentsSub:"Ready-to-fill templates for letters, press releases and speeches.",docType:"Document type",docDest:"Recipient",docObjet:"Subject",docDate:"Date",docCorps:"Key points to address",docCopyBtn:"Copy text",docClearBtn:"Clear",docPlaceholderDest:"Ex. Sous-prefect of Loudima",docPlaceholderObjet:"Ex. Authorization request",docPlaceholderCorps:"Separate each point with a line break",docLettre:"Official letter",docCommunique:"Press release",docCompteRendu:"Meeting report",docDiscours:"President's speech",docCopie:"Copied!",docVide:"Fill the fields and click Generate.",docPromptBtn:"Copy prompt for Claude",docPromptCopie:"Prompt copied! Paste it in Claude or ChatGPT.",docColler:"Paste the text generated by AI",docSaveBtn:"Save in app",docSaved:"Document saved",docSavedTitle:"Saved documents",docEmpty:"No saved document.",docPromptHelp:"Step 1: click above. Step 2: paste in Claude/ChatGPT. Step 3: copy the answer and paste below.",quoteTitle:"Quote of the day",quote1:"\"Service is the rent we pay for living on this earth.\"",quote1Author:"Muhammad Ali",quote2:"\"Alone we go faster. Together we go further.\"",quote2Author:"African proverb",quote3:"\"What we do for ourselves dies with us. What we do for others remains.\"",quote3Author:"African proverb",quote4:"\"The best way to find happiness is to make it happen for others.\"",quote4Author:"Robert Baden-Powell",quote5:"\"A small gesture is worth more than a big speech.\"",quote5Author:"African proverb"}
 };
 let currentLang = localStorage.getItem("ndjindji_lang") || "fr";
 function t(key){ return (I18N[currentLang] && I18N[currentLang][key]) || I18N.fr[key] || key; }
 const ICONS = {
-  dashboard:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="5" rx="1.5"/><rect x="13" y="10" width="8" height="11" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/></svg>',
-  chat:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 01-8 8H7l-4 3v-6.5A8 8 0 0113 4h0a8 8 0 018 8z"/></svg>',
-  taches:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>',
-  projets:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8a2 2 0 012-2h4l1.8 2H19a2 2 0 012 2v7a2 2 0 01-2 2H5a2 2 0 01-2-2V8z"/></svg>',
-  loudima:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5.5C5.5 4 8.5 4 11 5.5v13C8.5 17 5.5 17 3 18.5v-13z"/><path d="M21 5.5C18.5 4 15.5 4 13 5.5v13c2.5-1.5 5.5-1.5 8 0v-13z"/></svg>',
-  planif:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="15.5" rx="2"/><path d="M8 3v4M16 3v4M3.5 10h17"/></svg>',
-  membres:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><circle cx="17.5" cy="9" r="2.5"/><path d="M21 19c0-2.5-1.9-4.5-4-4.8"/></svg>',
-  objectifs:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="4.2"/><circle cx="12" cy="12" r="0.8" fill="currentColor"/></svg>',
-  edit:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20l1-4L16 5l3 3L8 19l-4 1z"/><path d="M14 7l3 3"/></svg>',
-  trash:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M9 6V4.5A1.5 1.5 0 0110.5 3h3A1.5 1.5 0 0115 4.5V6M6 6l1 14a2 2 0 002 2h6a2 2 0 002-2l1-14"/></svg>',
-  plus:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>',
-  download:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11m0 0l-4-4m4 4l4-4M4 19h16"/></svg>',
-  upload:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20V9m0 0l-4 4m4-4l4 4M4 5h16"/></svg>',
-  search:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>',
-  send:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l16-7-6 16-2.5-6.5L4 12z"/></svg>',
-  docLetter:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4z"/><path d="M8 9h8M8 13h8M8 17h5"/></svg>',
-  docNews:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M7 9h5M7 13h8M7 17h6"/></svg>',
-  docReport:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>',
-  docSpeech:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18M7 7h10M7 11h10M7 15h6"/></svg>'
+  dashboard:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="5" rx="1.5"/><rect x="13" y="10" width="8" height="11" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/></svg>',
+  chat:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 01-8 8H7l-4 3v-6.5A8 8 0 0113 4h0a8 8 0 018 8z"/></svg>',
+  taches:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>',
+  projets:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8a2 2 0 012-2h4l1.8 2H19a2 2 0 012 2v7a2 2 0 01-2 2H5a2 2 0 01-2-2V8z"/></svg>',
+  loudima:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5.5C5.5 4 8.5 4 11 5.5v13C8.5 17 5.5 17 3 18.5v-13z"/><path d="M21 5.5C18.5 4 15.5 4 13 5.5v13c2.5-1.5 5.5-1.5 8 0v-13z"/></svg>',
+  planif:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="15.5" rx="2"/><path d="M8 3v4M16 3v4M3.5 10h17"/></svg>',
+  membres:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><circle cx="17.5" cy="9" r="2.5"/><path d="M21 19c0-2.5-1.9-4.5-4-4.8"/></svg>',
+  objectifs:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="4.2"/><circle cx="12" cy="12" r="0.8" fill="currentColor"/></svg>',
+  edit:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20l1-4L16 5l3 3L8 19l-4 1z"/><path d="M14 7l3 3"/></svg>',
+  trash:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M9 6V4.5A1.5 1.5 0 0110.5 3h3A1.5 1.5 0 0115 4.5V6M6 6l1 14a2 2 0 002 2h6a2 2 0 002-2l1-14"/></svg>',
+  plus:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>',
+  download:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11m0 0l-4-4m4 4l4-4M4 19h16"/></svg>',
+  upload:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20V9m0 0l-4 4m4-4l4 4M4 5h16"/></svg>',
+  search:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>',
+  send:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l16-7-6 16-2.5-6.5L4 12z"/></svg>',
+  docLetter:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4z"/><path d="M8 9h8M8 13h8M8 17h5"/></svg>',
+  docNews:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M7 9h5M7 13h8M7 17h6"/></svg>',
+  docReport:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>',
+  docSpeech:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18M7 7h10M7 11h10M7 15h6"/></svg>',
+  sparkle:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l2 5 5 2-5 2-2 5-2-5-5-2 5-2z"/></svg>',
+  check:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg>'
 };
 const TABS = [
   {id:"dashboard", labelKey:"navDashboard", icon:"dashboard"},
@@ -336,7 +411,7 @@ function countUrgentTasks(){
   stores.taches.items.forEach(function(t){ const info = getUrgencyInfo(t.echeance, t.statut); if(info.level === "overdue") overdue++; else if(info.level === "urgent") urgent++; });
   return {overdue:overdue, urgent:urgent};
 }
-function toast(msg){ const el = $("#toast"); if(!el) return; el.textContent = msg; el.classList.add("show"); clearTimeout(el._t); el._t = setTimeout(()=>el.classList.remove("show"), 2200); }
+function toast(msg){ const el = $("#toast"); if(!el) return; el.textContent = msg; el.classList.add("show"); clearTimeout(el._t); el._t = setTimeout(()=>el.classList.remove("show"), 2400); }
 const STORAGE_PREFIX = "ndjindji_v2_";
 function lsGet(key, fallback){ try{ const raw = localStorage.getItem(STORAGE_PREFIX + key); if(raw === null) return fallback; return JSON.parse(raw); }catch(e){ return fallback; } }
 function lsSet(key, value){ try{ localStorage.setItem(STORAGE_PREFIX + key, JSON.stringify(value)); return true; }catch(e){ toast("Erreur de sauvegarde"); return false; } }
@@ -381,11 +456,17 @@ function initStores(){
   createStore("membres", SEED_MEMBRES);
   createStore("objectifs", SEED_OBJECTIFS);
   createStore("historique", []);
+  createStore("documents_sauves", []);
 }
 let activeTab = "dashboard";
 let currentFilter = "all";
 let currentSort = "date_asc";
 let currentDocType = "lettre";
+function getQuoteOfDay(){
+  const day = new Date().getDay();
+  const idx = (day % 5) + 1;
+  return {text:t("quote" + idx), author:t("quote" + idx + "Author")};
+}
 function renderNav(){
   const nav = $("#navrow"); if(!nav) return;
   nav.innerHTML = TABS.map(function(tb){ return '<button class="navbtn' + (tb.id===activeTab?' active':'') + '" data-tab="' + tb.id + '">' + ICONS[tb.icon] + '<span>' + esc(t(tb.labelKey)) + '</span></button>'; }).join("");
@@ -407,7 +488,7 @@ function renderActivePanel(){
   else if(activeTab==="membres") renderMembres();
   else if(activeTab==="objectifs") renderObjectifs();
   else if(activeTab==="chat") renderChatPanel();
-  else if(activeTab==="documents") renderDocuments();
+  else if(activeTab==="documents"){ renderDocuments(); renderDocsSauves(); }
 }
 function renderShell(){
   renderNav();
@@ -441,9 +522,11 @@ function updateThemeButton(mode){
   btn.querySelector("svg").innerHTML = isDark ? '<circle cx="12" cy="12" r="4.5"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M19.1 4.9L17 7M7 17l-2.1 2.1"/>' : '<path d="M21 12.8A9 9 0 1111.2 3a7 7 0 009.8 9.8z"/>';
 }
 function panelDashboard(){
+  const q = getQuoteOfDay();
   return '' +
   '<section class="panel active" data-panel="dashboard">' +
     '<div class="panel-head"><h1>' + esc(t("dashHello")) + '</h1><p>' + esc(t("dashSub")) + '</p></div>' +
+    '<div class="card" style="background:linear-gradient(135deg, var(--framboise-tint) 0%, var(--paper-raised) 100%); border-left:4px solid var(--gold);"><div style="font-family:var(--font-display); font-style:italic; font-size:15.5px; line-height:1.5; color:var(--ink);">' + esc(q.text) + '</div><div style="font-size:12px; color:var(--framboise); font-weight:800; margin-top:10px; letter-spacing:0.02em;">— ' + esc(q.author) + '</div></div>' +
     '<div class="search-bar">' + ICONS.search + '<input type="search" id="globalSearch" placeholder="' + esc(t("searchPlaceholder")) + '"></div>' +
     '<div id="searchResults"></div>' +
     '<div id="alertBanner"></div>' +
@@ -502,9 +585,9 @@ function updateGlobalSearch(){
   const q = input.value.trim().toLowerCase();
   if(!q){ results.innerHTML = ""; return; }
   const hits = [];
-  ["taches","projets","evenements","membres","partenaires","objectifs"].forEach(function(sn){ stores[sn].items.forEach(function(item){ if(JSON.stringify(item).toLowerCase().indexOf(q) >= 0) hits.push({store:sn, item:item}); }); });
+  ["taches","projets","evenements","membres","partenaires","objectifs","documents_sauves"].forEach(function(sn){ stores[sn].items.forEach(function(item){ if(JSON.stringify(item).toLowerCase().indexOf(q) >= 0) hits.push({store:sn, item:item}); }); });
   if(!hits.length){ results.innerHTML = '<div class="empty">' + esc(t("searchAucun")) + '</div>'; return; }
-  results.innerHTML = '<div class="card" style="margin-bottom:14px"><div class="section-title">' + hits.length + ' ' + esc(t("searchResult")) + '</div>' + hits.slice(0,15).map(function(h){ const title = h.item.titre || h.item.nom || h.item.domaine || "—"; return '<div class="list-row"><div class="main-col"><div class="title">' + esc(title) + '</div><div class="meta">' + esc(h.store) + '</div></div></div>'; }).join("") + '</div>';
+  results.innerHTML = '<div class="card" style="margin-bottom:14px"><div class="section-title">' + hits.length + ' ' + esc(t("searchResult")) + '</div>' + hits.slice(0,15).map(function(h){ const title = h.item.titre || h.item.nom || h.item.domaine || h.item.sujet || "—"; return '<div class="list-row"><div class="main-col"><div class="title">' + esc(title) + '</div><div class="meta">' + esc(h.store) + '</div></div></div>'; }).join("") + '</div>';
 }
 function exportData(){
   const data = {};
@@ -527,13 +610,36 @@ function panelChat(){
   '<section class="panel" data-panel="chat">' +
     '<div class="panel-head"><h1>' + esc(t("chatTitle")) + '</h1><p>' + esc(t("chatSub")) + '</p></div>' +
     '<div class="card">' +
-      '<div class="avatar-holder" id="avatarHolder"><svg viewBox="0 0 200 200"><circle class="avatar-ring" cx="100" cy="100" r="88"/><circle cx="100" cy="100" r="78" fill="#D41367"/><ellipse class="avatar-eye" cx="72" cy="86" rx="8" ry="9"/><ellipse class="avatar-eye" cx="128" cy="86" rx="8" ry="9"/><ellipse class="avatar-mouth" cx="100" cy="128" rx="24" ry="5"/></svg></div>' +
+      '<div class="avatar-holder" id="avatarHolder">' +
+        '<svg viewBox="0 0 200 200">' +
+          '<defs>' +
+            '<linearGradient id="avatarGrad" x1="0%" y1="0%" x2="100%" y2="100%">' +
+              '<stop offset="0%" stop-color="#E8357F"/>' +
+              '<stop offset="50%" stop-color="#D41367"/>' +
+              '<stop offset="100%" stop-color="#A80E52"/>' +
+            '</linearGradient>' +
+            '<radialGradient id="avatarShine" cx="35%" cy="25%">' +
+              '<stop offset="0%" stop-color="rgba(255,255,255,0.4)"/>' +
+              '<stop offset="60%" stop-color="rgba(255,255,255,0)"/>' +
+            '</radialGradient>' +
+          '</defs>' +
+          '<circle class="avatar-ring" cx="100" cy="100" r="90"/>' +
+          '<circle cx="100" cy="100" r="78" fill="url(#avatarGrad)"/>' +
+          '<circle cx="100" cy="100" r="78" fill="url(#avatarShine)"/>' +
+          '<circle cx="100" cy="100" r="78" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>' +
+          '<ellipse class="avatar-eye" cx="72" cy="86" rx="8" ry="9"/>' +
+          '<ellipse class="avatar-eye" cx="128" cy="86" rx="8" ry="9"/>' +
+          '<ellipse class="avatar-eye" cx="72" cy="86" rx="3.5" ry="4" fill="#1A1520"/>' +
+          '<ellipse class="avatar-eye" cx="128" cy="86" rx="3.5" ry="4" fill="#1A1520"/>' +
+          '<ellipse class="avatar-mouth" cx="100" cy="128" rx="24" ry="5"/>' +
+        '</svg>' +
+      '</div>' +
       '<div class="voice-status" id="voiceStatus">' + (currentLang === "fr" ? "Touchez le micro pour parler." : "Tap the mic to speak.") + '</div>' +
       '<div class="voice-controls"><button class="mic-btn" id="micBtn" title="Parler">' + ICONS.chat + '</button></div>' +
       '<div class="chat-wrap" id="chatWrap"></div>' +
       '<div class="chat-input"><input type="text" id="chatInput" placeholder="' + esc(t("chatPlaceholder")) + '"><button class="btn primary" id="chatSend">' + ICONS.send + '</button></div>' +
       '<hr class="divider">' +
-      '<div class="section-title" style="margin-bottom:8px">' + esc(t("chatSuggestions")) + '</div>' +
+      '<div class="section-title" style="margin-bottom:9px">' + esc(t("chatSuggestions")) + '</div>' +
       '<div class="quick-actions" style="margin-top:0">' +
         '<button class="btn ghost small" data-cmd="' + esc(t("chatCmd1")) + '">' + esc(t("chatCmd1")) + '</button>' +
         '<button class="btn ghost small" data-cmd="' + esc(t("chatCmd2")) + '">' + esc(t("chatCmd2")) + '</button>' +
@@ -607,7 +713,7 @@ function sendChat(){
 }
 function processCommand(text){
   const q = text.toLowerCase().trim(); const fr = currentLang === "fr";
-  if(q.indexOf("aide") >= 0 || q.indexOf("help") >= 0) return fr ? "Commandes : Ajouter une tâche, Voir mes tâches, Prochain événement, Mes projets, Statistiques, Membres." : "Commands: Add a task, See my tasks, Next event, My projects, Statistics, Members.";
+  if(q.indexOf("aide") >= 0 || q.indexOf("help") >= 0) return fr ? "Commandes : Ajouter une tâche, Voir mes tâches, Prochain événement, Mes projets, Statistiques, Membres, Documents." : "Commands: Add a task, See my tasks, Next event, My projects, Statistics, Members, Documents.";
   if(q.indexOf("tâche") >= 0 || q.indexOf("task") >= 0){
     if(q.indexOf("ajout") >= 0 || q.indexOf("add") >= 0 || q.indexOf("nouveau") >= 0 || q.indexOf("new") >= 0){ setActiveTab("taches"); return fr ? "Direction l'onglet Tâches." : "Going to Tasks tab."; }
     const actives = stores.taches.items.filter(function(x){ return x.statut !== "termine"; });
@@ -910,7 +1016,7 @@ function panelObjectifs(){
     '<div class="card">' +
       '<div class="section-title">' + esc(t("objProgression")) + '</div>' +
       '<div class="progress-track"><div class="progress-fill" id="objProgress" style="width:0%"></div></div>' +
-      '<div class="section-sub" id="objProgressLabel" style="margin-top:8px"></div>' +
+      '<div class="section-sub" id="objProgressLabel" style="margin-top:9px"></div>' +
       '<hr class="divider">' +
       '<div class="list" id="objectifsList"></div>' +
       '<div class="add-form">' +
@@ -963,17 +1069,23 @@ function panelDocuments(){
       '<div class="field"><label>' + esc(t("docObjet")) + '</label><input type="text" id="docObjet" placeholder="' + esc(t("docPlaceholderObjet")) + '"></div>' +
       '<div class="field"><label>' + esc(t("docDate")) + '</label><input type="date" id="docDate"></div>' +
       '<div class="field"><label>' + esc(t("docCorps")) + '</label><textarea id="docCorps" placeholder="' + esc(t("docPlaceholderCorps")) + '" style="min-height:120px"></textarea></div>' +
+      '<div class="note muted" style="margin-bottom:14px">' + esc(t("docPromptHelp")) + '</div>' +
       '<div class="quick-actions" style="margin-top:16px">' +
-        '<button class="btn primary" id="docGenBtn">' + ICONS.edit + ' ' + esc(t("docGenBtn")) + '</button>' +
+        '<button class="btn primary" id="docPromptBtn">' + ICONS.sparkle + ' ' + esc(t("docPromptBtn")) + '</button>' +
         '<button class="btn ghost small" id="docClearBtn">' + esc(t("docClearBtn")) + '</button>' +
       '</div>' +
     '</div>' +
     '<div class="card">' +
-      '<div class="section-title">' + esc(t("documentsTitle")) + '</div>' +
-      '<div class="output-box placeholder" id="docOutput">' + esc(t("docVide")) + '</div>' +
-      '<div class="output-actions">' +
-        '<button class="btn small" id="docCopyBtn">' + ICONS.upload + ' ' + esc(t("docCopyBtn")) + '</button>' +
+      '<div class="section-title">' + esc(t("docColler")) + '</div>' +
+      '<div class="section-sub">Collez ici la réponse de Claude ou ChatGPT.</div>' +
+      '<textarea id="docPaste" placeholder="Collez le texte généré par l\'IA ici..." style="min-height:160px; margin-bottom:11px"></textarea>' +
+      '<div class="quick-actions" style="margin-top:0">' +
+        '<button class="btn primary small" id="docSaveBtn">' + ICONS.check + ' ' + esc(t("docSaveBtn")) + '</button>' +
       '</div>' +
+    '</div>' +
+    '<div class="card">' +
+      '<div class="section-title">' + esc(t("docSavedTitle")) + '</div>' +
+      '<div class="list" id="docsSauvesList"></div>' +
     '</div>' +
   '</section>';
 }
@@ -985,72 +1097,70 @@ function wireDocuments(){
       b.classList.add("active");
     });
   });
-  const genBtn = $("#docGenBtn"); if(genBtn) genBtn.addEventListener("click", generateDocument);
+  const promptBtn = $("#docPromptBtn"); if(promptBtn) promptBtn.addEventListener("click", copyPromptForAI);
   const clearBtn = $("#docClearBtn"); if(clearBtn) clearBtn.addEventListener("click", function(){
-    $("#docDest").value = ""; $("#docObjet").value = ""; $("#docDate").value = ""; $("#docCorps").value = "";
-    const out = $("#docOutput"); out.classList.add("placeholder"); out.textContent = t("docVide");
+    $("#docDest").value = ""; $("#docObjet").value = ""; $("#docDate").value = ""; $("#docCorps").value = ""; $("#docPaste").value = "";
   });
-  const copyBtn = $("#docCopyBtn"); if(copyBtn) copyBtn.addEventListener("click", function(){
-    const out = $("#docOutput");
-    if(out.classList.contains("placeholder")) return;
-    if(navigator.clipboard){ navigator.clipboard.writeText(out.textContent).then(function(){ toast(t("docCopie")); }); }
-  });
+  const saveBtn = $("#docSaveBtn"); if(saveBtn) saveBtn.addEventListener("click", savePastedDoc);
 }
-function renderDocuments(){
-  const dest = $("#docDest"); if(!dest) return;
-}
-function generateDocument(){
+function renderDocuments(){ /* rien de dynamique */ }
+function copyPromptForAI(){
   const dest = $("#docDest").value.trim();
   const objet = $("#docObjet").value.trim();
   const date = $("#docDate").value;
   const corps = $("#docCorps").value.trim();
-  const dateStr = date ? fmtDate(date) : (currentLang === "fr" ? "____ / ____ / ________" : "____ / ____ / ________");
+  const dateStr = date ? fmtDate(date) : "(date à préciser)";
   const fr = currentLang === "fr";
-  let result = "";
-  if(currentDocType === "lettre"){
-    result = (fr ? "REPUBLIQUE DU CONGO\n" : "REPUBLIC OF CONGO\n") +
-      (fr ? "Unité - Travail - Progrès\n\n" : "Unity - Work - Progress\n\n") +
-      "Rotaract Club Ndjindji\n" + DISTRICT + "\n\n" +
-      "Loudima, le " + dateStr + "\n\n" +
-      (fr ? "À l'attention de : " : "To: ") + (dest || "_________________________") + "\n\n" +
-      (fr ? "Objet : " : "Subject: ") + (objet || "_________________________") + "\n\n" +
-      (fr ? "Monsieur / Madame,\n\n" : "Dear Sir / Madam,\n\n") +
-      (corps || (fr ? "_________________________________________\n_________________________________________" : "_________________________________________\n_________________________________________")) + "\n\n" +
-      (fr ? "Nous vous prions d'agréer, Monsieur / Madame, l'expression de notre haute considération.\n\n" : "We remain at your disposal and thank you for your attention.\n\n") +
-      (fr ? "Pour le Rotaract Club Ndjindji,\n" : "For Rotaract Club Ndjindji,\n") +
-      (fr ? "Le Président\n" : "The President\n") + PRESIDENT_NAME + "\n" + PRESIDENT_TERM;
-  } else if(currentDocType === "communique"){
-    result = (fr ? "COMMUNIQUÉ DE PRESSE\n\n" : "PRESS RELEASE\n\n") +
-      "Rotaract Club Ndjindji\n" + DISTRICT + "\n" +
-      (fr ? "Loudima, le " : "Loudima, ") + dateStr + "\n\n" +
-      (fr ? "TITRE : " : "TITLE: ") + (objet || "_________________________") + "\n\n" +
-      (corps || (fr ? "_________________________________________" : "_________________________________________")) + "\n\n" +
-      (fr ? "À propos du Rotaract Club Ndjindji :\n" : "About Rotaract Club Ndjindji:\n") +
-      (fr ? "Le Rotaract Club Ndjindji, " + DISTRICT + ", œuvre pour l'éducation, l'alphabétisation et le développement communautaire à Loudima.\n\n" : "Rotaract Club Ndjindji, " + DISTRICT + ", works for education, literacy and community development in Loudima.\n\n") +
-      (fr ? "Contact presse : " : "Press contact: ") + (dest || "_________________________") + "\n" + PRESIDENT_NAME;
-  } else if(currentDocType === "compteRendu"){
-    result = (fr ? "COMPTE RENDU DE RÉUNION\n\n" : "MEETING REPORT\n\n") +
-      "Rotaract Club Ndjindji\n" + DISTRICT + "\n" +
-      (fr ? "Date : " : "Date: ") + dateStr + "\n" +
-      (fr ? "Présidence : " : "Chair: ") + PRESIDENT_NAME + "\n" +
-      (fr ? "Participants : " : "Attendees: ") + (dest || "_________________________") + "\n\n" +
-      (fr ? "ORDRE DU JOUR / POINTS ABORDÉS :\n\n" : "AGENDA / KEY POINTS:\n\n") +
-      (corps || (fr ? "1. ___________________________________\n2. ___________________________________\n3. ___________________________________" : "1. ___________________________________\n2. ___________________________________\n3. ___________________________________")) + "\n\n" +
-      (fr ? "Rédigé par : " : "Written by: ") + PRESIDENT_NAME + "\n" + PRESIDENT_TERM;
-  } else if(currentDocType === "discours"){
-    result = (fr ? "DISCOURS DU PRÉSIDENT\n\n" : "PRESIDENT'S SPEECH\n\n") +
-      (fr ? "Sujet : " : "Topic: ") + (objet || "_________________________") + "\n" +
-      (fr ? "Audience : " : "Audience: ") + (dest || "_________________________") + "\n" +
-      (fr ? "Date : " : "Date: ") + dateStr + "\n\n" +
-      (fr ? "Mesdames, Messieurs,\n\n" : "Ladies and Gentlemen,\n\n") +
-      (corps || (fr ? "_________________________________________\n_________________________________________\n_________________________________________" : "_________________________________________\n_________________________________________\n_________________________________________")) + "\n\n" +
-      (fr ? "Vive le Rotaract, vive le service, vive la camaraderie.\n\n" : "Long live Rotaract, long live service, long live fellowship.\n\n") +
-      PRESIDENT_NAME + "\n" + PRESIDENT_TERM + "\n" + CLUB_NAME;
+  const typeLbl = {lettre:t("docLettre"), communique:t("docCommunique"), compteRendu:t("docCompteRendu"), discours:t("docDiscours")}[currentDocType];
+  let prompt = "";
+  if(fr){
+    prompt = "Tu es assistant de rédaction pour le Rotaract Club Ndjindji (" + DISTRICT + ").\n" +
+      "Rédige un document de type : " + typeLbl + ".\n\n" +
+      "Contexte :\n- Club : Rotaract Club Ndjindji\n- District : " + DISTRICT + "\n- Président : " + PRESIDENT_NAME + " (" + PRESIDENT_TERM + ")\n- Devise : Service, Action et Camaraderie\n- Projet prioritaire : Bibliothèque communautaire de Loudima\n\n" +
+      "Paramètres du document :\n- Destinataire : " + (dest || "(à préciser)") + "\n- Objet : " + (objet || "(à préciser)") + "\n- Date : " + dateStr + "\n- Points à aborder :\n" + (corps || "(à préciser)") + "\n\n" +
+      "Consignes :\n- Rédige en français professionnel et irréprochable.\n- Ton diplomatique, inspirant, crédible.\n- N'utilise ni emoji ni symbole décoratif.\n- Structure claire, paragraphes aérés.\n- Termine par la signature : " + PRESIDENT_NAME + ", " + PRESIDENT_TERM + ", " + CLUB_NAME + ", " + DISTRICT + ".\n- Réponds uniquement avec le texte final du document, sans commentaire.";
+  } else {
+    prompt = "You are a writing assistant for Rotaract Club Ndjindji (" + DISTRICT + ").\nWrite a document of type: " + typeLbl + ".\n\n" +
+      "Context:\n- Club: Rotaract Club Ndjindji\n- District: " + DISTRICT + "\n- President: " + PRESIDENT_NAME + " (" + PRESIDENT_TERM + ")\n- Motto: Service, Action and Fellowship\n- Priority project: Loudima Community Library\n\n" +
+      "Document parameters:\n- Recipient: " + (dest || "(to be specified)") + "\n- Subject: " + (objet || "(to be specified)") + "\n- Date: " + dateStr + "\n- Points to address:\n" + (corps || "(to be specified)") + "\n\n" +
+      "Guidelines:\n- Write in professional English.\n- Diplomatic, inspiring, credible tone.\n- No emojis, no decorative symbols.\n- Clear structure, spaced paragraphs.\n- End with signature: " + PRESIDENT_NAME + ", " + PRESIDENT_TERM + ", " + CLUB_NAME + ", " + DISTRICT + ".\n- Reply only with the final document text, no comment.";
   }
-  const out = $("#docOutput");
-  out.classList.remove("placeholder");
-  out.textContent = result;
-  toast(fr ? "Document généré" : "Document generated");
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(prompt).then(function(){ toast(t("docPromptCopie")); }).catch(function(){
+      const ta = document.createElement("textarea"); ta.value = prompt; document.body.appendChild(ta); ta.select(); try{ document.execCommand("copy"); toast(t("docPromptCopie")); }catch(e){} document.body.removeChild(ta);
+    });
+  } else {
+    const ta = document.createElement("textarea"); ta.value = prompt; document.body.appendChild(ta); ta.select(); try{ document.execCommand("copy"); toast(t("docPromptCopie")); }catch(e){} document.body.removeChild(ta);
+  }
+}
+function savePastedDoc(){
+  const content = $("#docPaste").value.trim();
+  if(!content){ toast("Collez d'abord un texte"); return; }
+  const dest = $("#docDest").value.trim();
+  const objet = $("#docObjet").value.trim();
+  const typeLbl = {lettre:t("docLettre"), communique:t("docCommunique"), compteRendu:t("docCompteRendu"), discours:t("docDiscours")}[currentDocType];
+  stores.documents_sauves.add({
+    type: currentDocType,
+    typeLabel: typeLbl,
+    destinataire: dest,
+    sujet: objet || typeLbl,
+    contenu: content,
+    date: new Date().toISOString()
+  });
+  $("#docPaste").value = "";
+  renderDocsSauves();
+  toast(t("docSaved"));
+}
+function renderDocsSauves(){
+  const el = $("#docsSauvesList"); if(!el) return;
+  const items = stores.documents_sauves.items.slice().reverse();
+  if(!items.length){ el.innerHTML = '<div class="empty">' + esc(t("docEmpty")) + '</div>'; return; }
+  el.innerHTML = items.map(function(d){
+    const preview = d.contenu.substring(0, 100).replace(/\n/g, " ") + (d.contenu.length > 100 ? "..." : "");
+    return '<div class="list-row"><div class="main-col"><div class="title">' + esc(d.sujet) + '</div><div class="meta">' + esc(d.typeLabel) + ' · ' + esc(fmtDate(d.date.substring(0,10))) + (d.destinataire ? ' · ' + esc(d.destinataire) : '') + '</div><div class="meta" style="margin-top:6px; font-style:italic">' + esc(preview) + '</div></div>' +
+      '<button class="btn icon-only" data-remove-doc="' + d.id + '">' + ICONS.trash + '</button></div>';
+  }).join("");
+  el.querySelectorAll("[data-remove-doc]").forEach(function(b){ b.addEventListener("click", function(){ if(confirm(t("confirmSuppr"))){ stores.documents_sauves.removeItem(b.dataset.removeDoc); renderDocsSauves(); toast(t("toastSupprime")); } }); });
 }
 function boot(){
   initStores();
