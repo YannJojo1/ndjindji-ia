@@ -222,7 +222,67 @@
   .list-row.status-en_cours::before{background:#F5A623;}
   .list-row.status-a_faire::before,
   .list-row.status-a_initier::before,
-  .list-row.status-planifie::before{background:var(--ink-faint);}
+  .list-row.status-planifie::before{background:var(--ink-faint);}.list-row.urgent::before{background:#F5A623 !important;}
+  .list-row.overdue::before{background:#DC2626 !important;}
+  .list-row.urgent{background:linear-gradient(90deg, #FFF8E7 0%, var(--paper-raised) 40%);}
+  .list-row.overdue{background:linear-gradient(90deg, #FEE2E2 0%, var(--paper-raised) 40%);}
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]) .list-row.urgent{background:linear-gradient(90deg, #3A2A0F 0%, var(--paper-raised) 40%);}
+    :root:not([data-theme="light"]) .list-row.overdue{background:linear-gradient(90deg, #3A1414 0%, var(--paper-raised) 40%);}
+  }
+  :root[data-theme="dark"] .list-row.urgent{background:linear-gradient(90deg, #3A2A0F 0%, var(--paper-raised) 40%);}
+  :root[data-theme="dark"] .list-row.overdue{background:linear-gradient(90deg, #3A1414 0%, var(--paper-raised) 40%);}
+  .badge.urgent{background:#FFF3E0; color:#B4590E;}
+  .badge.overdue{background:#FEE2E2; color:#991B1B;}
+  .alert-banner{
+    display:flex; align-items:center; gap:12px;
+    background:linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%);
+    border:1px solid #F5A623;
+    border-radius:var(--radius);
+    padding:14px 16px;
+    margin-bottom:16px;
+    color:#78350F;
+    font-size:14px;
+    font-weight:600;
+    animation:fadeIn .3s ease;
+  }
+  .alert-banner.overdue{
+    background:linear-gradient(135deg, #FEE2E2 0%, #FECACA 100%);
+    border-color:#DC2626;
+    color:#7F1D1D;
+  }
+  .alert-banner svg{width:22px; height:22px; flex-shrink:0;}
+  .alert-banner .alert-text{flex:1; line-height:1.4;}
+  .alert-banner .alert-text strong{display:block; font-size:14.5px; margin-bottom:2px;}
+  .alert-banner .alert-text small{font-size:12.5px; opacity:.85; font-weight:500;}
+  .alert-banner button{
+    background:rgba(255,255,255,.6); color:inherit;
+    padding:6px 12px; border-radius:8px;
+    font-size:12px; font-weight:700;
+    border:none;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]) .alert-banner{
+      background:linear-gradient(135deg, #3A2A0F 0%, #4A3614 100%);
+      color:#FDE68A;
+      border-color:#B4590E;
+    }
+    :root:not([data-theme="light"]) .alert-banner.overdue{
+      background:linear-gradient(135deg, #3A1414 0%, #4A1A1A 100%);
+      color:#FCA5A5;
+      border-color:#DC2626;
+    }
+  }
+  :root[data-theme="dark"] .alert-banner{
+    background:linear-gradient(135deg, #3A2A0F 0%, #4A3614 100%);
+    color:#FDE68A;
+    border-color:#B4590E;
+  }
+  :root[data-theme="dark"] .alert-banner.overdue{
+    background:linear-gradient(135deg, #3A1414 0%, #4A1A1A 100%);
+    color:#FCA5A5;
+    border-color:#DC2626;
+  }
   .list-row .main-col{flex:1; min-width:0;}
   .list-row .title{font-size:14.5px; font-weight:700; color:var(--ink);}
   .list-row .meta{font-size:12.5px; color:var(--ink-faint); margin-top:3px;}
@@ -705,6 +765,57 @@ function fmtDate(iso){
   if(isNaN(d)) return iso;
   return d.toLocaleDateString(currentLang==="fr"?"fr-FR":"en-US", {day:'numeric', month:'long', year:'numeric'});
 }
+/* ---------------------------------------------------------------
+   DÉTECTION DES URGENCES ET RETARDS
+--------------------------------------------------------------- */
+function getUrgencyInfo(echeance, statut){
+  if(!echeance) return {level:"none"};
+  if(statut === "termine" || statut === "atteinte") return {level:"done"};
+  
+  const today = new Date();
+  today.setHours(0,0,0,0);
+  const due = new Date(echeance + "T00:00:00");
+  if(isNaN(due)) return {level:"none"};
+  
+  const diffDays = Math.ceil((due - today) / (1000 * 60 * 60 * 24));
+  
+  if(diffDays < 0) return {level:"overdue", days:Math.abs(diffDays)};
+  if(diffDays === 0) return {level:"urgent", days:0, label:"aujourd'hui"};
+  if(diffDays === 1) return {level:"urgent", days:1, label:"demain"};
+  if(diffDays <= 3) return {level:"urgent", days:diffDays};
+  return {level:"ok", days:diffDays};
+}
+
+function getUrgencyClass(echeance, statut){
+  const info = getUrgencyInfo(echeance, statut);
+  if(info.level === "overdue") return "overdue";
+  if(info.level === "urgent") return "urgent";
+  return "";
+}
+
+function getUrgencyBadge(echeance, statut){
+  const info = getUrgencyInfo(echeance, statut);
+  if(info.level === "overdue"){
+    return '<span class="badge overdue">⚠️ ' + (currentLang === "fr" ? "Retard " + info.days + "j" : info.days + "d late") + '</span>';
+  }
+  if(info.level === "urgent"){
+    let lbl;
+    if(info.label) lbl = info.label;
+    else lbl = currentLang === "fr" ? "dans " + info.days + "j" : "in " + info.days + "d";
+    return '<span class="badge urgent">⚡ ' + lbl + '</span>';
+  }
+  return "";
+}
+
+function countUrgentTasks(){
+  let overdue = 0, urgent = 0;
+  stores.taches.items.forEach(function(t){
+    const info = getUrgencyInfo(t.echeance, t.statut);
+    if(info.level === "overdue") overdue++;
+    else if(info.level === "urgent") urgent++;
+  });
+  return {overdue:overdue, urgent:urgent};
+}
 function toast(msg){
   const el = $("#toast");
   if(!el) return;
@@ -955,7 +1066,8 @@ function panelDashboard(){
     '</div>' +
     '<div class="search-bar">' + ICONS.search + '<input type="search" id="globalSearch" placeholder="' + esc(t("searchPlaceholder")) + '"></div>' +
     '<div id="searchResults"></div>' +
-    '<div id="dashStats" class="stat-row"></div>' +
+   '<div id="alertBanner"></div>' +
+'<div id="dashStats" class="stat-row"></div>'  +
     '<div class="callout">' +
       '<h3>' + esc(t("dashCalloutTitle")) + '</h3>' +
       '<p>' + esc(t("dashCalloutText")) + '</p>' +
@@ -995,7 +1107,33 @@ function wireDashboard(){
   }
 }
 
+function renderAlertBanner(){
+  const el = $("#alertBanner");
+  if(!el) return;
+  const counts = countUrgentTasks();
+  if(counts.overdue === 0 && counts.urgent === 0){ el.innerHTML = ""; return; }
+  
+  const fr = currentLang === "fr";
+  const parts = [];
+  if(counts.overdue > 0) parts.push(counts.overdue + (fr ? (counts.overdue > 1 ? " en retard" : " en retard") : " overdue"));
+  if(counts.urgent > 0) parts.push(counts.urgent + (fr ? " urgente(s)" : " urgent"));
+  
+  const isOverdue = counts.overdue > 0;
+  const title = isOverdue 
+    ? (fr ? "⚠️ Tâches en retard" : "⚠️ Overdue tasks")
+    : (fr ? "⚡ Tâches urgentes" : "⚡ Urgent tasks");
+  const subtitle = parts.join(" · ") + (fr ? " — pensez à les traiter rapidement." : " — remember to handle them soon.");
+  
+  el.innerHTML = '<div class="alert-banner' + (isOverdue ? " overdue" : "") + '">' +
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 9v4M12 17h.01"/><path d="M10.3 3.9L1.8 18a2 2 0 001.7 3h17a2 2 0 001.7-3L13.7 3.9a2 2 0 00-3.4 0z"/></svg>' +
+    '<div class="alert-text"><strong>' + title + '</strong><small>' + subtitle + '</small></div>' +
+    '<button data-goto="taches">' + (fr ? "Voir" : "See") + '</button>' +
+  '</div>';
+  
+  el.querySelector("[data-goto]").addEventListener("click", function(){ setActiveTab("taches"); });
+}
 function renderDashboardStats(){
+  renderAlertBanner();
   const el = $("#dashStats");
   if(!el) return;
 
@@ -1405,7 +1543,9 @@ function renderTaches(){
   if(!el) return;
   const items = stores.taches.items;
   el.innerHTML = items.length ? items.map(function(x){
-    return '<div class="list-row status-' + x.statut + '">' +
+    const urgClass = getUrgencyClass(x.echeance, x.statut);
+const urgBadge = getUrgencyBadge(x.echeance, x.statut);
+return '<div class="list-row status-' + x.statut + (urgClass ? " " + urgClass : "") + '">' +
       '<div class="main-col">' +
         '<div class="title">' + esc(x.titre) + '</div>' +
         '<div class="meta">' + esc(x.responsable || "") + (x.echeance ? " · " + esc(fmtDate(x.echeance)) : "") + '</div>' +
@@ -1415,7 +1555,7 @@ function renderTaches(){
           return '<option value="' + k + '"' + (k === x.statut ? ' selected' : '') + '>' + esc(t(TACHE_STATUTS[k])) + '</option>';
         }).join("") +
       '</select>' +
-      '<button class="btn icon-only" data-remove="' + x.id + '">' + ICONS.trash + '</button>' +
+      urgBadge +'<button class="btn icon-only" data-remove="' + x.id + '">' + ICONS.trash + '</button>' +
     '</div>';
   }).join("") : '<div class="empty">' + esc(t("emptyTaches")) + '</div>';
 
