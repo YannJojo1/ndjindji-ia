@@ -115,8 +115,7 @@
   .brand::after{content:""; position:absolute; top:-60px; right:-60px; width:200px; height:200px; background:radial-gradient(circle, rgba(247,168,27,.15) 0%, transparent 70%); border-radius:50%; pointer-events:none;}
   .brand-top{display:flex; align-items:center; gap:14px; margin-bottom:18px;}
   .rotary-wheel{width:52px; height:52px; flex-shrink:0; background:linear-gradient(135deg, var(--rotary-gold) 0%, #D88B0F 100%); border-radius:14px; display:flex; align-items:center; justify-content:center; box-shadow:0 6px 18px rgba(247,168,27,.4); position:relative;}
-  .rotary-wheel::before{content:""; position:absolute; inset:6px; border:2px solid rgba(255,255,255,.5); border-radius:50%;}
-  .rotary-wheel svg{width:32px; height:32px; color:#fff; position:relative; z-index:1;}
+  /* Style du logo (image) géré dans .rotary-wheel img ci-dessus */
   .brand-club{flex:1; min-width:0;}
   .brand-club .president{font-size:11px; color:var(--rotary-gold); font-weight:700; letter-spacing:0.15em; text-transform:uppercase; margin-bottom:4px;}
   .brand-club .name{font-family:var(--font-body); font-weight:900; font-size:18px; line-height:1.15; letter-spacing:-0.4px; color:#fff;}
@@ -363,7 +362,7 @@
     <div class="brand">
       <div class="brand-top">
         <div class="rotary-wheel">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3"/><path d="M12 3v6M12 15v6M3 12h6M15 12h6M5.6 5.6l4.2 4.2M14.2 14.2l4.2 4.2M18.4 5.6l-4.2 4.2M9.8 14.2l-4.2 4.2"/></svg>
+          <img src="./images/logo.png" alt="Rotaract Club Ndjindji">
         </div>
         <div class="brand-club">
           <div class="president" id="brandPresident">Président 2026-2027</div>
