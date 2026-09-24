@@ -438,7 +438,10 @@
     <div class="lang-switch">
       <button class="lang-btn active" data-lang="fr">Français</button>
       <button class="lang-btn" data-lang="en">English</button>
-    </div>
+    </div><button class="theme-btn" id="themeBtn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1111.2 3a7 7 0 009.8 9.8z"/></svg>
+      <span id="themeBtnLabel">Mode sombre</span>
+    </button>
     <div class="navrow" id="navrow"></div>
   </nav>
   <main id="main"></main>
@@ -903,6 +906,43 @@ function wireLangSwitch(){
   $$(".lang-btn").forEach(function(b){
     b.addEventListener("click", function(){ setLang(b.dataset.lang); });
   });
+}
+/* ---------------------------------------------------------------
+   MODE SOMBRE MANUEL
+--------------------------------------------------------------- */
+function initTheme(){
+  const saved = localStorage.getItem("ndjindji_theme");
+  if(saved === "dark") applyTheme("dark");
+  else if(saved === "light") applyTheme("light");
+  // sinon : suit le système automatiquement
+
+  const btn = $("#themeBtn");
+  if(btn) btn.addEventListener("click", toggleTheme);
+}
+
+function applyTheme(mode){
+  document.documentElement.setAttribute("data-theme", mode);
+  localStorage.setItem("ndjindji_theme", mode);
+  updateThemeButton(mode);
+}
+
+function toggleTheme(){
+  const current = document.documentElement.getAttribute("data-theme") || 
+    (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+  const next = current === "dark" ? "light" : "dark";
+  applyTheme(next);
+  toast(next === "dark" ? "Mode sombre activé" : "Mode clair activé");
+}
+
+function updateThemeButton(mode){
+  const label = $("#themeBtnLabel");
+  const btn = $("#themeBtn");
+  if(!label || !btn) return;
+  const isDark = mode === "dark";
+  label.textContent = isDark ? "Mode clair" : "Mode sombre";
+  btn.querySelector("svg").innerHTML = isDark 
+    ? '<circle cx="12" cy="12" r="4.5"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M19.1 4.9L17 7M7 17l-2.1 2.1"/>'
+    : '<path d="M21 12.8A9 9 0 1111.2 3a7 7 0 009.8 9.8z"/>';
 }/* ---------------------------------------------------------------
    PANNEAU : TABLEAU DE BORD
 --------------------------------------------------------------- */
@@ -1846,7 +1886,7 @@ function boot(){
   renderShell();
 
   // 3. Activer le sélecteur de langue
-  wireLangSwitch();
+  wireLangSwitch();initTheme()
 
   // 4. Mettre à jour le sous-titre + devise selon la langue
   const sub = $("#brandSub");
