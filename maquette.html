@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#D41367">
+<title>Ndjindji I.A. — Maquette</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,600;0,700;1,600&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --framboise:#D41367;
+    --framboise-dark:#A80E52;
+    --framboise-soft:#FCE8F1;
+    --framboise-tint:#FEF4F9;
+    --paper:#FAF7F9;
+    --paper-raised:#FFFFFF;
+    --ink:#1A1520;
+    --ink-soft:#5B4A56;
+    --ink-faint:#958A94;
+    --line:#F0E4EB;
+    --radius:16px;
+    --radius-sm:10px;
+    --shadow-sm:0 1px 2px rgba(212,19,103,.06), 0 2px 8px rgba(212,19,103,.05);
+    --shadow-md:0 2px 6px rgba(212,19,103,.08), 0 8px 24px rgba(212,19,103,.08);
+    --shadow-lg:0 4px 12px rgba(212,19,103,.1), 0 16px 40px rgba(212,19,103,.1);
+    --font-display:'Fraunces', Georgia, serif;
+    --font-body:'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --paper:#1A1520;
+      --paper-raised:#221A26;
+      --ink:#F5EEF2;
+      --ink-soft:#C8B8C2;
+      --ink-faint:#8A7B86;
+      --framboise-soft:#3A1828;
+      --framboise-tint:#2A121E;
+      --line:#332430;
+      --shadow-sm:0 1px 2px rgba(0,0,0,.3), 0 2px 8px rgba(0,0,0,.2);
+      --shadow-md:0 2px 6px rgba(0,0,0,.35), 0 8px 24px rgba(0,0,0,.25);
+      --shadow-lg:0 4px 12px rgba(0,0,0,.4), 0 16px 40px rgba(0,0,0,.3);
+    }
+  }
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+  html,body{margin:0; padding:0;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--font-body);
+    font-size:15px;
+    line-height:1.5;
+    padding-top:env(safe-area-inset-top,0px);
+    padding-bottom:env(safe-area-inset-bottom,0px);
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3{margin:0; letter-spacing:-0.02em;}
+  h1{font-family:var(--font-display); font-weight:700; font-size:30px; color:var(--framboise);}
+  h2{font-family:var(--font-display); font-weight:700; font-size:22px;}
+  h3{font-family:var(--font-body); font-weight:700; font-size:16px;}
+  p{margin:0 0 .7em;}
+  button{font-family:var(--font-body); cursor:pointer; border:none; background:none; padding:0;}
+  input,select,textarea{font-family:var(--font-body); font-size:15px; color:var(--ink); background:var(--paper-raised); border:1.5px solid var(--line); border-radius:var(--radius-sm); padding:12px 14px; width:100%; transition:border-color .15s;}
+  input:focus,select:focus,textarea:focus{outline:none; border-color:var(--framboise);}
+  label{display:block; font-size:13px; color:var(--ink-soft); margin:0 0 6px; font-weight:600;}
+
+  /* ---------- SHELL ---------- */
+  .shell{display:flex; flex-direction:column; min-height:100vh;}
+
+  /* ---------- HEADER / MENU ---------- */
+  header.topbar{
+    background:var(--paper-raised);
+    border-bottom:1px solid var(--line);
+    padding:14px 16px 0;
+    position:sticky; top:0; z-index:50;
+    box-shadow:var(--shadow-sm);
+  }
+  .topbar-row{display:flex; align-items:center; gap:12px; margin-bottom:14px;}
+  .logo-mark{
+    width:44px; height:44px;
+    background:linear-gradient(135deg, var(--framboise) 0%, var(--framboise-dark) 100%);
+    border-radius:12px;
+    display:flex; align-items:center; justify-content:center;
+    color:#fff; font-weight:800; font-size:16px;
+    box-shadow:0 4px 12px rgba(212,19,103,.3);
+    flex-shrink:0;
+    position:relative;
+    overflow:hidden;
+  }
+  .logo-mark::before{
+    content:"";
+    position:absolute; inset:6px;
+    border:2px solid rgba(255,255,255,.35);
+    border-radius:50%;
+  }
+  .logo-mark span{position:relative; z-index:1;}
+  .logo-text{flex:1; min-width:0;}
+  .logo-title{
+    font-family:var(--font-body);
+    font-weight:800;
+    font-size:19px;
+    color:var(--framboise);
+    letter-spacing:-0.5px;
+    line-height:1;
+  }
+  .logo-sub{
+    font-size:11px;
+    color:var(--ink-faint);
+    font-weight:500;
+    margin-top:3px;
+    letter-spacing:0.3px;
+    text-transform:uppercase;
+  }
+  .topbar-actions{display:flex; gap:8px;}
+  .icon-btn{
+    width:38px; height:38px; border-radius:10px;
+    background:var(--framboise-tint);
+    color:var(--framboise);
+    display:flex; align-items:center; justify-content:center;
+    transition:transform .12s;
+  }
+  .icon-btn:active{transform:scale(.92);}
+  .icon-btn svg{width:18px; height:18px;}
+  .tabs{
+    display:flex; gap:6px; overflow-x:auto;
+    padding-bottom:2px;
+    -ms-overflow-style:none; scrollbar-width:none;
+    margin:0 -16px; padding-left:16px; padding-right:16px;
+  }
+  .tabs::-webkit-scrollbar{display:none;}
+  .tab{
+    display:flex; align-items:center; gap:7px;
+    padding:10px 14px;
+    border-radius:10px 10px 0 0;
+    font-size:13.5px; font-weight:600;
+    color:var(--ink-soft);
+    background:transparent;
+    white-space:nowrap;
+    flex-shrink:0;
+    position:relative;
+    transition:color .15s;
+  }
+  .tab svg{width:16px; height:16px; opacity:.7;}
+  .tab.active{color:var(--framboise); background:var(--framboise-tint);}
+  .tab.active svg{opacity:1;}
+  .tab.active::after{
+    content:"";
+    position:absolute; left:14px; right:14px; bottom:0;
+    height:3px; background:var(--framboise);
+    border-radius:3px 3px 0 0;
+  }
+  main{flex:1; padding:20px 16px 60px; max-width:900px; margin:0 auto; width:100%;}/* ---------- BANNIÈRE ACCUEIL ---------- */
+  .hero{
+    background:linear-gradient(160deg, #FFF 0%, var(--framboise-tint) 100%);
+    border-radius:var(--radius);
+    padding:24px 20px 22px;
+    margin-bottom:20px;
+    position:relative;
+    overflow:hidden;
+    box-shadow:var(--shadow-sm);
+  }
+  .hero::before{
+    content:"";
+    position:absolute; top:-40px; right:-40px;
+    width:160px; height:160px;
+    background:radial-gradient(circle, rgba(212,19,103,.08) 0%, transparent 70%);
+    border-radius:50%;
+  }
+  .hero h1{position:relative; z-index:1;}
+  .hero p{color:var(--ink-soft); font-size:14.5px; margin-top:6px; position:relative; z-index:1;}
+  .hero-tag{
+    display:inline-flex; align-items:center; gap:6px;
+    background:var(--framboise); color:#fff;
+    padding:5px 12px; border-radius:100px;
+    font-size:11.5px; font-weight:700;
+    letter-spacing:0.5px; text-transform:uppercase;
+    margin-bottom:12px;
+  }
+  .hero-tag svg{width:12px; height:12px;}
+
+  /* ---------- CARTES ---------- */
+  .card{
+    background:var(--paper-raised);
+    border-radius:var(--radius);
+    padding:20px;
+    margin-bottom:16px;
+    box-shadow:var(--shadow-sm);
+    border:1px solid var(--line);
+    transition:box-shadow .2s;
+  }
+  .card:hover{box-shadow:var(--shadow-md);}
+  .card-head{
+    display:flex; align-items:center; gap:12px;
+    margin-bottom:14px;
+  }
+  .card-icon{
+    width:40px; height:40px;
+    border-radius:12px;
+    background:var(--framboise);
+    color:#fff;
+    display:flex; align-items:center; justify-content:center;
+    flex-shrink:0;
+    box-shadow:0 4px 12px rgba(212,19,103,.25);
+  }
+  .card-icon svg{width:20px; height:20px;}
+  .card-icon.soft{background:var(--framboise-soft); color:var(--framboise); box-shadow:none;}
+  .card-title-block{flex:1; min-width:0;}
+  .card-title{font-size:16px; font-weight:700; color:var(--ink);}
+  .card-sub{font-size:12.5px; color:var(--ink-faint); margin-top:2px;}
+
+  /* ---------- GRILLE DE MODULES (style affiche) ---------- */
+  .modules-grid{
+    display:grid;
+    grid-template-columns:repeat(2, 1fr);
+    gap:12px;
+    margin-bottom:20px;
+  }
+  @media (min-width:700px){
+    .modules-grid{grid-template-columns:repeat(3, 1fr);}
+  }
+  .module{
+    background:var(--paper-raised);
+    border-radius:var(--radius);
+    padding:16px 14px;
+    box-shadow:var(--shadow-sm);
+    border:1px solid var(--line);
+    display:flex; flex-direction:column;
+    text-align:left;
+    transition:transform .15s, box-shadow .2s;
+  }
+  .module:active{transform:scale(.98);}
+  .module:hover{box-shadow:var(--shadow-md);}
+  .module-icon{
+    width:42px; height:42px;
+    border-radius:12px;
+    background:linear-gradient(135deg, var(--framboise) 0%, var(--framboise-dark) 100%);
+    color:#fff;
+    display:flex; align-items:center; justify-content:center;
+    margin-bottom:12px;
+    box-shadow:0 4px 10px rgba(212,19,103,.25);
+  }
+  .module-icon svg{width:20px; height:20px;}
+  .module-title{font-size:13.5px; font-weight:700; color:var(--ink); line-height:1.25; margin-bottom:3px;}
+  .module-desc{font-size:11.5px; color:var(--ink-faint); line-height:1.35;}
+
+  /* ---------- STATS ---------- */
+  .stats-row{
+    display:grid; grid-template-columns:repeat(2, 1fr);
+    gap:10px;
+    margin-bottom:20px;
+  }
+  @media (min-width:600px){
+    .stats-row{grid-template-columns:repeat(4, 1fr);}
+  }
+  .stat-card{
+    background:var(--paper-raised);
+    border-radius:var(--radius);
+    padding:14px;
+    box-shadow:var(--shadow-sm);
+    border:1px solid var(--line);
+    position:relative;
+    overflow:hidden;
+  }
+  .stat-card::before{
+    content:"";
+    position:absolute; top:0; left:0; right:0;
+    height:3px;
+    background:linear-gradient(90deg, var(--framboise), var(--framboise-dark));
+  }
+  .stat-num{
+    font-family:var(--font-display);
+    font-size:26px; font-weight:700;
+    color:var(--framboise);
+    line-height:1;
+    margin-bottom:6px;
+  }
+  .stat-lbl{font-size:11.5px; color:var(--ink-faint); font-weight:600; text-transform:uppercase; letter-spacing:0.3px;}
+
+  /* ---------- BOUTONS ---------- */
+  .btn{
+    display:inline-flex; align-items:center; gap:8px; justify-content:center;
+    padding:12px 18px;
+    border-radius:12px;
+    font-size:14px; font-weight:700;
+    background:var(--framboise); color:#fff;
+    box-shadow:0 4px 12px rgba(212,19,103,.25);
+    transition:transform .12s, box-shadow .2s;
+  }
+  .btn:active{transform:scale(.97);}
+  .btn svg{width:16px; height:16px;}
+  .btn.ghost{
+    background:transparent; color:var(--framboise);
+    border:1.5px solid var(--framboise-soft);
+    box-shadow:none;
+  }
+  .btn.soft{
+    background:var(--framboise-soft); color:var(--framboise);
+    box-shadow:none;
+  }
+  .btn.small{padding:9px 14px; font-size:13px;}
+
+  /* ---------- LISTES ---------- */
+  .list{display:flex; flex-direction:column; gap:10px;}
+  .list-row{
+    display:flex; gap:12px; align-items:center;
+    background:var(--paper-raised);
+    border-radius:12px;
+    padding:14px 14px 14px 16px;
+    border:1px solid var(--line);
+    box-shadow:var(--shadow-sm);
+    position:relative;
+  }
+  .list-row::before{
+    content:"";
+    position:absolute; left:0; top:16px; bottom:16px;
+    width:3px; border-radius:0 3px 3px 0;
+    background:var(--framboise);
+  }
+  .list-row.status-termine::before,
+  .list-row.status-atteint::before,
+  .list-row.status-confirme::before{background:#3DAA7A;}
+  .list-row.status-attente::before,
+  .list-row.status-en_cours::before{background:#F5A623;}
+  .list-row.status-a_faire::before,
+  .list-row.status-a_initier::before{background:var(--ink-faint);}
+  .list-main{flex:1; min-width:0;}
+  .list-title{font-size:14.5px; font-weight:700; color:var(--ink);}
+  .list-meta{font-size:12.5px; color:var(--ink-faint); margin-top:3px;}
+
+  /* ---------- BADGES ---------- */
+  .badge{
+    font-size:11.5px; font-weight:700;
+    padding:4px 10px; border-radius:100px;
+    white-space:nowrap;
+  }
+  .badge.a_faire,.badge.a_initier{background:var(--line); color:var(--ink-soft);}
+  .badge.en_cours{background:#FFF3E0; color:#B4590E;}
+  .badge.termine,.badge.atteint,.badge.confirme{background:#E1F1EA; color:#2E7D5B;}
+  .badge.attente{background:#FBEADA; color:#B4590E;}
+
+  /* ---------- PROGRESS BAR ---------- */
+  .progress-track{
+    height:8px; background:var(--framboise-soft);
+    border-radius:100px; overflow:hidden; margin-top:8px;
+  }
+  .progress-fill{
+    height:100%; border-radius:100px;
+    background:linear-gradient(90deg, var(--framboise), var(--framboise-dark));
+    transition:width .4s ease;
+  }
+
+  /* ---------- AVATAR VOICE ---------- */
+  .avatar-holder{
+    position:relative; width:130px; height:130px;
+    margin:8px auto 14px;
+  }
+  .avatar-holder svg{width:100%; height:100%; display:block;}
+  .avatar-ring{fill:none; stroke:var(--framboise); stroke-width:4; opacity:0; transform-origin:100px 100px;}
+  .avatar-holder.state-speaking .avatar-ring{opacity:.6; animation:ringPulse 1s ease-in-out infinite;}
+  @keyframes ringPulse{0%{transform:scale(.94); opacity:.7;}50%{transform:scale(1.06); opacity:.2;}100%{transform:scale(.94); opacity:.7;}}
+  .avatar-eye{fill:#fff;}
+  .avatar-mouth{fill:#fff; transform-origin:100px 128px;}
+  .mic-btn{
+    width:64px; height:64px; border-radius:50%;
+    background:linear-gradient(135deg, var(--framboise), var(--framboise-dark));
+    color:#fff; display:flex; align-items:center; justify-content:center;
+    margin:0 auto 14px;
+    box-shadow:0 8px 24px rgba(212,19,103,.4);
+    transition:transform .15s;
+  }
+  .mic-btn:active{transform:scale(.92);}
+  .mic-btn svg{width:26px; height:26px;}
+  .mic-btn.listening{animation:pulseMic 1.2s infinite;}
+  @keyframes pulseMic{0%,100%{box-shadow:0 8px 24px rgba(212,19,103,.4);}50%{box-shadow:0 8px 32px rgba(212,19,103,.7);}}
+
+  /* ---------- CHAT ---------- */
+  .chat-wrap{
+    display:flex; flex-direction:column; gap:10px;
+    padding:14px;
+    background:var(--framboise-tint);
+    border-radius:var(--radius);
+    max-height:360px; overflow-y:auto;
+    margin-bottom:14px;
+  }
+  .chat-msg{
+    padding:11px 15px; font-size:14px; line-height:1.5;
+    max-width:85%;
+    border-radius:16px;
+  }
+  .chat-msg.user{
+    align-self:flex-end;
+    background:var(--framboise); color:#fff;
+    border-radius:16px 16px 4px 16px;
+    box-shadow:0 4px 12px rgba(212,19,103,.2);
+  }
+  .chat-msg.bot{
+    align-self:flex-start;
+    background:#fff; color:var(--ink);
+    border-radius:16px 16px 16px 4px;
+    box-shadow:var(--shadow-sm);
+  }
+  .chat-input{display:flex; gap:8px;}
+
+  /* ---------- FOOTER ---------- */
+  .footer-sig{
+    text-align:center; font-size:12px; color:var(--ink-faint);
+    padding:24px 16px 8px; margin-top:20px;
+    border-top:1px solid var(--line);
+    letter-spacing:0.3px;
+  }
+  .footer-sig strong{color:var(--framboise);}
+
+  /* ---------- DECORATIONS ---------- */
+  .sparkle{
+    display:inline-block; color:var(--framboise);
+    font-size:14px; margin-left:6px;
+    opacity:.7;
+  }</style>
+</head>
+<body>
+<div class="shell">
+
+  <header class="topbar">
+    <div class="topbar-row">
+      <div class="logo-mark"><span>IA</span></div>
+      <div class="logo-text">
+        <div class="logo-title">NDJINDJI I.A.</div>
+        <div class="logo-sub">Rotaract Club Ndjindji</div>
+      </div>
+      <div class="topbar-actions">
+        <button class="icon-btn" title="Rechercher">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+        </button>
+        <button class="icon-btn" title="Langue">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a15 15 0 010 18M12 3a15 15 0 000 18"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="tabs">
+      <button class="tab active">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="8" height="8" rx="2"/><rect x="13" y="3" width="8" height="5" rx="2"/><rect x="13" y="10" width="8" height="11" rx="2"/><rect x="3" y="13" width="8" height="8" rx="2"/></svg>
+        Tableau
+      </button>
+      <button class="tab">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12a8 8 0 01-8 8H7l-4 3v-6.5A8 8 0 0113 4a8 8 0 018 8z"/></svg>
+        Assistant
+      </button>
+      <button class="tab">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+        Tâches
+      </button>
+      <button class="tab">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 8a2 2 0 012-2h4l1.8 2H19a2 2 0 012 2v7a2 2 0 01-2 2H5a2 2 0 01-2-2V8z"/></svg>
+        Projets
+      </button>
+      <button class="tab">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 5.5C5.5 4 8.5 4 11 5.5v13C8.5 17 5.5 17 3 18.5v-13z"/><path d="M21 5.5C18.5 4 15.5 4 13 5.5v13c2.5-1.5 5.5-1.5 8 0v-13z"/></svg>
+        Loudima
+      </button>
+      <button class="tab">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3.5" y="5" width="17" height="15.5" rx="2"/><path d="M8 3v4M16 3v4M3.5 10h17"/></svg>
+        Planif
+      </button>
+      <button class="tab">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="9" cy="8" r="3.5"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><circle cx="17.5" cy="9" r="2.5"/><path d="M21 19c0-2.5-1.9-4.5-4-4.8"/></svg>
+        Membres
+      </button>
+      <button class="tab">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="0.8" fill="currentColor"/></svg>
+        Objectifs
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <!-- HERO -->
+    <div class="hero">
+      <div class="hero-tag">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 16.8 5.8 21.3l2.4-7.4L2 9.4h7.6z"/></svg>
+        Assistant officiel
+      </div>
+      <h1>Bonjour, Président.</h1>
+      <p>Votre assistant intelligent pour piloter le <strong>Rotaract Club Ndjindji</strong>.</p>
+    </div>
+
+    <!-- STATS -->
+    <div class="stats-row">
+      <div class="stat-card"><div class="stat-num">5</div><div class="stat-lbl">Tâches actives</div></div>
+      <div class="stat-card"><div class="stat-num">0</div><div class="stat-lbl">Projets</div></div>
+      <div class="stat-card"><div class="stat-num">26/09</div><div class="stat-lbl">Prochain évt</div></div>
+      <div class="stat-card"><div class="stat-num">14%</div><div class="stat-lbl">Axes engagés</div></div>
+    </div>
+
+    <!-- MODULES GRID -->
+    <h2 style="font-size:16px; margin-bottom:12px; color:var(--ink);">Modules<span class="sparkle">✦</span></h2>
+    <div class="modules-grid">
+      <button class="module">
+        <div class="module-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+        </div>
+        <div class="module-title">Suivi des tâches</div>
+        <div class="module-desc">Organiser et suivre les actions</div>
+      </button>
+      <button class="module">
+        <div class="module-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 8a2 2 0 012-2h4l1.8 2H19a2 2 0 012 2v7a2 2 0 01-2 2H5a2 2 0 01-2-2V8z"/></svg>
+        </div>
+        <div class="module-title">Suivi des projets</div>
+        <div class="module-desc">Piloter les projets du club</div>
+      </button>
+      <button class="module">
+        <div class="module-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3.5" y="5" width="17" height="15.5" rx="2"/><path d="M8 3v4M16 3v4M3.5 10h17"/></svg>
+        </div>
+        <div class="module-title">Organisation &amp; Événements</div>
+        <div class="module-desc">Planifier les rendez-vous</div>
+      </button>
+      <button class="module">
+        <div class="module-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 20l1-4L16 5l3 3L8 19l-4 1z"/><path d="M14 7l3 3"/></svg>
+        </div>
+        <div class="module-title">Rédaction &amp; Communication</div>
+        <div class="module-desc">Documents et publications</div>
+      </button>
+      <button class="module">
+        <div class="module-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 5.5C5.5 4 8.5 4 11 5.5v13C8.5 17 5.5 17 3 18.5v-13z"/><path d="M21 5.5C18.5 4 15.5 4 13 5.5v13c2.5-1.5 5.5-1.5 8 0v-13z"/></svg>
+        </div>
+        <div class="module-title">Formation &amp; Apprentissage</div>
+        <div class="module-desc">Projet bibliothèque Loudima</div>
+      </button>
+      <button class="module">
+        <div class="module-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="0.8" fill="currentColor"/></svg>
+        </div>
+        <div class="module-title">My Rotary &amp; Objectifs</div>
+        <div class="module-desc">Les 7 axes d'action</div>
+      </button>
+      <button class="module">
+        <div class="module-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="9" cy="8" r="3.5"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><circle cx="17.5" cy="9" r="2.5"/><path d="M21 19c0-2.5-1.9-4.5-4-4.8"/></svg>
+        </div>
+        <div class="module-title">Gestion des membres</div>
+        <div class="module-desc">Annuaire du club</div>
+      </button>
+      <button class="module">
+        <div class="module-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12a8 8 0 01-8 8H7l-4 3v-6.5A8 8 0 0113 4a8 8 0 018 8z"/></svg>
+        </div>
+        <div class="module-title">Assistant vocal</div>
+        <div class="module-desc">Parlez-lui directement</div>
+      </button>
+    </div>
+
+    <!-- AVATAR + CHAT DÉMO -->
+    <h2 style="font-size:16px; margin:24px 0 12px; color:var(--ink);">Assistant<span class="sparkle">✦</span></h2>
+    <div class="card">
+      <div class="avatar-holder state-speaking">
+        <svg viewBox="0 0 200 200">
+          <circle class="avatar-ring" cx="100" cy="100" r="88"/>
+          <circle cx="100" cy="100" r="78" fill="#D41367"/>
+          <circle cx="100" cy="100" r="78" fill="url(#grad)" opacity="0.5"/>
+          <ellipse class="avatar-eye" cx="72" cy="86" rx="8" ry="9"/>
+          <ellipse class="avatar-eye" cx="128" cy="86" rx="8" ry="9"/>
+          <ellipse class="avatar-mouth" cx="100" cy="128" rx="24" ry="5"/>
+          <defs>
+            <radialGradient id="grad" cx="50%" cy="30%">
+              <stop offset="0%" stop-color="#fff" stop-opacity="0.4"/>
+              <stop offset="100%" stop-color="#A80E52" stop-opacity="0"/>
+            </radialGradient>
+          </defs>
+        </svg>
+      </div>
+      <div style="text-align:center; font-size:13px; color:var(--ink-soft); margin-bottom:14px;">Je vous écoute...</div>
+      <button class="mic-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 3.5a3 3 0 013 3v5a3 3 0 01-6 0v-5a3 3 0 013-3z"/><path d="M5.5 11a6.5 6.5 0 0013 0"/><path d="M12 17.5v3"/></svg>
+      </button>
+      <div class="chat-wrap">
+        <div class="chat-msg bot">Bonjour Président. Comment puis-je vous aider aujourd'hui ?</div>
+        <div class="chat-msg user">Quelles sont mes tâches en cours ?</div>
+        <div class="chat-msg bot">Vous avez 5 tâches actives. La plus urgente concerne la cérémonie au Lycée de Loudima prévue le 26 septembre.</div>
+      </div>
+      <div class="chat-input">
+        <input type="text" placeholder="Tapez votre message...">
+        <button class="btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 12l16-7-6 16-2.5-6.5L4 12z"/></svg></button>
+      </div>
+    </div>
+
+    <!-- LISTE TÂCHES DÉMO -->
+    <h2 style="font-size:16px; margin:24px 0 12px; color:var(--ink);">Tâches<span class="sparkle">✦</span></h2>
+    <div class="list">
+      <div class="list-row status-a_faire">
+        <div class="list-main">
+          <div class="list-title">Envoyer la lettre officielle au Sous-préfet</div>
+          <div class="list-meta">Président</div>
+        </div>
+        <span class="badge a_faire">À faire</span>
+      </div>
+      <div class="list-row status-en_cours">
+        <div class="list-main">
+          <div class="list-title">Finaliser l'affiche avec les logos partenaires</div>
+          <div class="list-meta">Comité communication</div>
+        </div>
+        <span class="badge en_cours">En cours</span>
+      </div>
+      <div class="list-row status-termine">
+        <div class="list-main">
+          <div class="list-title">Préparer le budget prévisionnel</div>
+          <div class="list-meta">Trésorier</div>
+        </div>
+        <span class="badge termine">Terminé</span>
+      </div>
+    </div>
+
+    <!-- PROGRESSION OBJECTIFS -->
+    <h2 style="font-size:16px; margin:24px 0 12px; color:var(--ink);">Objectifs My Rotary<span class="sparkle">✦</span></h2>
+    <div class="card">
+      <div class="card-head">
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="0.8" fill="currentColor"/></svg>
+        </div>
+        <div class="card-title-block">
+          <div class="card-title">Progression globale</div>
+          <div class="card-sub">1 axe sur 7 en cours</div>
+        </div>
+      </div>
+      <div class="progress-track"><div class="progress-fill" style="width:14%"></div></div>
+    </div>
+
+    <div class="footer-sig">
+      <strong>Ndjindji I.A.</strong> — Rotaract Club Ndjindji<br>
+      District 9150 — « Service, Action et Camaraderie »
+    </div>
+  </main>
+</div>
+</body>
+</html>
