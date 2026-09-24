@@ -193,7 +193,26 @@
   .chat-msg.user{align-self:flex-end; background:var(--rotaract-cranberry); color:#fff; border-radius:14px 14px 4px 14px;}
   .chat-msg.bot{align-self:flex-start; background:var(--paper-raised); border:1px solid var(--line); border-radius:14px 14px 14px 4px;}
   .chat-input{display:flex; gap:8px;}
-  .chat-input input{flex:1;}
+  .chat-input input{flex:1;}.mic-btn{width:52px; height:52px; border-radius:50%; background:var(--rotaract-cranberry); color:#fff; border:none; display:flex; align-items:center; justify-content:center; box-shadow:0 2px 10px rgba(20,27,46,.18); flex-shrink:0; transition:transform .15s, background .2s;}
+  .mic-btn:active{transform:scale(.92);}
+  .mic-btn svg{width:22px; height:22px;}
+  .mic-btn.listening{background:var(--rotary-blue); animation:pulseMic 1s infinite;}
+  @keyframes pulseMic{0%,100%{box-shadow:0 0 0 0 rgba(23,69,143,.5);} 50%{box-shadow:0 0 0 12px rgba(23,69,143,0);}}
+  .avatar-holder{position:relative; width:120px; height:120px; margin:0 auto 12px;}
+  .avatar-holder svg{width:100%; height:100%; display:block;}
+  .avatar-ring{fill:none; stroke:var(--rotaract-cranberry); stroke-width:4; opacity:0; transform-origin:100px 100px;}
+  .avatar-holder.state-listening .avatar-ring{stroke:var(--rotary-blue); opacity:.55; animation:ringPulse 1.4s ease-in-out infinite;}
+  .avatar-holder.state-speaking .avatar-ring{stroke:var(--rotaract-cranberry); opacity:.6; animation:ringPulse 0.9s ease-in-out infinite;}
+  @keyframes ringPulse{0%{transform:scale(0.94); opacity:.7;}50%{transform:scale(1.05); opacity:.25;}100%{transform:scale(0.94); opacity:.7;}}
+  .avatar-eye{fill:#fff; transition:transform .12s ease; transform-origin:center;}
+  .avatar-holder.blink .avatar-eye{transform:scaleY(0.12);}
+  .avatar-mouth{fill:#fff; transform-origin:100px 128px; transition:transform .08s ease;}
+  .avatar-holder.mouth-open .avatar-mouth{transform:scaleY(3);}
+  .voice-status{font-size:13px; color:var(--ink-soft); min-height:18px; margin-bottom:14px; text-align:center;}
+  .voice-controls{display:flex; align-items:center; gap:12px; justify-content:center; margin-bottom:20px; flex-wrap:wrap;}
+  .theme-btn{display:flex; align-items:center; gap:6px; background:transparent; border:1px solid #2A4878; color:#C4CEE3; padding:6px 10px; border-radius:6px; font-size:12px; font-weight:500; margin:0 10px 14px; width:calc(100% - 20px);}
+  .theme-btn:hover{color:#fff;}
+  .theme-btn svg{width:14px; height:14px;}
   .toast{
     position:fixed; bottom:24px; left:50%; transform:translateX(-50%) translateY(100px);
     background:var(--rotary-blue); color:#fff; padding:10px 20px; border-radius:100px;
@@ -848,7 +867,19 @@ function panelChat(){
       '<h1>' + esc(t("chatTitle")) + '</h1>' +
       '<p>' + esc(t("chatSub")) + '</p>' +
     '</div>' +
-    '<div class="card">' +
+    '<div class="card">' +'<div class="avatar-holder" id="avatarHolder">' +
+        '<svg viewBox="0 0 200 200">' +
+          '<circle class="avatar-ring" cx="100" cy="100" r="88"/>' +
+          '<circle cx="100" cy="100" r="78" fill="var(--rotary-blue)"/>' +
+          '<ellipse class="avatar-eye" cx="72" cy="86" rx="8" ry="9"/>' +
+          '<ellipse class="avatar-eye" cx="128" cy="86" rx="8" ry="9"/>' +
+          '<ellipse class="avatar-mouth" cx="100" cy="128" rx="24" ry="5"/>' +
+        '</svg>' +
+      '</div>' +
+      '<div class="voice-status" id="voiceStatus">' + (currentLang === "fr" ? "Touchez le micro pour parler." : "Tap the mic to speak.") + '</div>' +
+      '<div class="voice-controls">' +
+        '<button class="mic-btn" id="micBtn" title="Parler">' + ICONS.chat + '</button>' +
+      '</div>' +
       '<div class="chat-wrap" id="chatWrap"></div>' +
       '<div class="chat-input">' +
         '<input type="text" id="chatInput" placeholder="' + esc(t("chatPlaceholder")) + '">' +
@@ -880,6 +911,136 @@ function wireChat(){
       if(inp){ inp.value = b.dataset.cmd; sendChat(); }
     });
   });
+}/* ---------------------------------------------------------------
+   ASSISTANT VOCAL — reconnaissance et synthèse
+--------------------------------------------------------------- */
+let recognition = null;
+let recognizing = false;
+let mouthTimer = null;
+let blinkTimer = null;
+let sttSupported = false;
+let ttsSupported = false;
+let voiceEngineReady = false;
+
+function initVoiceEngine(){
+  if(voiceEngineReady) return;
+  voiceEngineReady = true;
+
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  sttSupported = !!SR;
+  ttsSupported = !!window.speechSynthesis;
+
+  const micBtn = $("#micBtn");
+  if(!micBtn) return;
+
+  if(!sttSupported){
+    micBtn.style.opacity = "0.4";
+    micBtn.title = currentLang === "fr" ? "Reconnaissance vocale non disponible" : "Voice recognition unavailable";
+    return;
+  }
+
+  recognition = new SR();
+  recognition.lang = currentLang === "fr" ? "fr-FR" : "en-US";
+  recognition.continuous = false;
+  recognition.interimResults = false;
+
+  recognition.onstart = function(){
+    recognizing = true;
+    micBtn.classList.add("listening");
+    setAvatarState("listening");
+    setVoiceStatus(currentLang === "fr" ? "Je vous écoute..." : "Listening...");
+  };
+
+  recognition.onerror = function(){
+    recognizing = false;
+    micBtn.classList.remove("listening");
+    setAvatarState(null);
+    setVoiceStatus(currentLang === "fr" ? "Touchez le micro pour parler." : "Tap the mic to speak.");
+  };
+
+  recognition.onend = function(){
+    recognizing = false;
+    micBtn.classList.remove("listening");
+    if(!mouthTimer) setAvatarState(null);
+  };
+
+  recognition.onresult = function(event){
+    const text = event.results[0][0].transcript;
+    if(text && text.trim()){
+      const input = $("#chatInput");
+      if(input){ input.value = text.trim(); sendChat(); }
+      setTimeout(function(){ speakLastBotMessage(); }, 600);
+    }
+  };
+
+  micBtn.addEventListener("click", function(){
+    if(recognizing){ recognition.stop(); return; }
+    try{ recognition.start(); }catch(e){}
+  });
+
+  startBlinking();
+}
+
+function setAvatarState(state){
+  const el = $("#avatarHolder");
+  if(!el) return;
+  el.classList.remove("state-listening", "state-speaking");
+  if(state) el.classList.add("state-" + state);
+}
+
+function setVoiceStatus(text){
+  const el = $("#voiceStatus");
+  if(el) el.textContent = text;
+}
+
+function startMouthAnim(){
+  const el = $("#avatarHolder");
+  if(!el) return;
+  stopMouthAnim();
+  mouthTimer = setInterval(function(){
+    el.classList.toggle("mouth-open");
+  }, 110 + Math.random() * 90);
+}
+
+function stopMouthAnim(){
+  if(mouthTimer){ clearInterval(mouthTimer); mouthTimer = null; }
+  const el = $("#avatarHolder");
+  if(el) el.classList.remove("mouth-open");
+}
+
+function startBlinking(){
+  if(blinkTimer) return;
+  blinkTimer = setInterval(function(){
+    const el = $("#avatarHolder");
+    if(!el) return;
+    el.classList.add("blink");
+    setTimeout(function(){ el.classList.remove("blink"); }, 130);
+  }, 3200 + Math.random() * 2200);
+}
+
+function speakLastBotMessage(){
+  if(!ttsSupported) return;
+  const last = chatHistory.filter(function(m){ return m.from === "bot"; }).slice(-1)[0];
+  if(!last) return;
+  speak(last.text);
+}
+
+function speak(text){
+  if(!ttsSupported || !text) return;
+  try{
+    window.speechSynthesis.cancel();
+    const utt = new SpeechSynthesisUtterance(text);
+    utt.lang = currentLang === "fr" ? "fr-FR" : "en-US";
+    utt.rate = 1;
+    const voices = window.speechSynthesis.getVoices();
+    const target = currentLang === "fr" ? "fr" : "en";
+    const v = voices.find(function(x){ return x.lang && x.lang.toLowerCase().indexOf(target) === 0; });
+    if(v) utt.voice = v;
+    utt.onstart = function(){ setAvatarState("speaking"); startMouthAnim(); };
+    utt.onend = function(){ stopMouthAnim(); setAvatarState(null); setVoiceStatus(currentLang === "fr" ? "Touchez le micro pour parler." : "Tap the mic to speak."); };
+    utt.onerror = function(){ stopMouthAnim(); setAvatarState(null); };
+    window.speechSynthesis.speak(utt);
+  }catch(e){}
 }
 
 function renderChatPanel(){
@@ -1509,6 +1670,8 @@ function boot(){
   console.log("Données chargées : ", Object.keys(stores).map(function(k){
     return k + "=" + stores[k].items.length;
   }).join(", "));
+wireObjectifs();
+  setTimeout(initVoiceEngine, 500);
 }
 
 // Enregistrement du Service Worker (PWA, si disponible)
