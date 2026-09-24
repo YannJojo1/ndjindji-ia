@@ -41,6 +41,9 @@
     --ok-soft:#E1F1EA;
     --warn:#B4590E;
     --warn-soft:#FBEADA;
+    --bronze:#CD7F32;
+    --silver:#A8A9AD;
+    --goldbadge:#DB9A34;
   }
   @media (prefers-color-scheme: dark){
     :root:not([data-theme="light"]){
@@ -134,7 +137,59 @@
   .navbtn.active svg{opacity:1; transform:scale(1.1);}
   .navbtn.active::after{content:""; position:absolute; left:15px; right:15px; bottom:0; height:3px; background:linear-gradient(90deg, var(--framboise), var(--gold)); border-radius:3px 3px 0 0; box-shadow:0 -2px 8px rgba(212,19,103,.4);}
   .navbtn:hover{color:var(--framboise);}
-  .navbtn:hover svg{opacity:1;}main{flex:1; min-width:0; padding:22px 18px 70px; max-width:900px; margin:0 auto; width:100%;}
+  .navbtn:hover svg{opacity:1;}
+  .splash-overlay{position:fixed; inset:0; z-index:99999; display:flex; flex-direction:column; align-items:center; justify-content:center; background:linear-gradient(160deg, #D41367 0%, #A80E52 50%, #4A0A26 100%); color:#fff; transition:opacity .6s ease, transform .6s ease; padding:24px; text-align:center;}
+  .splash-overlay.hidden{opacity:0; transform:scale(1.05); pointer-events:none;}
+  .splash-logo{width:110px; height:110px; border-radius:26px; background:linear-gradient(135deg, rgba(255,255,255,.28) 0%, rgba(255,255,255,.08) 100%); display:flex; align-items:center; justify-content:center; font-weight:900; font-size:34px; color:#fff; letter-spacing:-1px; box-shadow:0 20px 50px rgba(0,0,0,.3), inset 0 2px 0 rgba(255,255,255,.3); margin-bottom:28px; opacity:0; transform:scale(.7); animation:splashLogoIn 0.9s cubic-bezier(.34,1.56,.64,1) 0.2s forwards; backdrop-filter:blur(10px); border:2px solid rgba(255,255,255,.2);}
+  @keyframes splashLogoIn{to{opacity:1; transform:scale(1);}}
+  .splash-title{font-family:var(--font-body); font-weight:900; font-size:36px; letter-spacing:2px; margin-bottom:12px; min-height:44px;}
+  .splash-title span{display:inline-block; opacity:0; transform:translateY(20px); animation:letterIn 0.5s cubic-bezier(.34,1.56,.64,1) forwards;}
+  @keyframes letterIn{to{opacity:1; transform:translateY(0);}}
+  .splash-sub{font-size:14px; font-weight:600; letter-spacing:1.5px; text-transform:uppercase; opacity:0; animation:splashFadeIn 0.8s ease 1.6s forwards;}
+  .splash-motto{font-family:var(--font-display); font-style:italic; font-size:15px; margin-top:32px; opacity:0; animation:splashFadeIn 0.8s ease 1.9s forwards; color:rgba(255,255,255,.85);}
+  @keyframes splashFadeIn{to{opacity:1;}}
+  .splash-bar{position:absolute; bottom:44px; left:50%; transform:translateX(-50%); width:60px; height:3px; background:rgba(255,255,255,.25); border-radius:100px; overflow:hidden;}
+  .splash-bar::after{content:""; position:absolute; inset:0; background:#fff; border-radius:100px; transform-origin:left; animation:splashProgress 2.4s ease-out forwards;}
+  @keyframes splashProgress{from{transform:scaleX(0);}to{transform:scaleX(1);}}
+  .badge-pill{display:inline-flex; align-items:center; gap:6px; padding:6px 12px; border-radius:100px; font-size:11.5px; font-weight:800; letter-spacing:0.04em; text-transform:uppercase; margin-bottom:10px;}
+  .badge-pill.bronze{background:linear-gradient(135deg, #F4D0A8, #E5A66D); color:#5C3A16;}
+  .badge-pill.silver{background:linear-gradient(135deg, #E4E5E7, #C5C7CB); color:#3D3E42;}
+  .badge-pill.gold{background:linear-gradient(135deg, #FBE4A6, #DB9A34); color:#5C3A16;}
+  .badge-pill.platine{background:linear-gradient(135deg, #E8E0F5, #B9A3DD); color:#3D2C5C;}
+  .activity-card{background:linear-gradient(135deg, var(--gold-soft) 0%, var(--paper-raised) 100%); border:1px solid var(--gold); border-radius:var(--radius); padding:20px 22px; margin-bottom:16px; box-shadow:var(--shadow-sm); display:flex; align-items:center; gap:16px;}
+  .activity-icon{width:52px; height:52px; border-radius:15px; background:linear-gradient(135deg, var(--gold-light), var(--gold)); color:#fff; display:flex; align-items:center; justify-content:center; flex-shrink:0; box-shadow:0 6px 16px rgba(219,154,52,.35);}
+  .activity-icon svg{width:26px; height:26px;}
+  .activity-content{flex:1; min-width:0;}
+  .activity-num{font-family:var(--font-display); font-size:24px; font-weight:700; color:var(--gold); line-height:1; margin-bottom:4px; letter-spacing:-0.02em;}
+  .activity-lbl{font-size:12.5px; color:var(--ink-soft); font-weight:600; line-height:1.4;}.cat-chip{display:inline-flex; align-items:center; gap:5px; padding:4px 10px; border-radius:100px; font-size:10.5px; font-weight:800; letter-spacing:0.05em; text-transform:uppercase;}
+  .cat-chip.communication{background:linear-gradient(135deg, #E0E7FF, #C7D2FE); color:#3730A3;}
+  .cat-chip.finance{background:linear-gradient(135deg, #D1FAE5, #A7F3D0); color:#065F46;}
+  .cat-chip.logistique{background:linear-gradient(135deg, #FEF3C7, #FDE68A); color:#92400E;}
+  .cat-chip.programme{background:linear-gradient(135deg, #FCE7F3, #FBCFE8); color:#9D174D;}
+  .cat-chip.administration{background:linear-gradient(135deg, #DBEAFE, #BFDBFE); color:#1E40AF;}
+  .cat-chip.autre{background:var(--line); color:var(--ink-soft);}
+  :root[data-theme="dark"] .cat-chip.communication{background:linear-gradient(135deg, #1E1B4B, #312E81); color:#C7D2FE;}
+  :root[data-theme="dark"] .cat-chip.finance{background:linear-gradient(135deg, #064E3B, #065F46); color:#A7F3D0;}
+  :root[data-theme="dark"] .cat-chip.logistique{background:linear-gradient(135deg, #78350F, #92400E); color:#FDE68A;}
+  :root[data-theme="dark"] .cat-chip.programme{background:linear-gradient(135deg, #831843, #9D174D); color:#FBCFE8;}
+  :root[data-theme="dark"] .cat-chip.administration{background:linear-gradient(135deg, #1E3A8A, #1E40AF); color:#BFDBFE;}
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]) .cat-chip.communication{background:linear-gradient(135deg, #1E1B4B, #312E81); color:#C7D2FE;}
+    :root:not([data-theme="light"]) .cat-chip.finance{background:linear-gradient(135deg, #064E3B, #065F46); color:#A7F3D0;}
+    :root:not([data-theme="light"]) .cat-chip.logistique{background:linear-gradient(135deg, #78350F, #92400E); color:#FDE68A;}
+    :root:not([data-theme="light"]) .cat-chip.programme{background:linear-gradient(135deg, #831843, #9D174D); color:#FBCFE8;}
+    :root:not([data-theme="light"]) .cat-chip.administration{background:linear-gradient(135deg, #1E3A8A, #1E40AF); color:#BFDBFE;}
+  }
+  .cat-select{width:auto; padding:7px 11px; font-size:12px; font-weight:700; border-radius:10px; border:1.5px solid var(--line); background:var(--paper); color:var(--ink); cursor:pointer; transition:all .15s ease; max-width:170px;}
+  .cat-select:hover{border-color:var(--framboise);}
+  .cat-select:focus{border-color:var(--framboise); outline:none; box-shadow:var(--shadow-focus);}
+  .quote-manage-card{background:var(--paper-raised); border:1px solid var(--line); border-radius:var(--radius); padding:16px 18px; margin-bottom:12px; box-shadow:var(--shadow-sm); transition:all .2s ease; position:relative;}
+  .quote-manage-card:hover{box-shadow:var(--shadow-md); transform:translateY(-1px);}
+  .quote-manage-text{font-family:var(--font-display); font-style:italic; font-size:14.5px; line-height:1.55; color:var(--ink); margin-bottom:8px;}
+  .quote-manage-author{font-size:12px; color:var(--framboise); font-weight:800; letter-spacing:0.02em;}
+  .quote-manage-day{display:inline-block; font-size:10.5px; font-weight:800; letter-spacing:0.06em; text-transform:uppercase; color:var(--ink-faint); margin-top:6px; padding:3px 8px; background:var(--paper-warm); border-radius:6px;}
+  .quote-manage-actions{display:flex; gap:6px; position:absolute; top:14px; right:14px;}
+  main{flex:1; min-width:0; padding:22px 18px 70px; max-width:900px; margin:0 auto; width:100%;}
   .panel{display:none;}
   .panel.active{display:block; animation:fadeUp .4s cubic-bezier(.16,1,.3,1);}
   @keyframes fadeUp{from{opacity:0; transform:translateY(10px);} to{opacity:1; transform:translateY(0);}}
@@ -180,7 +235,7 @@
   .list-row.priority::before{background:var(--gold) !important;}
   .list-row .main-col{flex:1; min-width:0;}
   .list-row .title{font-size:14.5px; font-weight:800; color:var(--ink); letter-spacing:-0.005em; line-height:1.35;}
-  .list-row .meta{font-size:12.5px; color:var(--ink-faint); margin-top:4px; line-height:1.4;}
+  .list-row .meta{font-size:12.5px; color:var(--ink-faint); margin-top:4px; line-height:1.4; display:flex; flex-wrap:wrap; gap:6px; align-items:center;}
   .badge{font-size:11.5px; font-weight:800; padding:4px 11px; border-radius:100px; white-space:nowrap; letter-spacing:0.01em;}
   .badge.urgent{background:linear-gradient(135deg, #FFF3E0, #FDE68A); color:#B4590E; border:1px solid #F5C97D;}
   .badge.overdue{background:linear-gradient(135deg, #FEE2E2, #FECACA); color:#991B1B; border:1px solid #FCA5A5;}
@@ -197,7 +252,8 @@
   .check{margin:3px 0 17px; display:flex; align-items:center; gap:9px; font-size:13.5px; color:var(--ink-soft);}
   .check input{width:auto;}
   .add-form{display:flex; gap:9px; flex-wrap:wrap; margin-top:18px; padding-top:18px; border-top:1.5px dashed var(--line);}
-  .add-form input, .add-form select{flex:1; min-width:120px;}.stat-row{display:grid; grid-template-columns:repeat(2, 1fr); gap:11px; margin:22px 0;}
+  .add-form input, .add-form select{flex:1; min-width:120px;}
+  .stat-row{display:grid; grid-template-columns:repeat(2, 1fr); gap:11px; margin:22px 0;}
   .stat{background:var(--paper-raised); border-radius:var(--radius); padding:16px; box-shadow:var(--shadow-sm); border:1px solid var(--line); position:relative; overflow:hidden; transition:all .22s cubic-bezier(.16,1,.3,1);}
   .stat:hover{transform:translateY(-2px); box-shadow:var(--shadow-md);}
   .stat::before{content:""; position:absolute; top:0; left:0; right:0; height:3px; background:linear-gradient(90deg, var(--framboise), var(--gold));}
@@ -289,6 +345,7 @@
     :root:not([data-theme="light"]) .badge.overdue{background:linear-gradient(135deg, #3A1414, #4A1A1A); color:#FCA5A5; border-color:#5A2020;}
     :root:not([data-theme="light"]) .badge.termine, :root:not([data-theme="light"]) .badge.atteint, :root:not([data-theme="light"]) .badge.confirme{background:linear-gradient(135deg, #1A3A28, #123024); color:var(--ok);}
     :root:not([data-theme="light"]) .btn.ghost{color:var(--framboise); border-color:var(--framboise-soft);}
+    :root:not([data-theme="light"]) .activity-card{background:linear-gradient(135deg, #2E2515 0%, var(--paper-raised) 100%);}
   }
   :root[data-theme="dark"] .list-row.urgent{background:linear-gradient(90deg, #3A2A0F 0%, var(--paper-raised) 45%);}
   :root[data-theme="dark"] .list-row.overdue{background:linear-gradient(90deg, #3A1414 0%, var(--paper-raised) 45%);}
@@ -299,6 +356,7 @@
   :root[data-theme="dark"] .badge.overdue{background:linear-gradient(135deg, #3A1414, #4A1A1A); color:#FCA5A5; border-color:#5A2020;}
   :root[data-theme="dark"] .badge.termine, :root[data-theme="dark"] .badge.atteint, :root[data-theme="dark"] .badge.confirme{background:linear-gradient(135deg, #1A3A28, #123024); color:var(--ok);}
   :root[data-theme="dark"] .btn.ghost{color:var(--framboise); border-color:var(--framboise-soft);}
+  :root[data-theme="dark"] .activity-card{background:linear-gradient(135deg, #2E2515 0%, var(--paper-raised) 100%);}
   @media (min-width:600px){
     .stat-row{grid-template-columns:repeat(4, 1fr);}
   }
@@ -313,6 +371,13 @@
   }
 </style>
 </head><body>
+<div class="splash-overlay" id="splashOverlay">
+  <div class="splash-logo">IA</div>
+  <div class="splash-title" id="splashTitle"></div>
+  <div class="splash-sub">Rotaract Club Ndjindji</div>
+  <div class="splash-motto">« Service, Action et Camaraderie »</div>
+  <div class="splash-bar"></div>
+</div>
 <div class="shell">
   <nav class="rail">
     <div class="brand">
@@ -336,18 +401,19 @@
   </nav>
   <main id="main"></main>
 </div>
-<div class="toast" id="toast"></div><script>
-const CLUB_NAME = "Rotaract Club Ndjindji";
+<div class="toast" id="toast"></div>
+<script>const CLUB_NAME = "Rotaract Club Ndjindji";
 const DISTRICT = "District 9150";
 const PRESIDENT_NAME = "Yann Junior NGOUBOU";
 const PRESIDENT_TERM = "Président 2026-2027";
 const MOTTO = "Service, Action et Camaraderie";
 const I18N = {
-  fr: {brandSub:"Assistant du Président<br>Rotaract Club Ndjindji",brandMotto:"« Service, Action et Camaraderie »",navDashboard:"Tableau de bord",navChat:"Assistant",navTaches:"Tâches",navProjets:"Projets",navLoudima:"Bibliothèque Loudima",navPlanif:"Planification",navMembres:"Membres",navObjectifs:"Objectifs My Rotary",navDocuments:"Documents",dashHello:"Bonjour, Président.",dashSub:"Voici un aperçu de l'activité du club et du projet prioritaire du moment.",dashCalloutTitle:"Bibliothèque Communautaire de Loudima",dashCalloutText:"Projet prioritaire du club : mettre en place une bibliothèque au Lycée de Loudima au service de l'éducation, de l'alphabétisation et du développement communautaire.",dashBtnFollow:"Suivre le projet",dashBtnChat:"Ouvrir l'assistant",dashBtnTask:"Ajouter une tâche",statTachesActives:"tâches actives",statProjets:"projets en cours",statAucunEvt:"aucun événement",statAxesEngages:"axes engagés",chatTitle:"Assistant Ndjindji",chatSub:"Posez une question ou tapez une commande rapide.",chatPlaceholder:"Tapez un message ou une commande...",chatSuggestions:"Suggestions :",chatCmd1:"Ajouter une tâche",chatCmd2:"Voir mes tâches",chatCmd3:"Prochain événement",chatCmd4:"Mes projets",chatCmd5:"Statistiques",chatCmd6:"Aide",tachesTitle:"Tâches",tachesSub:"Suivi de toutes les tâches du club.",projetsTitle:"Projets",projetsSub:"Suivi des projets du club.",loudimaTitle:"Bibliothèque Communautaire de Loudima",loudimaSub:"Projet prioritaire du club.",loudimaTaches:"Tâches du projet",loudimaPartenaires:"Partenaires et parties prenantes",planifTitle:"Planification",planifSub:"Événements et échéances à venir.",membresTitle:"Membres du club",membresSub:"Gestion des membres et de leurs rôles.",objectifsTitle:"Objectifs My Rotary",objectifsSub:"Suivi des axes d'action du Rotary.",objProgression:"Progression globale",objAxesEngages:"% des axes engagés ou atteints",addPlaceholderTitre:"Nouvelle tâche",addPlaceholderResp:"Responsable",addBtn:"Ajouter",addProjet:"Nom du projet",addEvt:"Titre de l'événement",addEvtLieu:"Lieu",addMembreNom:"Nom du membre",addMembreRole:"Rôle",addPartenaireNom:"Nom du partenaire",addPartenaireContact:"Rôle ou contact",emptyTaches:"Aucune tâche pour l'instant.",emptyProjets:"Aucun projet enregistré.",emptyEvts:"Aucun événement planifié.",emptyPartenaires:"Aucun partenaire enregistré.",emptyMembres:"Aucun membre enregistré.",emptyAxes:"Aucun axe d'action enregistré.",statusAFaire:"À faire",statusEnCours:"En cours",statusTermine:"Terminé",statusAttente:"En attente",statusContacte:"Contacté",statusConfirme:"Confirmé",statusPlanifie:"Planifié",statusEnPause:"En pause",statusAtteint:"Atteint",statusAInitier:"À initier",toastAjoute:"Ajouté avec succès",toastSupprime:"Supprimé",toastModifie:"Modifié",toastImporte:"Données importées",toastExporte:"Données exportées",exportBtn:"Exporter mes données",importBtn:"Importer des données",searchPlaceholder:"Rechercher dans toute l'application...",searchResult:"résultat(s)",searchAucun:"Aucun résultat",confirmSuppr:"Confirmer la suppression ?",documentsTitle:"Documents officiels",documentsSub:"Modèles prêts à remplir pour vos courriers, communiqués et discours.",docType:"Type de document",docDest:"Destinataire",docObjet:"Objet",docDate:"Date",docCorps:"Points principaux à aborder",docCopyBtn:"Copier le texte",docClearBtn:"Effacer",docPlaceholderDest:"Ex. Sous-préfet de Loudima",docPlaceholderObjet:"Ex. Demande d'autorisation",docPlaceholderCorps:"Séparez chaque point par une ligne",docLettre:"Lettre officielle",docCommunique:"Communiqué de presse",docCompteRendu:"Compte rendu de réunion",docDiscours:"Discours du Président",docCopie:"Copié !",docVide:"Remplissez les champs puis cliquez sur Générer.",docPromptBtn:"Copier le prompt pour Claude",docPromptCopie:"Prompt copié ! Collez-le dans Claude ou ChatGPT.",docColler:"Coller le texte généré par l'IA",docSaveBtn:"Sauvegarder dans l'app",docSaved:"Document sauvegardé",docSavedTitle:"Documents sauvegardés",docEmpty:"Aucun document sauvegardé.",docPromptHelp:"Étape 1 : cliquez ci-dessus. Étape 2 : collez dans Claude/ChatGPT. Étape 3 : copiez la réponse et collez-la ci-dessous.",quoteTitle:"Citation du jour",quote1:"« Le service est le loyer que nous payons pour vivre sur cette terre. »",quote1Author:"Muhammad Ali",quote2:"« Seul, on va plus vite. Ensemble, on va plus loin. »",quote2Author:"Proverbe africain",quote3:"« Ce que nous faisons pour nous-mêmes meurt avec nous. Ce que nous faisons pour les autres demeure. »",quote3Author:"Proverbe africain",quote4:"« La meilleure façon de trouver le bonheur est de le faire naître chez les autres. »",quote4Author:"Robert Baden-Powell",quote5:"« Un petit geste vaut mieux qu'un grand discours. »",quote5Author:"Proverbe africain"},
-  en: {brandSub:"President's Assistant<br>Rotaract Club Ndjindji",brandMotto:"\"Service, Action and Fellowship\"",navDashboard:"Dashboard",navChat:"Assistant",navTaches:"Tasks",navProjets:"Projects",navLoudima:"Loudima Library",navPlanif:"Planning",navMembres:"Members",navObjectifs:"My Rotary Goals",navDocuments:"Documents",dashHello:"Hello, President.",dashSub:"Here is an overview of club activity.",dashCalloutTitle:"Loudima Community Library",dashCalloutText:"The club's priority project.",dashBtnFollow:"Follow the project",dashBtnChat:"Open the assistant",dashBtnTask:"Add a task",statTachesActives:"active tasks",statProjets:"projects in progress",statAucunEvt:"no event",statAxesEngages:"areas engaged",chatTitle:"Ndjindji Assistant",chatSub:"Ask a question or type a quick command.",chatPlaceholder:"Type a message or command...",chatSuggestions:"Suggestions:",chatCmd1:"Add a task",chatCmd2:"See my tasks",chatCmd3:"Next event",chatCmd4:"My projects",chatCmd5:"Statistics",chatCmd6:"Help",tachesTitle:"Tasks",tachesSub:"Track all club tasks.",projetsTitle:"Projects",projetsSub:"Track club projects.",loudimaTitle:"Loudima Community Library",loudimaSub:"Club priority project.",loudimaTaches:"Project tasks",loudimaPartenaires:"Partners and stakeholders",planifTitle:"Planning",planifSub:"Upcoming events and deadlines.",membresTitle:"Club members",membresSub:"Manage members and their roles.",objectifsTitle:"My Rotary Goals",objectifsSub:"Track Rotary areas of focus.",objProgression:"Overall progress",objAxesEngages:"% of areas engaged or achieved",addPlaceholderTitre:"New task",addPlaceholderResp:"Responsible",addBtn:"Add",addProjet:"Project name",addEvt:"Event title",addEvtLieu:"Location",addMembreNom:"Member name",addMembreRole:"Role",addPartenaireNom:"Partner name",addPartenaireContact:"Role or contact",emptyTaches:"No task yet.",emptyProjets:"No project registered.",emptyEvts:"No event planned yet.",emptyPartenaires:"No partner registered yet.",emptyMembres:"No member registered yet.",emptyAxes:"No area of focus registered.",statusAFaire:"To do",statusEnCours:"In progress",statusTermine:"Done",statusAttente:"Pending",statusContacte:"Contacted",statusConfirme:"Confirmed",statusPlanifie:"Planned",statusEnPause:"On hold",statusAtteint:"Achieved",statusAInitier:"To start",toastAjoute:"Added successfully",toastSupprime:"Deleted",toastModifie:"Modified",toastImporte:"Data imported",toastExporte:"Data exported",exportBtn:"Export my data",importBtn:"Import data",searchPlaceholder:"Search the whole app...",searchResult:"result(s)",searchAucun:"No result",confirmSuppr:"Confirm deletion?",documentsTitle:"Official documents",documentsSub:"Ready-to-fill templates for letters, press releases and speeches.",docType:"Document type",docDest:"Recipient",docObjet:"Subject",docDate:"Date",docCorps:"Key points to address",docCopyBtn:"Copy text",docClearBtn:"Clear",docPlaceholderDest:"Ex. Sous-prefect of Loudima",docPlaceholderObjet:"Ex. Authorization request",docPlaceholderCorps:"Separate each point with a line break",docLettre:"Official letter",docCommunique:"Press release",docCompteRendu:"Meeting report",docDiscours:"President's speech",docCopie:"Copied!",docVide:"Fill the fields and click Generate.",docPromptBtn:"Copy prompt for Claude",docPromptCopie:"Prompt copied! Paste it in Claude or ChatGPT.",docColler:"Paste the text generated by AI",docSaveBtn:"Save in app",docSaved:"Document saved",docSavedTitle:"Saved documents",docEmpty:"No saved document.",docPromptHelp:"Step 1: click above. Step 2: paste in Claude/ChatGPT. Step 3: copy the answer and paste below.",quoteTitle:"Quote of the day",quote1:"\"Service is the rent we pay for living on this earth.\"",quote1Author:"Muhammad Ali",quote2:"\"Alone we go faster. Together we go further.\"",quote2Author:"African proverb",quote3:"\"What we do for ourselves dies with us. What we do for others remains.\"",quote3Author:"African proverb",quote4:"\"The best way to find happiness is to make it happen for others.\"",quote4Author:"Robert Baden-Powell",quote5:"\"A small gesture is worth more than a big speech.\"",quote5Author:"African proverb"}
+  fr: {brandSub:"Assistant du Président<br>Rotaract Club Ndjindji",brandMotto:"« Service, Action et Camaraderie »",navDashboard:"Tableau de bord",navChat:"Assistant",navTaches:"Tâches",navProjets:"Projets",navLoudima:"Bibliothèque Loudima",navPlanif:"Planification",navMembres:"Membres",navObjectifs:"Objectifs My Rotary",navDocuments:"Documents",navCitations:"Citations",dashHello:"Bonjour, Président.",dashHelloMatin:"Bonjour, Président.",dashHelloApresMidi:"Bon après-midi, Président.",dashHelloSoir:"Bonsoir, Président.",dashSub:"Voici un aperçu de l'activité du club et du projet prioritaire du moment.",dashCalloutTitle:"Bibliothèque Communautaire de Loudima",dashCalloutText:"Projet prioritaire du club : mettre en place une bibliothèque au Lycée de Loudima au service de l'éducation, de l'alphabétisation et du développement communautaire.",dashBtnFollow:"Suivre le projet",dashBtnChat:"Ouvrir l'assistant",dashBtnTask:"Ajouter une tâche",statTachesActives:"tâches actives",statProjets:"projets en cours",statAucunEvt:"aucun événement",statAxesEngages:"axes engagés",chatTitle:"Assistant Ndjindji",chatSub:"Posez une question ou tapez une commande rapide.",chatPlaceholder:"Tapez un message ou une commande...",chatSuggestions:"Suggestions :",chatCmd1:"Ajouter une tâche",chatCmd2:"Voir mes tâches",chatCmd3:"Prochain événement",chatCmd4:"Mes projets",chatCmd5:"Statistiques",chatCmd6:"Aide",tachesTitle:"Tâches",tachesSub:"Suivi de toutes les tâches du club.",projetsTitle:"Projets",projetsSub:"Suivi des projets du club.",loudimaTitle:"Bibliothèque Communautaire de Loudima",loudimaSub:"Projet prioritaire du club.",loudimaTaches:"Tâches du projet",loudimaPartenaires:"Partenaires et parties prenantes",planifTitle:"Planification",planifSub:"Événements et échéances à venir.",membresTitle:"Membres du club",membresSub:"Gestion des membres et de leurs rôles.",objectifsTitle:"Objectifs My Rotary",objectifsSub:"Suivi des axes d'action du Rotary.",objProgression:"Progression globale",objAxesEngages:"% des axes engagés ou atteints",addPlaceholderTitre:"Nouvelle tâche",addPlaceholderResp:"Responsable",addBtn:"Ajouter",addProjet:"Nom du projet",addEvt:"Titre de l'événement",addEvtLieu:"Lieu",addMembreNom:"Nom du membre",addMembreRole:"Rôle",addPartenaireNom:"Nom du partenaire",addPartenaireContact:"Rôle ou contact",emptyTaches:"Aucune tâche pour l'instant.",emptyProjets:"Aucun projet enregistré.",emptyEvts:"Aucun événement planifié.",emptyPartenaires:"Aucun partenaire enregistré.",emptyMembres:"Aucun membre enregistré.",emptyAxes:"Aucun axe d'action enregistré.",statusAFaire:"À faire",statusEnCours:"En cours",statusTermine:"Terminé",statusAttente:"En attente",statusContacte:"Contacté",statusConfirme:"Confirmé",statusPlanifie:"Planifié",statusEnPause:"En pause",statusAtteint:"Atteint",statusAInitier:"À initier",toastAjoute:"Ajouté avec succès",toastSupprime:"Supprimé",toastModifie:"Modifié",toastImporte:"Données importées",toastExporte:"Données exportées",exportBtn:"Exporter mes données",importBtn:"Importer des données",searchPlaceholder:"Rechercher dans toute l'application...",searchResult:"résultat(s)",searchAucun:"Aucun résultat",confirmSuppr:"Confirmer la suppression ?",documentsTitle:"Documents officiels",documentsSub:"Modèles prêts à remplir pour vos courriers, communiqués et discours.",docType:"Type de document",docDest:"Destinataire",docObjet:"Objet",docDate:"Date",docCorps:"Points principaux à aborder",docCopyBtn:"Copier le texte",docClearBtn:"Effacer",docPlaceholderDest:"Ex. Sous-préfet de Loudima",docPlaceholderObjet:"Ex. Demande d'autorisation",docPlaceholderCorps:"Séparez chaque point par une ligne",docLettre:"Lettre officielle",docCommunique:"Communiqué de presse",docCompteRendu:"Compte rendu de réunion",docDiscours:"Discours du Président",docCopie:"Copié !",docVide:"Remplissez les champs puis cliquez sur Générer.",docPromptBtn:"Copier le prompt pour Claude",docPromptCopie:"Prompt copié ! Collez-le dans Claude ou ChatGPT.",docColler:"Coller le texte généré par l'IA",docSaveBtn:"Sauvegarder dans l'app",docSaved:"Document sauvegardé",docSavedTitle:"Documents sauvegardés",docEmpty:"Aucun document sauvegardé.",docPromptHelp:"Étape 1 : cliquez ci-dessus. Étape 2 : collez dans Claude/ChatGPT. Étape 3 : copiez la réponse et collez-la ci-dessous.",citationTitle:"Citation du jour",activityTitle:"Activité du mois",activityTaches:"tâches terminées ce mois-ci",activityProjets:"projets finalisés",activityDocs:"documents créés",badgeBronze:"Bronze",badgeArgent:"Argent",badgeOr:"Or",badgePlatine:"Platine",badgeBronzeDesc:"Première étape franchie !",badgeArgentDesc:"Club actif et engagé",badgeOrDesc:"Club exemplaire",badgePlatineDesc:"Excellence absolue",badgeProchain:"Prochain palier",badgeTachesRestantes:"tâches pour atteindre",catsTitle:"Catégories",catCommunication:"Communication",catFinance:"Finance",catLogistique:"Logistique",catProgramme:"Programme",catAdministration:"Administration",catAutre:"Autre",catAucune:"Sans catégorie",catChoisir:"Choisir une catégorie",citationsTitle:"Citations",citationsSub:"Gérez les citations qui apparaissent sur votre tableau de bord.",citationAddBtn:"Ajouter une citation",citationTexte:"Texte de la citation",citationAuteur:"Auteur (ou source)",citationJour:"Jour d'affichage",citationJourAuto:"Automatique (rotation)",citationSaveBtn:"Sauvegarder la citation",citationEditBtn:"Modifier",citationSaved:"Citation sauvegardée",citationEmpty:"Aucune citation personnalisée. Les citations par défaut sont utilisées.",citationDelete:"Citation supprimée",citationDefault:"Citation par défaut",citationWeekdays:"Lundi,Mardi,Mercredi,Jeudi,Vendredi,Samedi,Dimanche",weekdays:["Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi","Dimanche"]},
+  en: {brandSub:"President's Assistant<br>Rotaract Club Ndjindji",brandMotto:"\"Service, Action and Fellowship\"",navDashboard:"Dashboard",navChat:"Assistant",navTaches:"Tasks",navProjets:"Projects",navLoudima:"Loudima Library",navPlanif:"Planning",navMembres:"Members",navObjectifs:"My Rotary Goals",navDocuments:"Documents",navCitations:"Quotes",dashHello:"Hello, President.",dashHelloMatin:"Good morning, President.",dashHelloApresMidi:"Good afternoon, President.",dashHelloSoir:"Good evening, President.",dashSub:"Here is an overview of club activity.",dashCalloutTitle:"Loudima Community Library",dashCalloutText:"The club's priority project.",dashBtnFollow:"Follow the project",dashBtnChat:"Open the assistant",dashBtnTask:"Add a task",statTachesActives:"active tasks",statProjets:"projects in progress",statAucunEvt:"no event",statAxesEngages:"areas engaged",chatTitle:"Ndjindji Assistant",chatSub:"Ask a question or type a quick command.",chatPlaceholder:"Type a message or command...",chatSuggestions:"Suggestions:",chatCmd1:"Add a task",chatCmd2:"See my tasks",chatCmd3:"Next event",chatCmd4:"My projects",chatCmd5:"Statistics",chatCmd6:"Help",tachesTitle:"Tasks",tachesSub:"Track all club tasks.",projetsTitle:"Projects",projetsSub:"Track club projects.",loudimaTitle:"Loudima Community Library",loudimaSub:"Club priority project.",loudimaTaches:"Project tasks",loudimaPartenaires:"Partners and stakeholders",planifTitle:"Planning",planifSub:"Upcoming events and deadlines.",membresTitle:"Club members",membresSub:"Manage members and their roles.",objectifsTitle:"My Rotary Goals",objectifsSub:"Track Rotary areas of focus.",objProgression:"Overall progress",objAxesEngages:"% of areas engaged or achieved",addPlaceholderTitre:"New task",addPlaceholderResp:"Responsible",addBtn:"Add",addProjet:"Project name",addEvt:"Event title",addEvtLieu:"Location",addMembreNom:"Member name",addMembreRole:"Role",addPartenaireNom:"Partner name",addPartenaireContact:"Role or contact",emptyTaches:"No task yet.",emptyProjets:"No project registered.",emptyEvts:"No event planned yet.",emptyPartenaires:"No partner registered yet.",emptyMembres:"No member registered yet.",emptyAxes:"No area of focus registered.",statusAFaire:"To do",statusEnCours:"In progress",statusTermine:"Done",statusAttente:"Pending",statusContacte:"Contacted",statusConfirme:"Confirmed",statusPlanifie:"Planned",statusEnPause:"On hold",statusAtteint:"Achieved",statusAInitier:"To start",toastAjoute:"Added successfully",toastSupprime:"Deleted",toastModifie:"Modified",toastImporte:"Data imported",toastExporte:"Data exported",exportBtn:"Export my data",importBtn:"Import data",searchPlaceholder:"Search the whole app...",searchResult:"result(s)",searchAucun:"No result",confirmSuppr:"Confirm deletion?",documentsTitle:"Official documents",documentsSub:"Ready-to-fill templates for letters, press releases and speeches.",docType:"Document type",docDest:"Recipient",docObjet:"Subject",docDate:"Date",docCorps:"Key points to address",docCopyBtn:"Copy text",docClearBtn:"Clear",docPlaceholderDest:"Ex. Sous-prefect of Loudima",docPlaceholderObjet:"Ex. Authorization request",docPlaceholderCorps:"Separate each point with a line break",docLettre:"Official letter",docCommunique:"Press release",docCompteRendu:"Meeting report",docDiscours:"President's speech",docCopie:"Copied!",docVide:"Fill the fields and click Generate.",docPromptBtn:"Copy prompt for Claude",docPromptCopie:"Prompt copied! Paste it in Claude or ChatGPT.",docColler:"Paste the text generated by AI",docSaveBtn:"Save in app",docSaved:"Document saved",docSavedTitle:"Saved documents",docEmpty:"No saved document.",docPromptHelp:"Step 1: click above. Step 2: paste in Claude/ChatGPT. Step 3: copy the answer and paste below.",citationTitle:"Quote of the day",activityTitle:"Monthly activity",activityTaches:"tasks completed this month",activityProjets:"projects finished",activityDocs:"documents created",badgeBronze:"Bronze",badgeArgent:"Silver",badgeOr:"Gold",badgePlatine:"Platinum",badgeBronzeDesc:"First step achieved!",badgeArgentDesc:"Active and engaged club",badgeOrDesc:"Exemplary club",badgePlatineDesc:"Absolute excellence",badgeProchain:"Next level",badgeTachesRestantes:"tasks to reach",catsTitle:"Categories",catCommunication:"Communication",catFinance:"Finance",catLogistique:"Logistics",catProgramme:"Program",catAdministration:"Administration",catAutre:"Other",catAucune:"No category",catChoisir:"Choose a category",citationsTitle:"Quotes",citationsSub:"Manage the quotes displayed on your dashboard.",citationAddBtn:"Add a quote",citationTexte:"Quote text",citationAuteur:"Author (or source)",citationJour:"Display day",citationJourAuto:"Automatic (rotation)",citationSaveBtn:"Save quote",citationEditBtn:"Edit",citationSaved:"Quote saved",citationEmpty:"No custom quotes. Default quotes are used.",citationDelete:"Quote deleted",citationDefault:"Default quote",citationWeekdays:"Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday",weekdays:["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"]}
 };
 let currentLang = localStorage.getItem("ndjindji_lang") || "fr";
 function t(key){ return (I18N[currentLang] && I18N[currentLang][key]) || I18N.fr[key] || key; }
+const CATEGORIES = ["communication","finance","logistique","programme","administration","autre"];
 const ICONS = {
   dashboard:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="5" rx="1.5"/><rect x="13" y="10" width="8" height="11" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/></svg>',
   chat:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 01-8 8H7l-4 3v-6.5A8 8 0 0113 4h0a8 8 0 018 8z"/></svg>',
@@ -369,7 +435,10 @@ const ICONS = {
   docReport:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>',
   docSpeech:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18M7 7h10M7 11h10M7 15h6"/></svg>',
   sparkle:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l2 5 5 2-5 2-2 5-2-5-5-2 5-2z"/></svg>',
-  check:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg>'
+  check:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg>',
+  quote:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 17h3a4 4 0 004-4V6H6zM14 17h3a4 4 0 004-4V6h-7z"/></svg>',
+  trophy:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 01-10 0V4zM7 6H4v2a3 3 0 003 3M17 6h3v2a3 3 0 01-3 3"/></svg>',
+  chart:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18M7 14l4-4 4 4 5-5"/></svg>'
 };
 const TABS = [
   {id:"dashboard", labelKey:"navDashboard", icon:"dashboard"},
@@ -380,47 +449,15 @@ const TABS = [
   {id:"planif", labelKey:"navPlanif", icon:"planif"},
   {id:"membres", labelKey:"navMembres", icon:"membres"},
   {id:"objectifs", labelKey:"navObjectifs", icon:"objectifs"},
-  {id:"documents", labelKey:"navDocuments", icon:"edit"}
-];function $(sel, root){ return (root||document).querySelector(sel); }
-function $$(sel, root){ return Array.from((root||document).querySelectorAll(sel)); }
-function esc(s){ return (s==null?"":String(s)).replace(/[&<>"']/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
-function uid(){ return "id-" + Date.now().toString(36) + "-" + Math.random().toString(36).slice(2,8); }
-function fmtDate(iso){ if(!iso) return ""; const d = new Date(iso + "T00:00:00"); if(isNaN(d)) return iso; return d.toLocaleDateString(currentLang==="fr"?"fr-FR":"en-US", {day:'numeric', month:'long', year:'numeric'}); }
-function getUrgencyInfo(echeance, statut){
-  if(!echeance) return {level:"none"};
-  if(statut === "termine" || statut === "atteinte") return {level:"done"};
-  const today = new Date(); today.setHours(0,0,0,0);
-  const due = new Date(echeance + "T00:00:00");
-  if(isNaN(due)) return {level:"none"};
-  const diffDays = Math.ceil((due - today) / (1000 * 60 * 60 * 24));
-  if(diffDays < 0) return {level:"overdue", days:Math.abs(diffDays)};
-  if(diffDays === 0) return {level:"urgent", days:0, label:"aujourd'hui"};
-  if(diffDays === 1) return {level:"urgent", days:1, label:"demain"};
-  if(diffDays <= 3) return {level:"urgent", days:diffDays};
-  return {level:"ok", days:diffDays};
-}
-function getUrgencyClass(echeance, statut){ const info = getUrgencyInfo(echeance, statut); if(info.level === "overdue") return "overdue"; if(info.level === "urgent") return "urgent"; return ""; }
-function getUrgencyBadge(echeance, statut){
-  const info = getUrgencyInfo(echeance, statut);
-  if(info.level === "overdue") return '<span class="badge overdue">⚠️ ' + (currentLang === "fr" ? "Retard " + info.days + "j" : info.days + "d late") + '</span>';
-  if(info.level === "urgent"){ let lbl; if(info.label) lbl = info.label; else lbl = currentLang === "fr" ? "dans " + info.days + "j" : "in " + info.days + "d"; return '<span class="badge urgent">⚡ ' + lbl + '</span>'; }
-  return "";
-}
-function countUrgentTasks(){
-  let overdue = 0, urgent = 0;
-  stores.taches.items.forEach(function(t){ const info = getUrgencyInfo(t.echeance, t.statut); if(info.level === "overdue") overdue++; else if(info.level === "urgent") urgent++; });
-  return {overdue:overdue, urgent:urgent};
-}
-function toast(msg){ const el = $("#toast"); if(!el) return; el.textContent = msg; el.classList.add("show"); clearTimeout(el._t); el._t = setTimeout(()=>el.classList.remove("show"), 2400); }
-const STORAGE_PREFIX = "ndjindji_v2_";
-function lsGet(key, fallback){ try{ const raw = localStorage.getItem(STORAGE_PREFIX + key); if(raw === null) return fallback; return JSON.parse(raw); }catch(e){ return fallback; } }
-function lsSet(key, value){ try{ localStorage.setItem(STORAGE_PREFIX + key, JSON.stringify(value)); return true; }catch(e){ toast("Erreur de sauvegarde"); return false; } }
+  {id:"documents", labelKey:"navDocuments", icon:"edit"},
+  {id:"citations", labelKey:"navCitations", icon:"quote"}
+];
 const SEED_TACHES = [
-  {titre:"Envoyer la lettre officielle au Sous-préfet", responsable:"Président", echeance:"", statut:"a_faire"},
-  {titre:"Envoyer la lettre officielle à l'Administrateur-Maire", responsable:"Président", echeance:"", statut:"a_faire"},
-  {titre:"Envoyer la lettre officielle au Proviseur du Lycée de Loudima", responsable:"Président", echeance:"", statut:"a_faire"},
-  {titre:"Finaliser l'affiche avec le bandeau de logos partenaires", responsable:"Comité communication", echeance:"", statut:"en_cours"},
-  {titre:"Préparer la cérémonie au Lycée de Loudima", responsable:"Comité organisation", echeance:"2026-09-26", statut:"a_faire"}
+  {titre:"Envoyer la lettre officielle au Sous-préfet", responsable:"Président", echeance:"", statut:"a_faire", categorie:"administration"},
+  {titre:"Envoyer la lettre officielle à l'Administrateur-Maire", responsable:"Président", echeance:"", statut:"a_faire", categorie:"administration"},
+  {titre:"Envoyer la lettre officielle au Proviseur du Lycée de Loudima", responsable:"Président", echeance:"", statut:"a_faire", categorie:"administration"},
+  {titre:"Finaliser l'affiche avec le bandeau de logos partenaires", responsable:"Comité communication", echeance:"", statut:"en_cours", categorie:"communication"},
+  {titre:"Préparer la cérémonie au Lycée de Loudima", responsable:"Comité organisation", echeance:"2026-09-26", statut:"a_faire", categorie:"logistique"}
 ];
 const SEED_PARTENAIRES = [];
 const SEED_PROJETS = [];
@@ -434,6 +471,15 @@ const SEED_OBJECTIFS = [
   {domaine:"Alphabétisation et éducation de base", statut:"en_cours", notes:"Projet Bibliothèque Loudima"},
   {domaine:"Développement économique et communautaire", statut:"a_initier", notes:""},
   {domaine:"Protection de l'environnement", statut:"a_initier", notes:""}
+];
+const SEED_CITATIONS = [
+  {texte:"Le service est le loyer que nous payons pour vivre sur cette terre.", auteur:"Muhammad Ali", jour:"lundi"},
+  {texte:"Seul, on va plus vite. Ensemble, on va plus loin.", auteur:"Proverbe africain", jour:"mardi"},
+  {texte:"Ce que nous faisons pour nous-mêmes meurt avec nous. Ce que nous faisons pour les autres demeure.", auteur:"Proverbe africain", jour:"mercredi"},
+  {texte:"La meilleure façon de trouver le bonheur est de le faire naître chez les autres.", auteur:"Robert Baden-Powell", jour:"jeudi"},
+  {texte:"Un petit geste vaut mieux qu'un grand discours.", auteur:"Proverbe africain", jour:"vendredi"},
+  {texte:"Le véritable leader est celui qui aide les autres à grandir.", auteur:"Proverbe africain", jour:"samedi"},
+  {texte:"L'avenir appartient à ceux qui croient en la beauté de leurs rêves.", auteur:"Eleanor Roosevelt", jour:"dimanche"}
 ];
 const stores = {};
 function createStore(name, seed){
@@ -457,15 +503,45 @@ function initStores(){
   createStore("objectifs", SEED_OBJECTIFS);
   createStore("historique", []);
   createStore("documents_sauves", []);
-}
-let activeTab = "dashboard";
+  createStore("citations", SEED_CITATIONS);
+}let activeTab = "dashboard";
 let currentFilter = "all";
 let currentSort = "date_asc";
+let currentCatFilter = "all";
 let currentDocType = "lettre";
+let editingCitationId = null;
+function getWeekdayIndex(){ const d = new Date().getDay(); return d === 0 ? 6 : d - 1; }
 function getQuoteOfDay(){
-  const day = new Date().getDay();
-  const idx = (day % 5) + 1;
-  return {text:t("quote" + idx), author:t("quote" + idx + "Author")};
+  const todayIdx = getWeekdayIndex();
+  const weekdays = t("weekdays");
+  const todayName = Array.isArray(weekdays) ? weekdays[todayIdx] : ["lundi","mardi","mercredi","jeudi","vendredi","samedi","dimanche"][todayIdx];
+  const custom = stores.citations.items.find(function(c){ return c.jour === todayName; });
+  if(custom) return {text:custom.texte, author:custom.auteur};
+  const frNames = ["lundi","mardi","mercredi","jeudi","vendredi","samedi","dimanche"];
+  const todayFr = frNames[todayIdx];
+  const def = SEED_CITATIONS.find(function(c){ return c.jour === todayFr; });
+  return {text: def ? def.texte : "Le service avant tout.", author: def ? def.auteur : CLUB_NAME};
+}
+function getGreeting(){
+  const h = new Date().getHours();
+  if(h < 12) return t("dashHelloMatin");
+  if(h < 18) return t("dashHelloApresMidi");
+  return t("dashHelloSoir");
+}
+function getMonthActivity(){
+  const now = new Date();
+  const monthStart = new Date(now.getFullYear(), now.getMonth(), 1).getTime();
+  const tachesDone = stores.taches.items.filter(function(x){ return x.statut === "termine" && x.dateTermine && new Date(x.dateTermine).getTime() >= monthStart; }).length;
+  const projetsDone = stores.projets.items.filter(function(x){ return x.statut === "termine" && x.dateTermine && new Date(x.dateTermine).getTime() >= monthStart; }).length;
+  const docsCrees = stores.documents_sauves.items.filter(function(x){ return x.date && new Date(x.date).getTime() >= monthStart; }).length;
+  return {taches:tachesDone, projets:projetsDone, docs:docsCrees, total:tachesDone + projetsDone + docsCrees};
+}
+function getBadge(total){
+  if(total >= 50) return {id:"platine", label:t("badgePlatine"), desc:t("badgePlatineDesc"), next:null};
+  if(total >= 25) return {id:"gold", label:t("badgeOr"), desc:t("badgeOrDesc"), next:{level:"platine", remaining:50-total}};
+  if(total >= 10) return {id:"silver", label:t("badgeArgent"), desc:t("badgeArgentDesc"), next:{level:"gold", remaining:25-total}};
+  if(total >= 3) return {id:"bronze", label:t("badgeBronze"), desc:t("badgeBronzeDesc"), next:{level:"silver", remaining:10-total}};
+  return {id:"none", label:"—", desc:"", next:{level:"bronze", remaining:3-total}};
 }
 function renderNav(){
   const nav = $("#navrow"); if(!nav) return;
@@ -489,13 +565,14 @@ function renderActivePanel(){
   else if(activeTab==="objectifs") renderObjectifs();
   else if(activeTab==="chat") renderChatPanel();
   else if(activeTab==="documents"){ renderDocuments(); renderDocsSauves(); }
+  else if(activeTab==="citations") renderCitations();
 }
 function renderShell(){
   renderNav();
   const main = $("#main"); if(!main) return;
-  main.innerHTML = panelDashboard() + panelChat() + panelTaches() + panelProjets() + panelLoudima() + panelPlanif() + panelMembres() + panelObjectifs() + panelDocuments();
+  main.innerHTML = panelDashboard() + panelChat() + panelTaches() + panelProjets() + panelLoudima() + panelPlanif() + panelMembres() + panelObjectifs() + panelDocuments() + panelCitations();
   $$(".panel").forEach(function(p){ p.classList.toggle("active", p.dataset.panel===activeTab); });
-  wireDashboard(); wireChat(); wireTaches(); wireProjets(); wireLoudima(); wirePlanif(); wireMembres(); wireObjectifs(); wireDocuments();
+  wireDashboard(); wireChat(); wireTaches(); wireProjets(); wireLoudima(); wirePlanif(); wireMembres(); wireObjectifs(); wireDocuments(); wireCitations();
 }
 function setLang(lang){
   currentLang = lang;
@@ -525,8 +602,9 @@ function panelDashboard(){
   const q = getQuoteOfDay();
   return '' +
   '<section class="panel active" data-panel="dashboard">' +
-    '<div class="panel-head"><h1>' + esc(t("dashHello")) + '</h1><p>' + esc(t("dashSub")) + '</p></div>' +
-    '<div class="card" style="background:linear-gradient(135deg, var(--framboise-tint) 0%, var(--paper-raised) 100%); border-left:4px solid var(--gold);"><div style="font-family:var(--font-display); font-style:italic; font-size:15.5px; line-height:1.5; color:var(--ink);">' + esc(q.text) + '</div><div style="font-size:12px; color:var(--framboise); font-weight:800; margin-top:10px; letter-spacing:0.02em;">— ' + esc(q.author) + '</div></div>' +
+    '<div class="panel-head"><h1>' + esc(getGreeting()) + '</h1><p>' + esc(t("dashSub")) + '</p></div>' +
+    '<div class="card" style="background:linear-gradient(135deg, var(--framboise-tint) 0%, var(--paper-raised) 100%); border-left:4px solid var(--gold);"><div style="display:flex; gap:12px; align-items:flex-start;"><div style="flex-shrink:0; color:var(--gold); margin-top:2px;">' + ICONS.quote + '</div><div style="flex:1;"><div style="font-family:var(--font-display); font-style:italic; font-size:15.5px; line-height:1.55; color:var(--ink); margin-bottom:8px;">' + esc(q.text) + '</div><div style="font-size:12px; color:var(--framboise); font-weight:800; letter-spacing:0.02em;">— ' + esc(q.author) + '</div></div></div></div>' +
+    '<div id="activityCardHolder"></div>' +
     '<div class="search-bar">' + ICONS.search + '<input type="search" id="globalSearch" placeholder="' + esc(t("searchPlaceholder")) + '"></div>' +
     '<div id="searchResults"></div>' +
     '<div id="alertBanner"></div>' +
@@ -549,6 +627,32 @@ function wireDashboard(){
   const importBtn = $("#importBtn"); const importFile = $("#importFile");
   if(importBtn && importFile){ importBtn.addEventListener("click", function(){ importFile.click(); }); importFile.addEventListener("change", importData); }
 }
+function renderActivityCard(){
+  const holder = $("#activityCardHolder"); if(!holder) return;
+  const activity = getMonthActivity();
+  const badge = getBadge(activity.total);
+  let badgeClass = "bronze";
+  if(badge.id === "silver") badgeClass = "silver";
+  else if(badge.id === "gold") badgeClass = "gold";
+  else if(badge.id === "platine") badgeClass = "platine";
+  let html = '<div class="activity-card">' +
+    '<div class="activity-icon">' + ICONS.chart + '</div>' +
+    '<div class="activity-content">' +
+      '<div class="activity-num">' + activity.total + '</div>' +
+      '<div class="activity-lbl">' + esc(t("activityTaches")) + '</div>' +
+    '</div>' +
+  '</div>';
+  if(badge.id !== "none"){
+    html += '<div class="card" style="text-align:center; padding:18px;">' +
+      '<span class="badge-pill ' + badgeClass + '">' + ICONS.trophy + ' ' + esc(badge.label) + '</span>' +
+      '<div style="font-size:13px; color:var(--ink-soft); font-weight:600;">' + esc(badge.desc) + '</div>';
+    if(badge.next){
+      html += '<div style="font-size:12px; color:var(--ink-faint); margin-top:8px;">' + badge.next.remaining + ' ' + esc(t("badgeTachesRestantes")) + ' ' + esc(badge.next.level) + '</div>';
+    }
+    html += '</div>';
+  }
+  holder.innerHTML = html;
+}
 function renderAlertBanner(){
   const el = $("#alertBanner"); if(!el) return;
   const counts = countUrgentTasks();
@@ -567,6 +671,7 @@ function renderAlertBanner(){
 }
 function renderDashboardStats(){
   renderAlertBanner();
+  renderActivityCard();
   const el = $("#dashStats"); if(!el) return;
   const enCours = stores.taches.items.filter(function(x){ return x.statut !== "termine"; }).length;
   const projetsActifs = stores.projets.items.filter(function(p){ return p.statut !== "termine"; }).length;
@@ -585,9 +690,9 @@ function updateGlobalSearch(){
   const q = input.value.trim().toLowerCase();
   if(!q){ results.innerHTML = ""; return; }
   const hits = [];
-  ["taches","projets","evenements","membres","partenaires","objectifs","documents_sauves"].forEach(function(sn){ stores[sn].items.forEach(function(item){ if(JSON.stringify(item).toLowerCase().indexOf(q) >= 0) hits.push({store:sn, item:item}); }); });
+  ["taches","projets","evenements","membres","partenaires","objectifs","documents_sauves","citations"].forEach(function(sn){ stores[sn].items.forEach(function(item){ if(JSON.stringify(item).toLowerCase().indexOf(q) >= 0) hits.push({store:sn, item:item}); }); });
   if(!hits.length){ results.innerHTML = '<div class="empty">' + esc(t("searchAucun")) + '</div>'; return; }
-  results.innerHTML = '<div class="card" style="margin-bottom:14px"><div class="section-title">' + hits.length + ' ' + esc(t("searchResult")) + '</div>' + hits.slice(0,15).map(function(h){ const title = h.item.titre || h.item.nom || h.item.domaine || h.item.sujet || "—"; return '<div class="list-row"><div class="main-col"><div class="title">' + esc(title) + '</div><div class="meta">' + esc(h.store) + '</div></div></div>'; }).join("") + '</div>';
+  results.innerHTML = '<div class="card" style="margin-bottom:14px"><div class="section-title">' + hits.length + ' ' + esc(t("searchResult")) + '</div>' + hits.slice(0,15).map(function(h){ const title = h.item.titre || h.item.nom || h.item.domaine || h.item.sujet || (h.item.texte ? h.item.texte.substring(0,50) : "—"); return '<div class="list-row"><div class="main-col"><div class="title">' + esc(title) + '</div><div class="meta">' + esc(h.store) + '</div></div></div>'; }).join("") + '</div>';
 }
 function exportData(){
   const data = {};
@@ -713,7 +818,7 @@ function sendChat(){
 }
 function processCommand(text){
   const q = text.toLowerCase().trim(); const fr = currentLang === "fr";
-  if(q.indexOf("aide") >= 0 || q.indexOf("help") >= 0) return fr ? "Commandes : Ajouter une tâche, Voir mes tâches, Prochain événement, Mes projets, Statistiques, Membres, Documents." : "Commands: Add a task, See my tasks, Next event, My projects, Statistics, Members, Documents.";
+  if(q.indexOf("aide") >= 0 || q.indexOf("help") >= 0) return fr ? "Commandes : Ajouter une tâche, Voir mes tâches, Prochain événement, Mes projets, Statistiques, Membres, Documents, Citations." : "Commands: Add a task, See my tasks, Next event, My projects, Statistics, Members, Documents, Quotes.";
   if(q.indexOf("tâche") >= 0 || q.indexOf("task") >= 0){
     if(q.indexOf("ajout") >= 0 || q.indexOf("add") >= 0 || q.indexOf("nouveau") >= 0 || q.indexOf("new") >= 0){ setActiveTab("taches"); return fr ? "Direction l'onglet Tâches." : "Going to Tasks tab."; }
     const actives = stores.taches.items.filter(function(x){ return x.statut !== "termine"; });
@@ -721,6 +826,14 @@ function processCommand(text){
     let r = fr ? "Tâches en cours :\n\n" : "Active tasks:\n\n";
     actives.slice(0,8).forEach(function(x, i){ r += (i+1) + ". " + x.titre + (x.responsable ? " — " + x.responsable : "") + "\n"; });
     return r;
+  }
+  if(q.indexOf("citation") >= 0 || q.indexOf("quote") >= 0){
+    const qd = getQuoteOfDay();
+    return fr ? "Citation du jour :\n\n« " + qd.text + " »\n\n— " + qd.author : "Quote of the day:\n\n\"" + qd.text + "\"\n\n— " + qd.author;
+  }
+  if(q.indexOf("badge") >= 0 || q.indexOf("progression") >= 0){
+    const a = getMonthActivity(); const b = getBadge(a.total);
+    return fr ? "Activité ce mois : " + a.total + " actions.\nBadge actuel : " + b.label : "Monthly activity: " + a.total + " actions.\nCurrent badge: " + b.label;
   }
   if(q.indexOf("événement") >= 0 || q.indexOf("event") >= 0){
     const evts = stores.evenements.items.slice().sort(function(a,b){ return (a.date||"").localeCompare(b.date||""); });
@@ -767,12 +880,34 @@ function panelTaches(){
           '<option value="alpha">🔤 A → Z</option>' +
         '</select>' +
       '</div>' +
+      '<div class="filters-bar" style="margin-top:-8px">' +
+        '<div class="filter-group">' +
+          '<select class="cat-select" id="catSelect">' +
+            '<option value="all">Toutes catégories</option>' +
+            '<option value="communication">💬 Communication</option>' +
+            '<option value="finance">💰 Finance</option>' +
+            '<option value="logistique">📦 Logistique</option>' +
+            '<option value="programme">🎯 Programme</option>' +
+            '<option value="administration">📋 Administration</option>' +
+            '<option value="autre">📌 Autre</option>' +
+            '<option value="none">— Sans catégorie</option>' +
+          '</select>' +
+        '</div>' +
+      '</div>' +
       '<div class="task-count" id="taskCount"></div>' +
       '<div class="list" id="tachesList"></div>' +
       '<div class="add-form">' +
         '<input type="text" id="tacheTitre" placeholder="' + esc(t("addPlaceholderTitre")) + '">' +
         '<input type="text" id="tacheResp" placeholder="' + esc(t("addPlaceholderResp")) + '">' +
         '<input type="date" id="tacheEcheance">' +
+        '<select id="tacheCategorie" class="cat-select">' +
+          '<option value="autre">📌 Autre</option>' +
+          '<option value="communication">💬 Communication</option>' +
+          '<option value="finance">💰 Finance</option>' +
+          '<option value="logistique">📦 Logistique</option>' +
+          '<option value="programme">🎯 Programme</option>' +
+          '<option value="administration">📋 Administration</option>' +
+        '</select>' +
         '<button class="btn small" id="tacheAddBtn">' + ICONS.plus + ' ' + esc(t("addBtn")) + '</button>' +
       '</div>' +
     '</div>' +
@@ -785,10 +920,14 @@ function togglePriority(id){
   stores.taches.updateItem(id, {priority: newVal});
   toast(newVal ? "⭐ Marquée prioritaire" : "Priorité retirée");
 }
+function getCatLabel(cat){ if(!cat) return ""; const map = {communication:"catCommunication",finance:"catFinance",logistique:"catLogistique",programme:"catProgramme",administration:"catAdministration",autre:"catAutre"}; return map[cat] ? t(map[cat]) : cat; }
+function getCatEmoji(cat){ const map = {communication:"💬",finance:"💰",logistique:"📦",programme:"🎯",administration:"📋",autre:"📌"}; return map[cat] || "📌"; }
 function getFilteredSortedTaches(){
   let items = stores.taches.items.slice();
   if(currentFilter === "urgent"){ items = items.filter(function(t2){ const info = getUrgencyInfo(t2.echeance, t2.statut); return info.level === "urgent" || info.level === "overdue"; }); }
   else if(currentFilter !== "all"){ items = items.filter(function(t2){ return t2.statut === currentFilter; }); }
+  if(currentCatFilter === "none"){ items = items.filter(function(t2){ return !t2.categorie; }); }
+  else if(currentCatFilter !== "all"){ items = items.filter(function(t2){ return t2.categorie === currentCatFilter; }); }
   items.sort(function(a, b){ const aPri = a.priority && a.statut !== "termine" ? 1 : 0; const bPri = b.priority && b.statut !== "termine" ? 1 : 0; return bPri - aPri; });
   if(currentSort === "date_asc"){ items.sort(function(a,b){ if(!a.echeance && !b.echeance) return 0; if(!a.echeance) return 1; if(!b.echeance) return -1; return a.echeance.localeCompare(b.echeance); }); }
   else if(currentSort === "date_desc"){ items.sort(function(a,b){ if(!a.echeance && !b.echeance) return 0; if(!a.echeance) return 1; if(!b.echeance) return -1; return b.echeance.localeCompare(a.echeance); }); }
@@ -807,6 +946,8 @@ function wireFilters(){
   $$(".filter-chip").forEach(function(chip){ chip.addEventListener("click", function(){ $$(".filter-chip").forEach(function(c){ c.classList.remove("active"); }); chip.classList.add("active"); currentFilter = chip.dataset.filter; renderTaches(); }); });
   const sel = $("#sortSelect");
   if(sel){ sel.value = currentSort; sel.addEventListener("change", function(){ currentSort = sel.value; renderTaches(); }); }
+  const catSel = $("#catSelect");
+  if(catSel){ catSel.value = currentCatFilter; catSel.addEventListener("change", function(){ currentCatFilter = catSel.value; renderTaches(); }); }
 }
 function renderTaches(){
   const el = $("#tachesList"); if(!el) return;
@@ -818,13 +959,14 @@ function renderTaches(){
     const priClass = x.priority ? " priority" : "";
     const priBadge = x.priority ? '<span class="badge priority">⭐ Prioritaire</span>' : "";
     const starFilled = x.priority ? " active" : "";
+    const catChip = x.categorie ? '<span class="cat-chip ' + x.categorie + '">' + getCatEmoji(x.categorie) + ' ' + esc(getCatLabel(x.categorie)) + '</span>' : "";
     return '<div class="list-row status-' + x.statut + (urgClass ? " " + urgClass : "") + priClass + '">' +
       '<button class="star-btn' + starFilled + '" data-star="' + x.id + '"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button>' +
-      '<div class="main-col"><div class="title">' + esc(x.titre) + ' ' + priBadge + '</div><div class="meta">' + esc(x.responsable || "") + (x.echeance ? " · " + esc(fmtDate(x.echeance)) : "") + '</div></div>' +
+      '<div class="main-col"><div class="title">' + esc(x.titre) + ' ' + priBadge + '</div><div class="meta">' + catChip + (x.responsable ? '<span>' + esc(x.responsable) + '</span>' : '') + (x.echeance ? '<span>· ' + esc(fmtDate(x.echeance)) + '</span>' : '') + '</div></div>' +
       '<select class="statut-select" data-id="' + x.id + '">' + Object.keys(TACHE_STATUTS).map(function(k){ return '<option value="' + k + '"' + (k === x.statut ? ' selected' : '') + '>' + esc(t(TACHE_STATUTS[k])) + '</option>'; }).join("") + '</select>' +
       urgBadge + '<button class="btn icon-only" data-remove="' + x.id + '">' + ICONS.trash + '</button></div>';
   }).join("") : '<div class="empty">' + esc(t("emptyTaches")) + '</div>';
-  el.querySelectorAll("select").forEach(function(s){ s.addEventListener("change", function(){ stores.taches.updateItem(s.dataset.id, {statut:s.value}); toast(t("toastModifie")); }); });
+  el.querySelectorAll("select").forEach(function(s){ s.addEventListener("change", function(){ stores.taches.updateItem(s.dataset.id, {statut:s.value, dateTermine: s.value === "termine" ? new Date().toISOString() : null}); toast(t("toastModifie")); }); });
   el.querySelectorAll("[data-star]").forEach(function(b){ b.addEventListener("click", function(e){ e.stopPropagation(); togglePriority(b.dataset.star); }); });
   el.querySelectorAll("[data-remove]").forEach(function(b){ b.addEventListener("click", function(){ if(confirm(t("confirmSuppr"))){ stores.taches.removeItem(b.dataset.remove); toast(t("toastSupprime")); } }); });
 }
@@ -833,12 +975,11 @@ function wireTaches(){
   const btn = $("#tacheAddBtn"); if(!btn) return;
   btn.addEventListener("click", function(){
     const titre = $("#tacheTitre").value.trim(); if(!titre){ toast("Titre requis"); return; }
-    stores.taches.add({titre:titre, responsable:$("#tacheResp").value.trim(), echeance:$("#tacheEcheance").value, statut:"a_faire"});
+    stores.taches.add({titre:titre, responsable:$("#tacheResp").value.trim(), echeance:$("#tacheEcheance").value, statut:"a_faire", categorie:$("#tacheCategorie").value});
     $("#tacheTitre").value = ""; $("#tacheResp").value = ""; $("#tacheEcheance").value = "";
     toast(t("toastAjoute"));
   });
-}
-const PROJET_STATUTS = {planifie:"statusPlanifie", en_cours:"statusEnCours", en_pause:"statusEnPause", termine:"statusTermine"};
+}const PROJET_STATUTS = {planifie:"statusPlanifie", en_cours:"statusEnCours", en_pause:"statusEnPause", termine:"statusTermine"};
 function panelProjets(){
   return '' +
   '<section class="panel" data-panel="projets">' +
@@ -862,7 +1003,7 @@ function renderProjets(){
       '<select class="statut-select" data-id="' + p.id + '">' + Object.keys(PROJET_STATUTS).map(function(k){ return '<option value="' + k + '"' + (k === p.statut ? ' selected' : '') + '>' + esc(t(PROJET_STATUTS[k])) + '</option>'; }).join("") + '</select>' +
       '<button class="btn icon-only" data-remove="' + p.id + '">' + ICONS.trash + '</button></div>';
   }).join("") : '<div class="empty">' + esc(t("emptyProjets")) + '</div>';
-  el.querySelectorAll("select").forEach(function(s){ s.addEventListener("change", function(){ stores.projets.updateItem(s.dataset.id, {statut:s.value}); toast(t("toastModifie")); }); });
+  el.querySelectorAll("select").forEach(function(s){ s.addEventListener("change", function(){ stores.projets.updateItem(s.dataset.id, {statut:s.value, dateTermine: s.value === "termine" ? new Date().toISOString() : null}); toast(t("toastModifie")); }); });
   el.querySelectorAll("[data-remove]").forEach(function(b){ b.addEventListener("click", function(){ if(confirm(t("confirmSuppr"))){ stores.projets.removeItem(b.dataset.remove); toast(t("toastSupprime")); } }); });
 }
 function wireProjets(){
@@ -930,7 +1071,7 @@ function wireLoudima(){
   const btnT = $("#loudAddBtn");
   if(btnT) btnT.addEventListener("click", function(){
     const titre = $("#loudTitre").value.trim(); if(!titre){ toast("Titre requis"); return; }
-    stores.taches.add({titre:titre, responsable:$("#loudResp").value.trim(), echeance:$("#loudEcheance").value, statut:"a_faire"});
+    stores.taches.add({titre:titre, responsable:$("#loudResp").value.trim(), echeance:$("#loudEcheance").value, statut:"a_faire", categorie:"programme"});
     $("#loudTitre").value = ""; $("#loudResp").value = ""; $("#loudEcheance").value = "";
     toast(t("toastAjoute"));
   });
@@ -1114,16 +1255,9 @@ function copyPromptForAI(){
   const typeLbl = {lettre:t("docLettre"), communique:t("docCommunique"), compteRendu:t("docCompteRendu"), discours:t("docDiscours")}[currentDocType];
   let prompt = "";
   if(fr){
-    prompt = "Tu es assistant de rédaction pour le Rotaract Club Ndjindji (" + DISTRICT + ").\n" +
-      "Rédige un document de type : " + typeLbl + ".\n\n" +
-      "Contexte :\n- Club : Rotaract Club Ndjindji\n- District : " + DISTRICT + "\n- Président : " + PRESIDENT_NAME + " (" + PRESIDENT_TERM + ")\n- Devise : Service, Action et Camaraderie\n- Projet prioritaire : Bibliothèque communautaire de Loudima\n\n" +
-      "Paramètres du document :\n- Destinataire : " + (dest || "(à préciser)") + "\n- Objet : " + (objet || "(à préciser)") + "\n- Date : " + dateStr + "\n- Points à aborder :\n" + (corps || "(à préciser)") + "\n\n" +
-      "Consignes :\n- Rédige en français professionnel et irréprochable.\n- Ton diplomatique, inspirant, crédible.\n- N'utilise ni emoji ni symbole décoratif.\n- Structure claire, paragraphes aérés.\n- Termine par la signature : " + PRESIDENT_NAME + ", " + PRESIDENT_TERM + ", " + CLUB_NAME + ", " + DISTRICT + ".\n- Réponds uniquement avec le texte final du document, sans commentaire.";
+    prompt = "Tu es assistant de rédaction pour le Rotaract Club Ndjindji (" + DISTRICT + ").\nRédige un document de type : " + typeLbl + ".\n\nContexte :\n- Club : Rotaract Club Ndjindji\n- District : " + DISTRICT + "\n- Président : " + PRESIDENT_NAME + " (" + PRESIDENT_TERM + ")\n- Devise : Service, Action et Camaraderie\n- Projet prioritaire : Bibliothèque communautaire de Loudima\n\nParamètres du document :\n- Destinataire : " + (dest || "(à préciser)") + "\n- Objet : " + (objet || "(à préciser)") + "\n- Date : " + dateStr + "\n- Points à aborder :\n" + (corps || "(à préciser)") + "\n\nConsignes :\n- Rédige en français professionnel et irréprochable.\n- Ton diplomatique, inspirant, crédible.\n- N'utilise ni emoji ni symbole décoratif.\n- Structure claire, paragraphes aérés.\n- Termine par la signature : " + PRESIDENT_NAME + ", " + PRESIDENT_TERM + ", " + CLUB_NAME + ", " + DISTRICT + ".\n- Réponds uniquement avec le texte final du document, sans commentaire.";
   } else {
-    prompt = "You are a writing assistant for Rotaract Club Ndjindji (" + DISTRICT + ").\nWrite a document of type: " + typeLbl + ".\n\n" +
-      "Context:\n- Club: Rotaract Club Ndjindji\n- District: " + DISTRICT + "\n- President: " + PRESIDENT_NAME + " (" + PRESIDENT_TERM + ")\n- Motto: Service, Action and Fellowship\n- Priority project: Loudima Community Library\n\n" +
-      "Document parameters:\n- Recipient: " + (dest || "(to be specified)") + "\n- Subject: " + (objet || "(to be specified)") + "\n- Date: " + dateStr + "\n- Points to address:\n" + (corps || "(to be specified)") + "\n\n" +
-      "Guidelines:\n- Write in professional English.\n- Diplomatic, inspiring, credible tone.\n- No emojis, no decorative symbols.\n- Clear structure, spaced paragraphs.\n- End with signature: " + PRESIDENT_NAME + ", " + PRESIDENT_TERM + ", " + CLUB_NAME + ", " + DISTRICT + ".\n- Reply only with the final document text, no comment.";
+    prompt = "You are a writing assistant for Rotaract Club Ndjindji (" + DISTRICT + ").\nWrite a document of type: " + typeLbl + ".\n\nContext:\n- Club: Rotaract Club Ndjindji\n- District: " + DISTRICT + "\n- President: " + PRESIDENT_NAME + " (" + PRESIDENT_TERM + ")\n- Motto: Service, Action and Fellowship\n- Priority project: Loudima Community Library\n\nDocument parameters:\n- Recipient: " + (dest || "(to be specified)") + "\n- Subject: " + (objet || "(to be specified)") + "\n- Date: " + dateStr + "\n- Points to address:\n" + (corps || "(to be specified)") + "\n\nGuidelines:\n- Write in professional English.\n- Diplomatic, inspiring, credible tone.\n- No emojis, no decorative symbols.\n- Clear structure, spaced paragraphs.\n- End with signature: " + PRESIDENT_NAME + ", " + PRESIDENT_TERM + ", " + CLUB_NAME + ", " + DISTRICT + ".\n- Reply only with the final document text, no comment.";
   }
   if(navigator.clipboard && navigator.clipboard.writeText){
     navigator.clipboard.writeText(prompt).then(function(){ toast(t("docPromptCopie")); }).catch(function(){
@@ -1162,8 +1296,101 @@ function renderDocsSauves(){
   }).join("");
   el.querySelectorAll("[data-remove-doc]").forEach(function(b){ b.addEventListener("click", function(){ if(confirm(t("confirmSuppr"))){ stores.documents_sauves.removeItem(b.dataset.removeDoc); renderDocsSauves(); toast(t("toastSupprime")); } }); });
 }
+function panelCitations(){
+  return '' +
+  '<section class="panel" data-panel="citations">' +
+    '<div class="panel-head"><h1>' + esc(t("citationsTitle")) + '</h1><p>' + esc(t("citationsSub")) + '</p></div>' +
+    '<div class="card">' +
+      '<div class="section-title">' + (editingCitationId ? "Modifier une citation" : esc(t("citationAddBtn"))) + '</div>' +
+      '<div class="field"><label>' + esc(t("citationTexte")) + '</label><textarea id="citTexte" placeholder="« Votre citation inspirante... »" style="min-height:80px"></textarea></div>' +
+      '<div class="field"><label>' + esc(t("citationAuteur")) + '</label><input type="text" id="citAuteur" placeholder="Ex. Proverbe africain"></div>' +
+      '<div class="field"><label>' + esc(t("citationJour")) + '</label><select id="citJour"><option value="lundi">Lundi</option><option value="mardi">Mardi</option><option value="mercredi">Mercredi</option><option value="jeudi">Jeudi</option><option value="vendredi">Vendredi</option><option value="samedi">Samedi</option><option value="dimanche">Dimanche</option></select></div>' +
+      '<div class="quick-actions" style="margin-top:16px">' +
+        '<button class="btn primary" id="citSaveBtn">' + ICONS.check + ' ' + esc(t("citationSaveBtn")) + '</button>' +
+        (editingCitationId ? '<button class="btn ghost small" id="citCancelBtn">Annuler</button>' : '') +
+      '</div>' +
+    '</div>' +
+    '<div class="card">' +
+      '<div class="section-title">' + esc(t("citationsTitle")) + '</div>' +
+      '<div id="citationsList"></div>' +
+    '</div>' +
+  '</section>';
+}
+function wireCitations(){
+  const saveBtn = $("#citSaveBtn"); if(saveBtn) saveBtn.addEventListener("click", saveCitation);
+  const cancelBtn = $("#citCancelBtn"); if(cancelBtn) cancelBtn.addEventListener("click", function(){ editingCitationId = null; renderCitations(); });
+}
+function renderCitations(){
+  const el = $("#citationsList"); if(!el) return;
+  const items = stores.citations.items.slice().sort(function(a,b){ const order = ["lundi","mardi","mercredi","jeudi","vendredi","samedi","dimanche"]; return order.indexOf(a.jour) - order.indexOf(b.jour); });
+  if(!items.length){ el.innerHTML = '<div class="empty">' + esc(t("citationEmpty")) + '</div>'; return; }
+  el.innerHTML = items.map(function(c){
+    return '<div class="quote-manage-card">' +
+      '<div class="quote-manage-actions">' +
+        '<button class="btn icon-only" data-edit-cit="' + c.id + '" title="Modifier">' + ICONS.edit + '</button>' +
+        '<button class="btn icon-only" data-remove-cit="' + c.id + '" title="Supprimer">' + ICONS.trash + '</button>' +
+      '</div>' +
+      '<div class="quote-manage-text">« ' + esc(c.texte) + ' »</div>' +
+      '<div class="quote-manage-author">— ' + esc(c.auteur) + '</div>' +
+      '<div class="quote-manage-day">' + esc(c.jour || "auto") + '</div>' +
+    '</div>';
+  }).join("");
+  el.querySelectorAll("[data-remove-cit]").forEach(function(b){ b.addEventListener("click", function(){ if(confirm(t("confirmSuppr"))){ stores.citations.removeItem(b.dataset.removeCit); renderCitations(); toast(t("citationDelete")); } }); });
+  el.querySelectorAll("[data-edit-cit]").forEach(function(b){ b.addEventListener("click", function(){ editCitation(b.dataset.editCit); }); });
+}
+function saveCitation(){
+  const texte = $("#citTexte").value.trim();
+  const auteur = $("#citAuteur").value.trim();
+  const jour = $("#citJour").value;
+  if(!texte){ toast("Texte requis"); return; }
+  if(!auteur){ toast("Auteur requis"); return; }
+  if(editingCitationId){
+    stores.citations.updateItem(editingCitationId, {texte:texte, auteur:auteur, jour:jour});
+    editingCitationId = null;
+  } else {
+    stores.citations.add({texte:texte, auteur:auteur, jour:jour});
+  }
+  renderCitations();
+  toast(t("citationSaved"));
+}
+function editCitation(id){
+  const c = stores.citations.items.find(function(x){ return x.id === id; });
+  if(!c) return;
+  editingCitationId = id;
+  renderActivePanel();
+  setTimeout(function(){
+    const el = $("#citTexte"); if(el) el.value = c.texte;
+    const el2 = $("#citAuteur"); if(el2) el2.value = c.auteur;
+    const el3 = $("#citJour"); if(el3) el3.value = c.jour;
+  }, 100);
+}function initSplash(){
+  const overlay = $("#splashOverlay");
+  if(!overlay) return;
+  const lastVisit = localStorage.getItem("ndjindji_last_visit");
+  const now = Date.now();
+  const fiveMin = 5 * 60 * 1000;
+  const shouldShow = !lastVisit || (now - parseInt(lastVisit, 10)) > fiveMin;
+  localStorage.setItem("ndjindji_last_visit", String(now));
+  if(!shouldShow){ overlay.classList.add("hidden"); setTimeout(function(){ overlay.style.display = "none"; }, 400); return; }
+  const titleEl = $("#splashTitle");
+  const name = "NDJINDJI IA";
+  if(titleEl){
+    titleEl.innerHTML = "";
+    for(let i = 0; i < name.length; i++){
+      const span = document.createElement("span");
+      span.textContent = name[i] === " " ? "\u00A0" : name[i];
+      span.style.animationDelay = (0.5 + i * 0.08) + "s";
+      titleEl.appendChild(span);
+    }
+  }
+  setTimeout(function(){
+    overlay.classList.add("hidden");
+    setTimeout(function(){ overlay.style.display = "none"; }, 700);
+  }, 2400);
+}
 function boot(){
   initStores();
+  initSplash();
   renderShell();
   wireLangSwitch();
   initTheme();
@@ -1172,7 +1399,7 @@ function boot(){
   if(motto) motto.textContent = t("brandMotto");
   renderDashboardStats();
   renderActivePanel();
-  setTimeout(initVoiceEngine, 500);
+  setTimeout(initVoiceEngine, 700);
 }
 if(document.readyState === "loading"){ document.addEventListener("DOMContentLoaded", boot); } else { boot(); }
 </script>
