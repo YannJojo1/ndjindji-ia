@@ -371,13 +371,6 @@
   }
 </style>
 </head><body>
-<div class="splash-overlay" id="splashOverlay">
-  <div class="splash-logo">IA</div>
-  <div class="splash-title" id="splashTitle"></div>
-  <div class="splash-sub">Rotaract Club Ndjindji</div>
-  <div class="splash-motto">« Service, Action et Camaraderie »</div>
-  <div class="splash-bar"></div>
-</div>
 <div class="shell">
   <nav class="rail">
     <div class="brand">
@@ -1363,30 +1356,10 @@ function editCitation(id){
     const el2 = $("#citAuteur"); if(el2) el2.value = c.auteur;
     const el3 = $("#citJour"); if(el3) el3.value = c.jour;
   }, 100);
-}function initSplash(){
+}
+function initSplash(){
   const overlay = $("#splashOverlay");
-  if(!overlay) return;
-  const lastVisit = localStorage.getItem("ndjindji_last_visit");
-  const now = Date.now();
-  const fiveMin = 5 * 60 * 1000;
-  const shouldShow = !lastVisit || (now - parseInt(lastVisit, 10)) > fiveMin;
-  localStorage.setItem("ndjindji_last_visit", String(now));
-  if(!shouldShow){ overlay.classList.add("hidden"); setTimeout(function(){ overlay.style.display = "none"; }, 400); return; }
-  const titleEl = $("#splashTitle");
-  const name = "NDJINDJI IA";
-  if(titleEl){
-    titleEl.innerHTML = "";
-    for(let i = 0; i < name.length; i++){
-      const span = document.createElement("span");
-      span.textContent = name[i] === " " ? "\u00A0" : name[i];
-      span.style.animationDelay = (0.5 + i * 0.08) + "s";
-      titleEl.appendChild(span);
-    }
-  }
-  setTimeout(function(){
-    overlay.classList.add("hidden");
-    setTimeout(function(){ overlay.style.display = "none"; }, 700);
-  }, 2400);
+  if(overlay){ overlay.style.display = "none"; }
 }
 function boot(){
   initStores();
