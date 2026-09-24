@@ -271,7 +271,48 @@
       background:linear-gradient(135deg, #3A1414 0%, #4A1A1A 100%);
       color:#FCA5A5;
       border-color:#DC2626;
-    }
+    }/* ---------- BARRE DE FILTRES ---------- */
+  .filters-bar{
+    display:flex; gap:8px; flex-wrap:wrap; align-items:center;
+    margin-bottom:14px; padding:12px 14px;
+    background:var(--paper-raised);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow-sm);
+  }
+  .filter-group{display:flex; gap:6px; flex-wrap:wrap; flex:1; min-width:0;}
+  .filter-chip{
+    padding:6px 12px; font-size:12.5px; font-weight:600;
+    background:var(--framboise-tint); color:var(--ink-soft);
+    border:1px solid var(--line); border-radius:100px;
+    transition:all .15s;
+    white-space:nowrap;
+  }
+  .filter-chip.active{
+    background:var(--framboise); color:#fff;
+    border-color:var(--framboise);
+    box-shadow:0 2px 8px rgba(212,19,103,.25);
+  }
+  .filter-chip:active{transform:scale(.95);}
+  .filter-chip .count{
+    display:inline-block; margin-left:4px; padding:1px 6px;
+    background:rgba(0,0,0,.08); border-radius:100px;
+    font-size:11px; font-weight:700;
+  }
+  .filter-chip.active .count{background:rgba(255,255,255,.25);}
+  .sort-select{
+    padding:7px 10px; font-size:12.5px; font-weight:600;
+    background:var(--framboise-tint); color:var(--framboise);
+    border:1px solid var(--line); border-radius:8px;
+    width:auto; max-width:160px;
+    cursor:pointer;
+  }
+  .sort-select:focus{border-color:var(--framboise); outline:none;}
+  .task-count{
+    font-size:12.5px; color:var(--ink-faint);
+    font-weight:600; margin-left:auto;
+    white-space:nowrap;
+  }
   }
   :root[data-theme="dark"] .alert-banner{
     background:linear-gradient(135deg, #3A2A0F 0%, #4A3614 100%);
@@ -940,7 +981,8 @@ function logAction(type, description){
 }/* ---------------------------------------------------------------
    NAVIGATION
 --------------------------------------------------------------- */
-let activeTab = "dashboard";
+let activeTab = "dashboard";let currentFilter = "all";
+let currentSort = "date_asc";
 
 function renderNav(){
   const nav = $("#navrow");
@@ -1527,7 +1569,22 @@ function panelTaches(){
   '<section class="panel" data-panel="taches">' +
     '<div class="panel-head"><h1>' + esc(t("tachesTitle")) + '</h1><p>' + esc(t("tachesSub")) + '</p></div>' +
     '<div class="card">' +
-      '<div class="list" id="tachesList"></div>' +
+      '<div class="filters-bar">' +
+        '<div class="filter-group" id="filterGroup">' +
+          '<button class="filter-chip active" data-filter="all">Toutes</button>' +
+          '<button class="filter-chip" data-filter="a_faire">À faire</button>' +
+          '<button class="filter-chip" data-filter="en_cours">En cours</button>' +
+          '<button class="filter-chip" data-filter="termine">Terminées</button>' +
+          '<button class="filter-chip" data-filter="urgent">⚡ Urgentes</button>' +
+        '</div>' +
+        '<select class="sort-select" id="sortSelect">' +
+          '<option value="date_asc">📅 Échéance proche</option>' +
+          '<option value="date_desc">📅 Échéance lointaine</option>' +
+          '<option value="created_desc">🆕 Récentes</option>' +
+          '<option value="alpha">🔤 A → Z</option>' +
+        '</select>' +
+      '</div>' +
+      '<div class="task-count" id="taskCount"></div>' +'<div class="list" id="tachesList"></div>' +
       '<div class="add-form">' +
         '<input type="text" id="tacheTitre" placeholder="' + esc(t("addPlaceholderTitre")) + '">' +
         '<input type="text" id="tacheResp" placeholder="' + esc(t("addPlaceholderResp")) + '">' +
@@ -1538,10 +1595,82 @@ function panelTaches(){
   '</section>';
 }
 
+/* ---------------------------------------------------------------
+   FILTRES ET TRI DES TÂCHES
+--------------------------------------------------------------- */
+function getFilteredSortedTaches(){
+  let items = stores.taches.items.slice();
+  
+  // FILTRAGE
+  if(currentFilter === "urgent"){
+    items = items.filter(function(t){
+      const info = getUrgencyInfo(t.echeance, t.statut);
+      return info.level === "urgent" || info.level === "overdue";
+    });
+  } else if(currentFilter !== "all"){
+    items = items.filter(function(t){ return t.statut === currentFilter; });
+  }
+  
+  // TRI
+  if(currentSort === "date_asc"){
+    items.sort(function(a,b){
+      if(!a.echeance && !b.echeance) return 0;
+      if(!a.echeance) return 1;
+      if(!b.echeance) return -1;
+      return a.echeance.localeCompare(b.echeance);
+    });
+  } else if(currentSort === "date_desc"){
+    items.sort(function(a,b){
+      if(!a.echeance && !b.echeance) return 0;
+      if(!a.echeance) return 1;
+      if(!b.echeance) return -1;
+      return b.echeance.localeCompare(a.echeance);
+    });
+  } else if(currentSort === "created_desc"){
+    items.sort(function(a,b){ return (b.id || "").localeCompare(a.id || ""); });
+  } else if(currentSort === "alpha"){
+    items.sort(function(a,b){ return (a.titre || "").localeCompare(b.titre || ""); });
+  }
+  
+  return items;
+}
+
+function updateTaskCount(){
+  const el = $("#taskCount");
+  if(!el) return;
+  const total = stores.taches.items.length;
+  const filtered = getFilteredSortedTaches().length;
+  if(filtered === total){
+    el.textContent = total + (currentLang === "fr" ? (total > 1 ? " tâches" : " tâche") : (total !== 1 ? " tasks" : " task"));
+  } else {
+    el.textContent = filtered + " / " + total + (currentLang === "fr" ? " affichées" : " shown");
+  }
+}
+
+function wireFilters(){
+  $$(".filter-chip").forEach(function(chip){
+    chip.addEventListener("click", function(){
+      $$(".filter-chip").forEach(function(c){ c.classList.remove("active"); });
+      chip.classList.add("active");
+      currentFilter = chip.dataset.filter;
+      renderTaches();
+    });
+  });
+  
+  const sel = $("#sortSelect");
+  if(sel){
+    sel.value = currentSort;
+    sel.addEventListener("change", function(){
+      currentSort = sel.value;
+      renderTaches();
+    });
+  }
+}
 function renderTaches(){
   const el = $("#tachesList");
   if(!el) return;
-  const items = stores.taches.items;
+  const items = getFilteredSortedTaches();
+updateTaskCount();
   el.innerHTML = items.length ? items.map(function(x){
     const urgClass = getUrgencyClass(x.echeance, x.statut);
 const urgBadge = getUrgencyBadge(x.echeance, x.statut);
@@ -1575,7 +1704,7 @@ return '<div class="list-row status-' + x.statut + (urgClass ? " " + urgClass : 
   });
 }
 
-function wireTaches(){
+function wireTaches(){wireFilters();
   const btn = $("#tacheAddBtn");
   if(!btn) return;
   btn.addEventListener("click", function(){
